@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -220,7 +218,61 @@ public class SpotifyClient implements MusicClient {
 
     @Override
     public String getUserPlayerInformationFromSpotify(String accessToken) {
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.spotify.com/v1/me/player",
+                HttpMethod.GET,
+                request,
+                String.class
+        );
+
+        return response.getBody();
+    }
+
+    public String extractPlayerData(String playerData) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        StringBuilder result = new StringBuilder();
+
+        try {
+            JsonNode root = objectMapper.readTree(playerData);
+
+            // Extract relevant information from the JSON response
+            String playbackType = root.path("currently_playing_type").asText();
+
+            result.append("Playback Type: ").append(playbackType).append("\n");
+
+            if (playbackType.equals("track")) {
+                // Extract track information
+                JsonNode trackNode = root.path("item");
+                if (trackNode.isMissingNode()) {
+                    throw new Exception("No track is currently playing.");
+                }
+
+                String artistName = trackNode.path("artists").get(0).path("name").asText();
+                String albumName = trackNode.path("album").path("name").asText();
+                String trackName = trackNode.path("name").asText();
+
+                result.append("Artist: ").append(artistName).append("\n");
+                result.append("Album: ").append(albumName).append("\n");
+                result.append("Track: ").append(trackName).append("\n");
+            } else {
+                // Handle other playback types
+                result.append("Currently playing: ").append(playbackType).append("\n");
+                // Add additional handling for other playback types if needed
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error processing player data";
+        }
+
+        return result.toString();
     }
 
     @Override
@@ -268,5 +320,10 @@ public class SpotifyClient implements MusicClient {
         );
 
         return response.getStatusCode() == HttpStatus.NO_CONTENT;
+    }
+
+    @Override
+    public void logTheUserOut() {
+        accessToken = null;
     }
 }
