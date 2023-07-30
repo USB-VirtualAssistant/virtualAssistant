@@ -65,4 +65,10 @@ public class MusicController {
     public ResponseEntity<String> playNextTrack() {
         return musicService.playNextTrack();
     }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logTheUserOut() {
+        musicService.logTheUserOut();
+        return ResponseEntity.ok("Logged out successfully.");
+    }
 }

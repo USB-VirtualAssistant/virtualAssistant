@@ -54,7 +54,15 @@ public class MusicService {
     }
 
     public ResponseEntity<String> getUserPlayerInformation() {
-        return null;
+        if (spotifyClient.accessToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        String playerData = spotifyClient.getUserPlayerInformationFromSpotify(spotifyClient.accessToken);
+
+        String simplifiedData = spotifyClient.extractPlayerData(playerData);
+
+        return ResponseEntity.ok(simplifiedData);
     }
 
     public ResponseEntity<String> playSong(String trackUri) {
@@ -80,6 +88,11 @@ public class MusicService {
         spotifyClient.pauseSongOnDevice(currentTrackUri);
 
         return ResponseEntity.ok("Current track has been paused.");
+
+    }
+
+    public void logTheUserOut() {
+        spotifyClient.logTheUserOut();
     }
 
     @GetMapping("/next")
