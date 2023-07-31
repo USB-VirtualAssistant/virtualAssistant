@@ -197,6 +197,27 @@ public class SpotifyClient implements MusicClient {
         return result.toString();
     }
 
+    public String extractCurrentTrackUri(String playerData) {
+        try {
+            // Crear un ObjectMapper para convertir la respuesta JSON a un JsonNode
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(playerData);
+
+            // Verificar si hay información de la canción actualmente en reproducción
+            if (jsonNode.has("item")) {
+                JsonNode item = jsonNode.get("item");
+                if (item.has("uri")) {
+                    return item.get("uri").asText();
+                }
+            }
+
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public String getUserPlayerInformationFromSpotify(String accessToken) {
         return null;
@@ -205,5 +226,29 @@ public class SpotifyClient implements MusicClient {
     @Override
     public void playSongOnDevice(String trackUri) {
 
+    }
+
+    public void pauseSongOnDevice(String trackUri) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String requestBody = "{\"uris\": [\"" + trackUri + "\"]}";
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.spotify.com/v1/me/player/pause",
+                HttpMethod.PUT,
+                entity,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            System.out.println("Song is now paused on Spotify.");
+        } else {
+            System.out.println("Failed to pause the song. Status code: " + response.getStatusCode());
+        }
     }
 }
