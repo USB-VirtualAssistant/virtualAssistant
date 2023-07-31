@@ -29,7 +29,7 @@ public class SpotifyClient implements MusicClient {
 
     public RedirectView redirectToSpotifyAuthorization() {
         String spotifyAuthUrl = "https://accounts.spotify.com/authorize?client_id=" + clientId +
-                "&response_type=code&redirect_uri=" + redirectUri + "&scope=user-read-private%20user-read-email user-library-read user-follow-read user-read-playback-state";
+                "&response_type=code&redirect_uri=" + redirectUri + "&scope=user-read-private%20user-read-email user-library-read user-follow-read user-read-playback-state app-remote-control user-modify-playback-state";
         return new RedirectView(spotifyAuthUrl);
     }
 
