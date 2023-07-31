@@ -59,4 +59,25 @@ public class MusicService {
     public ResponseEntity<String> playSong(String trackUri) {
         return null;
     }
+
+    public ResponseEntity<String> pauseCurrentTrack() {
+        if (spotifyClient.accessToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        // Obtener la información del reproductor del usuario desde la API de Spotify
+        String playerData = spotifyClient.getUserPlayerInformationFromSpotify(spotifyClient.accessToken);
+
+        // Extraer el URI de la canción actualmente en reproducción
+        String currentTrackUri = spotifyClient.extractCurrentTrackUri(playerData);
+
+        if (currentTrackUri == null) {
+            return ResponseEntity.badRequest().body("No track is currently playing.");
+        }
+
+        // Pausar la canción actual utilizando el token de acceso almacenado
+        spotifyClient.pauseSongOnDevice(currentTrackUri);
+
+        return ResponseEntity.ok("Current track has been paused.");
+    }
 }
