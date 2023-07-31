@@ -10,6 +10,19 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+
+  postgres_admin:
+    container_name: postgres_admin
+    image: 'dpage/pgadmin4'
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 9000:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=assistant@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password
   flyway:
     image: flyway/flyway:7.15.0
     depends_on:
