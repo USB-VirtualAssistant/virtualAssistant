@@ -55,4 +55,9 @@ public class MusicController {
     public ResponseEntity<String> playSong(@RequestParam("trackUri") String trackUri) {
         return musicService.playSong(trackUri);
     }
+
+    @GetMapping("/pause")
+    public ResponseEntity<String> pauseCurrentTrack() {
+        return musicService.pauseCurrentTrack();
+    }
 }
