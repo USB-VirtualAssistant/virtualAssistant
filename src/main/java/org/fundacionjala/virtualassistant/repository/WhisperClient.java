@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.repository;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,8 @@ public class WhisperClient implements ASRClient {
     @Override
     public void convertToText(Path audioFile) throws IOException, UnsupportedAudioFileException {
         validateModelAndAudioFilesExist(audioFile);
-        float[] samples = readJFKFileSamples(audioFile);
-        List<String> transcriptions = transcribeSegments(samples);  
+        float[] audioFrequency = regulateFrequency(audioFile);
+        List<String> transcriptions = transcribeSegments(audioFrequency);
         transcription = String.join(" ", transcriptions);
     }
 
@@ -61,6 +62,45 @@ public class WhisperClient implements ASRClient {
         }
 
         return transcriptions;
+    }
+
+    private void validateModelAndAudioFilesExist(Path audioFile) {
+        var audioPath = audioFile.toFile();
+        var modelFile = MODEL_WHISPER.toFile();
+        if (!modelFile.exists() || !modelFile.isFile()) {
+            throw new RuntimeException("Missing model file: " + MODEL_WHISPER.toAbsolutePath());
+        }
+        if (!audioPath.exists() || !audioPath.isFile()) {
+            throw new RuntimeException("Missing file");
+        }
+    }
+
+    private float[] regulateFrequency(Path audioPath) {
+        float[] audio = null;
+
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioPath.toFile())) {
+            ByteBuffer audioBuffer = ByteBuffer.allocate(audioInputStream.available());
+            audioBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            int bytesRead = audioInputStream.read(audioBuffer.array());
+            if (bytesRead == -1) {
+                throw new IOException("File is empty");
+            }
+
+            ShortBuffer shortBuffer = audioBuffer.asShortBuffer();
+            audio = new float[audioBuffer.capacity() / 2];
+
+            int index = 0;
+            while (shortBuffer.hasRemaining()) {
+                short sampleValue = shortBuffer.get();
+                float normalizedValue = Math.max(-1f, Math.min((float) sampleValue / (float) Short.MAX_VALUE, 1f));
+                audio[index++] = normalizedValue;
+            }
+        } catch (UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return audio;
     }
 
     @Override
