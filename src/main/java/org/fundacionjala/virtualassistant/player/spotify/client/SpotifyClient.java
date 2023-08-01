@@ -33,13 +33,13 @@ public class SpotifyClient implements MusicClient {
 
     public ResponseEntity<String> spotifyCallback(String code) {
         authorizationCode = code;
-        accessToken = exchangeAuthorizationCodeForAccessToken(authorizationCode);
+        accessToken = exchangeAuthCodeForAccessToken(authorizationCode);
 
         return ResponseEntity.ok("Logged in successfully");
     }
 
     @Override
-    public String exchangeAuthorizationCodeForAccessToken(String authorizationCode) {
+    public String exchangeAuthCodeForAccessToken(String authorizationCode) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(clientId, clientSecret);
@@ -66,7 +66,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public String getUserSavedAlbumsFromSpotify(String accessToken) {
+    public String getSavedAlbums(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -85,7 +85,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public String getUserSavedTracksFromSpotify(String accessToken) {
+    public String getSavedTracks(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -104,7 +104,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public String getUserFollowingArtistsFromSpotify(String accessToken) {
+    public String getFollowed(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -217,7 +217,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public String getUserPlayerInformationFromSpotify(String accessToken) {
+    public String getPlayerInfo(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -276,7 +276,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public void playSongOnDevice() {
+    public void playSong() {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -378,7 +378,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public void logTheUserOut() {
+    public void logout() {
         accessToken = null;
     }
 }
