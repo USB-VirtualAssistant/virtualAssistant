@@ -117,4 +117,117 @@ public class MusicServiceTest {
 
         verify(spotifyClient, never()).playSong();
     }
+
+    @Test
+    public void testGetUserSavedFollowing_Success() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+
+        String realFollowingData = "Radiohead, Gustavo Cerati, Arctic Monkeys";
+        when(spotifyClient.getFollowed("dummyAccessToken")).thenReturn(realFollowingData);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.getUserFollowingArtists();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Radiohead, Gustavo Cerati, Arctic Monkeys", response.getBody());
+    }
+
+    @Test
+    public void testGetUserSavedFollowing_Unauthorized() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.getUserFollowingArtists();
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Access token not available.", response.getBody());
+    }
+
+    @Test
+    public void testGetUserPlayerInformation_Success() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+
+        String realPlayerData = "{\"device\": {\"name\": \"Device 1\"}, \"is_playing\": true, \"item\": {\"name\": \"Song 1\"}}";
+        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn(realPlayerData);
+
+        String simplifiedPlayerData = "{\"device\": \"Device 1\", \"is_playing\": true, \"current_track\": \"Song 1\"}";
+        when(spotifyClient.extractPlayerData(realPlayerData)).thenReturn(simplifiedPlayerData);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.getUserPlayerInformation();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(simplifiedPlayerData, response.getBody());
+    }
+
+    @Test
+    public void testGetUserPlayerInformation_Unauthorized() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.getUserPlayerInformation();
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Access token not available.", response.getBody());
+    }
+
+    @Test
+    public void testPauseCurrentTrack_Success() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn("playerData");
+        when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn("currentTrackUri");
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.pauseCurrentTrack();
+        assertEquals("Current track has been paused.", response.getBody());
+
+        verify(spotifyClient, times(1)).pauseSongOnDevice("currentTrackUri");
+    }
+
+    @Test
+    public void testPauseCurrentTrack_NoTrackPlaying() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn("playerData");
+        when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.pauseCurrentTrack();
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("No track is currently playing.", response.getBody());
+
+        verify(spotifyClient, never()).pauseSongOnDevice(any());
+    }
+
+    @Test
+    public void testPlayNextTrack_Success() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.playNextTrackOnDevice()).thenReturn(true);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.playNextTrack();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Playing next track.", response.getBody());
+    }
+
+    @Test
+    public void testPlayNextTrack_Unauthorized() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.playNextTrack();
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Access token not available.", response.getBody());
+    }
 }
