@@ -69,6 +69,18 @@ public class MusicService {
         return null;
     }
 
+    public ResponseEntity<String> playCurrentTrack() {
+        if (spotifyClient.accessToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        // Resume the playback of the currently paused track using the token of access stored
+        spotifyClient.playSongOnDevice();
+
+        return ResponseEntity.ok("Playback has been resumed.");
+    }
+
+
     public ResponseEntity<String> pauseCurrentTrack() {
         if (spotifyClient.accessToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
