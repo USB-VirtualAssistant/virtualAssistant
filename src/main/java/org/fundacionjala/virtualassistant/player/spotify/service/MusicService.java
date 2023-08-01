@@ -23,9 +23,7 @@ public class MusicService {
 
         String savedAlbums = spotifyClient.getSavedAlbums(spotifyClient.getAccessToken());
 
-        String simplifiedData = spotifyClient.extractAlbumsData(savedAlbums);
-
-        return ResponseEntity.ok(simplifiedData);
+        return ResponseEntity.ok(savedAlbums);
     }
 
     public ResponseEntity<String> getUserSavedTracks() {
@@ -35,9 +33,7 @@ public class MusicService {
 
         String tracksData = spotifyClient.getSavedTracks(spotifyClient.getAccessToken());
 
-        String simplifiedData = spotifyClient.extractTracksData(tracksData);
-
-        return ResponseEntity.ok(simplifiedData);
+        return ResponseEntity.ok(tracksData);
     }
 
     public ResponseEntity<String> getUserFollowingArtists() {
@@ -47,9 +43,7 @@ public class MusicService {
 
         String followingData = spotifyClient.getFollowed(spotifyClient.getAccessToken());
 
-        String simplifiedData = spotifyClient.extractFollowingData(followingData);
-
-        return ResponseEntity.ok(simplifiedData);
+        return ResponseEntity.ok(followingData);
     }
 
     public ResponseEntity<String> getUserPlayerInformation() {
