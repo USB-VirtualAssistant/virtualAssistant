@@ -359,6 +359,24 @@ public class SpotifyClient implements MusicClient {
         return response.getStatusCode() == HttpStatus.NO_CONTENT;
     }
 
+    public boolean playPreviousTrackOnDevice() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.spotify.com/v1/me/player/previous",
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        return response.getStatusCode() == HttpStatus.NO_CONTENT;
+    }
+
     @Override
     public void logTheUserOut() {
         accessToken = null;
