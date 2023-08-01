@@ -24,6 +24,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
+    implementation 'org.flywaydb:flyway-core:7.15.0'
+    implementation 'org.postgresql:postgresql:42.2.23'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
