@@ -23,7 +23,15 @@ public class SpotifyClient implements MusicClient {
     private String redirectUri;
 
     private String authorizationCode;
-    public String accessToken;
+    private String accessToken;
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
     public RedirectView redirectToSpotifyAuthorization() {
         String spotifyAuthUrl = "https://accounts.spotify.com/authorize?client_id=" + clientId +
