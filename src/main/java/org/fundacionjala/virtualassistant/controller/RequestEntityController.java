@@ -9,17 +9,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@RestController
 @RequestMapping("/textRequest")
 public class RequestEntityController {
   @Autowired
   RequestEntityRepository requestEntityRepository;
 
   @PostMapping
-  public ResponseEntity<RequestEntity> createTextRequest(@RequestBody RequestEntity requestEntity,
-      UriComponentsBuilder ucb) {
+  public ResponseEntity<RequestEntity> createTextRequest(@RequestBody RequestEntity requestEntity, UriComponentsBuilder ucb) {
     RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
+
     URI locationOfNewRequestEntity = ucb
         .path("textRequest/{id}")
         .buildAndExpand(savedRequestEntity.getIdRequest())
