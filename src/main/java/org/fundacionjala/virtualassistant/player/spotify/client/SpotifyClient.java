@@ -276,8 +276,45 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public void playSongOnDevice(String trackUri) {
+    public void playSongOnDevice() {
+        RestTemplate restTemplate = new RestTemplate();
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.spotify.com/v1/me/player/play",
+                HttpMethod.PUT,
+                entity,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            System.out.println("Resuming playback on Spotify.");
+        } else {
+            System.out.println("Failed to resume playback. Status code: " + response.getStatusCode());
+        }
+    }
+
+    public int extractCurrentTrackPosition(String playerData) {
+        try {
+            // Create an ObjectMapper to convert the JSON response to a JsonNode
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(playerData);
+
+            // Check if there is information about the currently playing track
+            if (jsonNode.has("progress_ms")) {
+                return jsonNode.get("progress_ms").asInt();
+            }
+
+            return 0; // Default position if no progress_ms field is present in the response
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0; // Default position in case of an exception or incorrect data
+        }
     }
 
     public void pauseSongOnDevice(String trackUri) {

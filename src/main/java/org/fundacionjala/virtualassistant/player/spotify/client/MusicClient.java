@@ -6,7 +6,7 @@ public interface MusicClient {
     String getUserSavedTracksFromSpotify(String accessToken);
     String getUserFollowingArtistsFromSpotify(String accessToken);
     String getUserPlayerInformationFromSpotify(String accessToken);
-    void playSongOnDevice(String trackUri);
+    void playSongOnDevice();
 
     void logTheUserOut();
 }
