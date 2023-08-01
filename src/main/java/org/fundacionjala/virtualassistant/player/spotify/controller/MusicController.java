@@ -66,6 +66,11 @@ public class MusicController {
         return musicService.playNextTrack();
     }
 
+    @GetMapping("/continue")
+    public ResponseEntity<String> playCurrentTrack() {
+        return musicService.playCurrentTrack();
+    }
+
     @GetMapping("/logout")
     public ResponseEntity<String> logTheUserOut() {
         musicService.logTheUserOut();
