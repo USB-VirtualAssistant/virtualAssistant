@@ -22,7 +22,6 @@ public class SpotifyClient implements MusicClient {
     @Value("${spotify.redirect.uri}")
     private String redirectUri;
 
-    private String authorizationCode;
     private String accessToken;
 
     public String getAccessToken() {
@@ -40,9 +39,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     public ResponseEntity<String> spotifyCallback(String code) {
-        authorizationCode = code;
-        accessToken = exchangeAuthCodeForAccessToken(authorizationCode);
-
+        accessToken = exchangeAuthCodeForAccessToken(code);
         return ResponseEntity.ok("Logged in successfully");
     }
 
@@ -65,8 +62,7 @@ public class SpotifyClient implements MusicClient {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonNode root = mapper.readTree(response.getBody());
-            String accessToken = root.path("access_token").asText();
-            return accessToken;
+            return root.path("access_token").asText();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -132,11 +128,9 @@ public class SpotifyClient implements MusicClient {
 
     public String extractCurrentTrackUri(String playerData) {
         try {
-            // Crear un ObjectMapper para convertir la respuesta JSON a un JsonNode
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(playerData);
 
-            // Verificar si hay información de la canción actualmente en reproducción
             if (jsonNode.has("item")) {
                 JsonNode item = jsonNode.get("item");
                 if (item.has("uri")) {
@@ -177,13 +171,11 @@ public class SpotifyClient implements MusicClient {
         try {
             JsonNode root = objectMapper.readTree(playerData);
 
-            // Extract relevant information from the JSON response
             String playbackType = root.path("currently_playing_type").asText();
 
             result.append("Playback Type: ").append(playbackType).append("\n");
 
             if (playbackType.equals("track")) {
-                // Extract track information
                 JsonNode trackNode = root.path("item");
                 if (trackNode.isMissingNode()) {
                     throw new Exception("No track is currently playing.");
@@ -197,9 +189,7 @@ public class SpotifyClient implements MusicClient {
                 result.append("Album: ").append(albumName).append("\n");
                 result.append("Track: ").append(trackName).append("\n");
             } else {
-                // Handle other playback types
                 result.append("Currently playing: ").append(playbackType).append("\n");
-                // Add additional handling for other playback types if needed
             }
 
         } catch (Exception e) {
@@ -226,29 +216,21 @@ public class SpotifyClient implements MusicClient {
                 entity,
                 String.class
         );
-
-        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-            System.out.println("Resuming playback on Spotify.");
-        } else {
-            System.out.println("Failed to resume playback. Status code: " + response.getStatusCode());
-        }
     }
 
     public int extractCurrentTrackPosition(String playerData) {
         try {
-            // Create an ObjectMapper to convert the JSON response to a JsonNode
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(playerData);
 
-            // Check if there is information about the currently playing track
             if (jsonNode.has("progress_ms")) {
                 return jsonNode.get("progress_ms").asInt();
             }
 
-            return 0; // Default position if no progress_ms field is present in the response
+            return 0;
         } catch (IOException e) {
             e.printStackTrace();
-            return 0; // Default position in case of an exception or incorrect data
+            return 0;
         }
     }
 
@@ -268,12 +250,6 @@ public class SpotifyClient implements MusicClient {
                 entity,
                 String.class
         );
-
-        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-            System.out.println("Song is now paused on Spotify.");
-        } else {
-            System.out.println("Failed to pause the song. Status code: " + response.getStatusCode());
-        }
     }
 
     public boolean playNextTrackOnDevice() {
