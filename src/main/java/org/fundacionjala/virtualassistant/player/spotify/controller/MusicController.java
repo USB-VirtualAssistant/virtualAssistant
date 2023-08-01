@@ -66,6 +66,15 @@ public class MusicController {
         return musicService.playNextTrack();
     }
 
+    @GetMapping("/previous")
+    public ResponseEntity<String> playPreviousTrack() {
+        // Assuming you have the logic to handle music playback in the service.
+        // Call the method responsible for playing the previous track in your music service here.
+        // Replace 'boolean' with the appropriate return type based on your service implementation.
+        return musicService.playPreviousTrack();
+    }
+
+
     @GetMapping("/continue")
     public ResponseEntity<String> playCurrentTrack() {
         return musicService.playCurrentTrack();

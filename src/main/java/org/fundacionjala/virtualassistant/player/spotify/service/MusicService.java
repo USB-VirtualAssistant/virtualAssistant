@@ -122,4 +122,20 @@ public class MusicService {
             return ResponseEntity.badRequest().body("Failed to play next track.");
         }
     }
+
+    @GetMapping("/previous")
+    public ResponseEntity<String> playPreviousTrack() {
+        if (spotifyClient.accessToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        // Play the previous track using the token stored in the Spotify client
+        boolean success = spotifyClient.playPreviousTrackOnDevice();
+
+        if (success) {
+            return ResponseEntity.ok("Playing previous track.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to play previous track.");
+        }
+    }
 }
