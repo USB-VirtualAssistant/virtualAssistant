@@ -1,8 +1,7 @@
 package org.fundacionjala.virtualassistant.controllers;
 
 import org.fundacionjala.virtualassistant.service.SpeechService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,29 +12,21 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/speech")
 public class SpeechController {
 
-    @Autowired
     private SpeechService speechService;
 
     public SpeechController(SpeechService speechService) {
         this.speechService = speechService;
     }
 
-    public SpeechController() {
-    }
-
     @PostMapping("/record")
-    public ResponseEntity<String> uploadAudio(@RequestParam("file") MultipartFile file) {
+    public HttpStatus uploadAudio(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("The file is empty");
+            return HttpStatus.BAD_REQUEST;
         }
-        String filename = file.getOriginalFilename();
 
-        try {
-            speechService.sendRecord(filename);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok().body("The file " + filename + " has been uploaded");
+        String filename = file.getOriginalFilename();
+        speechService.sendRecord(filename);
+
+        return HttpStatus.OK;
     }
 }
-
