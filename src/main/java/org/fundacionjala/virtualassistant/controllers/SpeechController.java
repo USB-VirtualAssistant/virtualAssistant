@@ -32,7 +32,6 @@ public class SpeechController {
 
         try {
             speechService.sendRecord(filename);
-            System.out.println(speechService.getAsrClient().getText());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
