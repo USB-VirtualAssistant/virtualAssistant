@@ -60,4 +60,9 @@ public class MusicController {
     public ResponseEntity<String> pauseCurrentTrack() {
         return musicService.pauseCurrentTrack();
     }
+
+    @GetMapping("/next")
+    public ResponseEntity<String> playNextTrack() {
+        return musicService.playNextTrack();
+    }
 }
