@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.player.spotify.controller;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -68,12 +67,8 @@ public class MusicController {
 
     @GetMapping("/previous")
     public ResponseEntity<String> playPreviousTrack() {
-        // Assuming you have the logic to handle music playback in the service.
-        // Call the method responsible for playing the previous track in your music service here.
-        // Replace 'boolean' with the appropriate return type based on your service implementation.
         return musicService.playPreviousTrack();
     }
-
 
     @GetMapping("/continue")
     public ResponseEntity<String> playCurrentTrack() {
