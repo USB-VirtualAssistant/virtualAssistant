@@ -1,9 +1,8 @@
 package org.fundacionjala.virtualassistant.service;
 
 import org.fundacionjala.virtualassistant.repository.ASRClient;
-import org.fundacionjala.virtualassistant.repository.WhisperClient;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
+
 import java.nio.file.Path;
 
 @Service
@@ -15,25 +14,8 @@ public class SpeechService {
         this.asrClient = asrClient;
     }
 
-    public SpeechService() {
-        try {
-            asrClient = new WhisperClient();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void sendRecord(String pathRecord) {
+    public String sendRecord(String pathRecord) {
         Path path = Path.of(pathRecord);
-        try {
-            asrClient.convertToText(path);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public ASRClient getAsrClient() {
-        return asrClient;
+        return asrClient.convertToText(path);
     }
 }
-
