@@ -1,0 +1,45 @@
+openai   What can you do?
+openai   Tell me a joke
+openai   How does AI work?
+openai   Can you explain machine learning?
+openai   Who created you?
+openai   What is your favorite color?
+openai   Do you have any siblings?
+openai   How can I improve my productivity?
+openai   Can you recommend a good book to read?
+openai   What's the weather forecast for tomorrow?
+openai   Set a timer for 5 minutes
+openai   What are the latest news headlines?
+openai   How far is the moon from Earth?
+openai   Translate "hello" to French
+openai   Tell me a fun fact
+music   play a song
+music   previous song
+music   repeat the song
+music   shuffle my playlist
+music   add this song to my favorites
+music   skip to the next track
+music   what's the name of this song?
+music   create a new playlist
+music   pause the music
+music   turn up the volume
+music   find songs by artist name
+music   search for a specific album
+music   play some relaxing music
+music   recommend some new songs
+music   play music for working out
+calendar   Schedule a meeting
+calendar   Remove a meeting
+calendar   Tell me the hour of the next meeting
+calendar   What are my events for today?
+calendar   Add an event for tomorrow
+calendar   Set a reminder for the appointment
+calendar   Move the meeting to next week
+calendar   Is there anything on my calendar for Friday?
+calendar   Create a new event
+calendar   Cancel all events for the day
+calendar   Send me a daily agenda
+calendar   What's on my schedule for next month?
+calendar   Notify me about upcoming events
+calendar   Change the time of the conference call
+calendar   Add a birthday celebration to my calendar
