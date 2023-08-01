@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
-
+    implementation group: 'io.github.givimad', name: 'whisper-jni', version: '1.4.2-6'
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
