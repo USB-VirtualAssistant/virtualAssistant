@@ -251,4 +251,22 @@ public class SpotifyClient implements MusicClient {
             System.out.println("Failed to pause the song. Status code: " + response.getStatusCode());
         }
     }
+
+    public boolean playNextTrackOnDevice() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.spotify.com/v1/me/player/next",
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        return response.getStatusCode() == HttpStatus.NO_CONTENT;
+    }
 }

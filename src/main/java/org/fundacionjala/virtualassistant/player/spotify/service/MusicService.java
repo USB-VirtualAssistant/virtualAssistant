@@ -4,6 +4,7 @@ import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -79,5 +80,21 @@ public class MusicService {
         spotifyClient.pauseSongOnDevice(currentTrackUri);
 
         return ResponseEntity.ok("Current track has been paused.");
+    }
+
+    @GetMapping("/next")
+    public ResponseEntity<String> playNextTrack() {
+        if (spotifyClient.accessToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        // Avanzar a la siguiente canción utilizando el token de acceso almacenado
+        boolean success = spotifyClient.playNextTrackOnDevice();
+
+        if (success) {
+            return ResponseEntity.ok("Playing next track.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to play next track.");
+        }
     }
 }
