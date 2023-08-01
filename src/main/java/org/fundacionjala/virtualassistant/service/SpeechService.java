@@ -3,8 +3,6 @@ package org.fundacionjala.virtualassistant.service;
 import org.fundacionjala.virtualassistant.repository.ASRClient;
 import org.fundacionjala.virtualassistant.repository.WhisperClient;
 import org.springframework.stereotype.Service;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -25,9 +23,13 @@ public class SpeechService {
         }
     }
 
-    public void sendRecord(String pathRecord) throws IOException, UnsupportedAudioFileException {
+    public void sendRecord(String pathRecord) {
         Path path = Path.of(pathRecord);
-        asrClient.convertToText(path);
+        try {
+            asrClient.convertToText(path);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public ASRClient getAsrClient() {
