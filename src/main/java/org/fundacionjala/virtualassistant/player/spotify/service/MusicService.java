@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class MusicService {
@@ -22,7 +21,7 @@ public class MusicService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
         }
 
-        String savedAlbums = spotifyClient.getUserSavedAlbumsFromSpotify(spotifyClient.accessToken);
+        String savedAlbums = spotifyClient.getSavedAlbums(spotifyClient.accessToken);
 
         String simplifiedData = spotifyClient.extractAlbumsData(savedAlbums);
 
@@ -34,7 +33,7 @@ public class MusicService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
         }
 
-        String tracksData = spotifyClient.getUserSavedTracksFromSpotify(spotifyClient.accessToken);
+        String tracksData = spotifyClient.getSavedTracks(spotifyClient.accessToken);
 
         String simplifiedData = spotifyClient.extractTracksData(tracksData);
 
@@ -46,7 +45,7 @@ public class MusicService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
         }
 
-        String followingData = spotifyClient.getUserFollowingArtistsFromSpotify(spotifyClient.accessToken);
+        String followingData = spotifyClient.getFollowed(spotifyClient.accessToken);
 
         String simplifiedData = spotifyClient.extractFollowingData(followingData);
 
@@ -58,7 +57,7 @@ public class MusicService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
         }
 
-        String playerData = spotifyClient.getUserPlayerInformationFromSpotify(spotifyClient.accessToken);
+        String playerData = spotifyClient.getPlayerInfo(spotifyClient.accessToken);
 
         String simplifiedData = spotifyClient.extractPlayerData(playerData);
 
@@ -75,7 +74,7 @@ public class MusicService {
         }
 
         // Resume the playback of the currently paused track using the token of access stored
-        spotifyClient.playSongOnDevice();
+        spotifyClient.playSong();
 
         return ResponseEntity.ok("Playback has been resumed.");
     }
@@ -87,7 +86,7 @@ public class MusicService {
         }
 
         // Obtener la información del reproductor del usuario desde la API de Spotify
-        String playerData = spotifyClient.getUserPlayerInformationFromSpotify(spotifyClient.accessToken);
+        String playerData = spotifyClient.getPlayerInfo(spotifyClient.accessToken);
 
         // Extraer el URI de la canción actualmente en reproducción
         String currentTrackUri = spotifyClient.extractCurrentTrackUri(playerData);
@@ -104,7 +103,7 @@ public class MusicService {
     }
 
     public void logTheUserOut() {
-        spotifyClient.logTheUserOut();
+        spotifyClient.logout();
     }
 
     @GetMapping("/next")
