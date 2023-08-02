@@ -230,4 +230,59 @@ public class MusicServiceTest {
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertEquals("Access token not available.", response.getBody());
     }
+
+    @Test
+    public void testPlaySongByArtistAndTrack_Success() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+
+        String artist = "Artist Name";
+        String track = "Track Name";
+        String trackUri = "spotify:track:track_id";
+        when(spotifyClient.searchTrackByArtistAndTrack(artist, track)).thenReturn(trackUri);
+
+        when(spotifyClient.playSongOnDevice(trackUri)).thenReturn(true);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.playSongByArtistAndTrack(artist, track);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Playing song by Artist Name: Track Name", response.getBody());
+
+        verify(spotifyClient, times(1)).searchTrackByArtistAndTrack(artist, track);
+        verify(spotifyClient, times(1)).playSongOnDevice(trackUri);
+    }
+
+    @Test
+    public void testPlaySongByArtistAndTrack_Unauthorized() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.playSongByArtistAndTrack("Artist Name", "Track Name");
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Access token not available.", response.getBody());
+
+        verify(spotifyClient, never()).searchTrackByArtistAndTrack(any(), any());
+        verify(spotifyClient, never()).playSongOnDevice(any());
+    }
+
+    @Test
+    public void testPlaySongByArtistAndTrack_TrackNotFound() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+
+        String artist = "Non-existent Artist";
+        String track = "Non-existent Track";
+        when(spotifyClient.searchTrackByArtistAndTrack(artist, track)).thenReturn(null);
+
+        MusicService musicService = new MusicService(spotifyClient);
+
+        ResponseEntity<String> response = musicService.playSongByArtistAndTrack(artist, track);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Song not found.", response.getBody());
+
+        verify(spotifyClient, never()).playSongOnDevice(any());
+    }
 }
