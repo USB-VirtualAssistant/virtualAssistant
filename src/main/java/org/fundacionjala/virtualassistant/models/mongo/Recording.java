@@ -15,8 +15,7 @@ public class Recording {
     private Long idChat;
     private org.bson.Document audioFile;
 
-
-    public Recording( Long idUser, Long idChat, org.bson.Document audioFile) {
+    public Recording(Long idUser, Long idChat, org.bson.Document audioFile) {
         this.idUser = idUser;
         this.idChat = idChat;
         this.audioFile = audioFile;
@@ -44,7 +43,8 @@ public class Recording {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recording recording = (Recording) o;
-        return idRecording == recording.idRecording && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) ;
+        return Objects.equals(idRecording, recording.idRecording)
+                && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) ;
     }
 
     @Override

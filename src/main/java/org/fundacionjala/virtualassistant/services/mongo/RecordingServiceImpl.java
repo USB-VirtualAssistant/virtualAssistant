@@ -15,6 +15,10 @@ public class RecordingServiceImpl implements RecordingService {
     @Autowired
     RecordingRepo recordingRepo;
 
+    public RecordingServiceImpl(RecordingRepo recordingRepo) {
+        this.recordingRepo = recordingRepo;
+    }
+
     @Override
     public Recording getRecording(String idRecording) {
         return recordingRepo.getRecording(idRecording);
