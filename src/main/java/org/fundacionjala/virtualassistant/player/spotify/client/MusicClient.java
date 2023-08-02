@@ -11,7 +11,9 @@ public interface MusicClient {
 
     String getPlayerInfo(String accessToken);
 
-    void playSong();
+    void playCurrentSong();
+
+    boolean playSongOnDevice(String trackUri);
 
     void logout();
 }

@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.player.spotify.controller;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +51,6 @@ public class MusicController {
         return musicService.getUserPlayerInformation();
     }
 
-    @PostMapping("/play")
-    public ResponseEntity<String> playSong(@RequestParam("trackUri") String trackUri) {
-        return musicService.playSong(trackUri);
-    }
-
     @GetMapping("/pause")
     public ResponseEntity<String> pauseCurrentTrack() {
         return musicService.pauseCurrentTrack();
@@ -73,6 +69,11 @@ public class MusicController {
     @GetMapping("/continue")
     public ResponseEntity<String> playCurrentTrack() {
         return musicService.playCurrentTrack();
+    }
+
+    @GetMapping("/play")
+    public ResponseEntity<String> playSongByArtistAndTrack(@RequestParam("artist") String artist, @RequestParam("track") String track) {
+        return musicService.playSongByArtistAndTrack(artist,track);
     }
 
     @GetMapping("/logout")

@@ -24,6 +24,31 @@ public class SpotifyClient implements MusicClient {
 
     private String accessToken;
 
+    @Override
+    public boolean playSongOnDevice(String trackUri) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + accessToken);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String requestBody = "{\"uris\": [\"" + trackUri + "\"]}";
+            HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/me/player/play",
+                    HttpMethod.PUT,
+                    entity,
+                    String.class
+            );
+
+            return response.getStatusCode() == HttpStatus.NO_CONTENT;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -201,7 +226,7 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public void playSong() {
+    public void playCurrentSong() {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -291,5 +316,49 @@ public class SpotifyClient implements MusicClient {
     @Override
     public void logout() {
         accessToken = null;
+    }
+
+    public String searchTrackByArtistAndTrack(String artist, String track) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String searchQuery = "https://api.spotify.com/v1/search?q=" + artist + " " + track + "&type=track&limit=1";
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                searchQuery,
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseData = response.getBody();
+            return extractTrackUriFromSearchResponse(responseData);
+        }
+
+        return null;
+    }
+
+    private String extractTrackUriFromSearchResponse(String responseData) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(responseData);
+
+            if (jsonNode.has("tracks") && jsonNode.get("tracks").has("items")) {
+                JsonNode items = jsonNode.get("tracks").get("items");
+                if (items.isArray() && items.size() > 0) {
+                    return items.get(0).get("uri").asText();
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
