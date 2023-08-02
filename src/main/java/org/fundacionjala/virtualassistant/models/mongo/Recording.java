@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.mongoDB.model;
+package org.fundacionjala.virtualassistant.models.mongo;
 
 
 import org.springframework.data.annotation.Id;

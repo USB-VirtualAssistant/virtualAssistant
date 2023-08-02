@@ -1,7 +1,8 @@
-package org.fundacionjala.virtualassistant.mongoDB.service;
+package org.fundacionjala.virtualassistant.services.mongo;
 
-import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
-import org.fundacionjala.virtualassistant.mongoDB.repository.RecordingRepo;
+import org.fundacionjala.virtualassistant.models.mongo.Recording;
+import org.fundacionjala.virtualassistant.repository.mongo.RecordingRepo;
+import org.fundacionjala.virtualassistant.services.mongo.RecordingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
-public class RecordingServiceImpl implements RecordingService{
+public class RecordingServiceImpl implements RecordingService {
 
     @Autowired
     RecordingRepo recordingRepo;

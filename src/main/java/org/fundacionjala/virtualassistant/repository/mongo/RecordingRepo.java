@@ -1,6 +1,6 @@
-package org.fundacionjala.virtualassistant.mongoDB.repository;
+package org.fundacionjala.virtualassistant.repository.mongo;
 
-import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
+import org.fundacionjala.virtualassistant.models.mongo.Recording;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
