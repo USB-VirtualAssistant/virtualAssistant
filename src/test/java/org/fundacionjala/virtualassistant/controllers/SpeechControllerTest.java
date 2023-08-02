@@ -9,16 +9,17 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 public class SpeechControllerTest {
 
-    private SpeechController yourController;
+    private SpeechController speechController;
     private SpeechService speechService;
     private MultipartFile mockFile;
 
     @BeforeEach
     void setUp() {
         speechService = mock(SpeechService.class);
-        yourController = new SpeechController(speechService);
+        speechController = new SpeechController(speechService);
         mockFile = mock(MultipartFile.class);
     }
 
@@ -28,7 +29,7 @@ public class SpeechControllerTest {
         when(mockFile.isEmpty()).thenReturn(false);
         when(mockFile.getOriginalFilename()).thenReturn(fileName);
 
-        ResponseEntity<String> response = yourController.uploadAudio(mockFile);
+        ResponseEntity<String> response = speechController.uploadAudio(mockFile);
 
         assertEquals(200, response.getStatusCodeValue());
         assertTrue(response.getBody().contains(fileName));
@@ -38,7 +39,7 @@ public class SpeechControllerTest {
     @Test
     void uploadAudio_EmptyFile_BadRequestStatusCode() {
         when(mockFile.isEmpty()).thenReturn(true);
-        ResponseEntity<String> response = yourController.uploadAudio(mockFile);
+        ResponseEntity<String> response = speechController.uploadAudio(mockFile);
 
         assertEquals(400, response.getStatusCodeValue());
         assertTrue(response.getBody().contains("The file is empty"));
@@ -51,6 +52,6 @@ public class SpeechControllerTest {
         when(mockFile.getOriginalFilename()).thenReturn("test_audio.mp3");
         doThrow(new RuntimeException("Simulated Exception")).when(speechService).sendRecord(anyString());
 
-        assertThrows(RuntimeException.class, () -> yourController.uploadAudio(mockFile));
+        assertThrows(RuntimeException.class, () -> speechController.uploadAudio(mockFile));
     }
 }
