@@ -11,9 +11,10 @@ public class OpenAIClient {
 
     public static void main(String[] args) {
         OpenAIClient openAIClient = new OpenAIClient();
-        openAIClient.chat();
+        String response = openAIClient.chat("Tell me who is Madonna");
+        System.out.println(response);
     }
-    public void chat() {
+    public String chat(String request) {
         OpenAiService service = new OpenAiService(TOKEN);
 
         FunctionExecutor functionExecutor = new FunctionExecutor(Collections.singletonList(ChatFunction.builder()
@@ -27,11 +28,9 @@ public class OpenAIClient {
         messages.add(systemMessage);
 
         System.out.print("First Query: ");
-        Scanner scanner = new Scanner(System.in);
-        ChatMessage firstMsg = new ChatMessage(ChatMessageRole.USER.value(), scanner.nextLine());
+        ChatMessage firstMsg = new ChatMessage(ChatMessageRole.USER.value(), request);
         messages.add(firstMsg);
 
-        while (true) {
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
                     .builder()
                     .model("gpt-3.5-turbo-0613")
@@ -62,21 +61,12 @@ public class OpenAIClient {
 
                     System.out.println("Executed " + functionCall.getName() + ".");
                     messages.add(message.get());
-                    continue;
                 } else {
                     System.out.println("Something went wrong with the execution of " + functionCall.getName() + "...");
-                    break;
                 }
             }
 
-            System.out.println("Response: " + responseMessage.getContent());
-            System.out.print("Next Query: ");
-            String nextLine = scanner.nextLine();
-            if (nextLine.equalsIgnoreCase("exit")) {
-                System.exit(0);
-            }
-            messages.add(new ChatMessage(ChatMessageRole.USER.value(), nextLine));
-        }
+            return responseMessage.getContent();
     }
 
 }
