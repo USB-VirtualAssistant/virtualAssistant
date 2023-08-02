@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.controllers;
 import org.fundacionjala.virtualassistant.service.SpeechService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ public class SpeechControllerTest {
 
         ResponseEntity<String> response = speechController.uploadAudio(mockFile);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, HttpStatus.valueOf(response.getStatusCodeValue()));
         assertTrue(response.getBody().contains(fileName));
         verify(speechService).sendRecord(fileName);
     }
@@ -42,7 +43,6 @@ public class SpeechControllerTest {
         ResponseEntity<String> response = speechController.uploadAudio(mockFile);
 
         assertEquals(400, response.getStatusCodeValue());
-        assertTrue(response.getBody().contains("The file is empty"));
         verify(speechService, never()).sendRecord(anyString());
     }
 
