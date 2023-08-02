@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class MusicService {
@@ -67,7 +68,7 @@ public class MusicService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
         }
 
-        spotifyClient.playSong();
+        spotifyClient.playCurrentSong();
 
         return ResponseEntity.ok("Playback has been resumed.");
     }
@@ -121,6 +122,26 @@ public class MusicService {
             return ResponseEntity.ok("Playing previous track.");
         } else {
             return ResponseEntity.badRequest().body("Failed to play previous track.");
+        }
+    }
+
+    public ResponseEntity<String> playSongByArtistAndTrack(String artist, String track) {
+        if (spotifyClient.getAccessToken() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        }
+
+        String trackUri = spotifyClient.searchTrackByArtistAndTrack(artist, track);
+
+        if (trackUri == null) {
+            return ResponseEntity.badRequest().body("Song not found.");
+        }
+
+        boolean success = spotifyClient.playSongOnDevice(trackUri);
+
+        if (success) {
+            return ResponseEntity.ok("Playing song by " + artist + ": " + track);
+        } else {
+            return ResponseEntity.badRequest().body("Failed to play the song.");
         }
     }
 }
