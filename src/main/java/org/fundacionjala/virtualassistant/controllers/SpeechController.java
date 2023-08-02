@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/speech")
 public class SpeechController {
 
-    @Autowired
     private SpeechService speechService;
 
     public SpeechController(SpeechService speechService) {
@@ -28,14 +27,13 @@ public class SpeechController {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("The file is empty");
         }
+
         String filename = file.getOriginalFilename();
 
-        try {
-            speechService.sendRecord(filename);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok().body("The file " + filename + " has been uploaded");
+        speechService.sendRecord(filename);
+        String message = String.format("The file %s has been uploaded", filename);
+
+        return ResponseEntity.ok().body(message);
     }
 }
 
