@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.repository;
 
+import java.sql.SQLException;
+
 public interface TextSaver {
-    void saveText(String text);
+    boolean saveText(String text,int idRequest) throws SQLException;
 }
