@@ -1,7 +1,8 @@
 package org.fundacionjala.virtualassistant.repository;
 
-import java.sql.SQLException;
+import org.fundacionjala.virtualassistant.models.RequestEntity;
+
 
 public interface TextSaver {
-    boolean saveText(String text,int idRequest) throws SQLException;
+    RequestEntity saveText(String text, int idAudioMongo);
 }

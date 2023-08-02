@@ -1,26 +1,26 @@
 package org.fundacionjala.virtualassistant.repository;
 
-import java.sql.*;
+import org.fundacionjala.virtualassistant.models.RequestEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Timestamp;
+
 
 public class TextSaverImpl implements TextSaver {
+    private RequestEntityRepository repository;
 
-    private static final String DB_URL = "jdbc:postgresql://dbUrl";
-    private static final String DB_USER = "db_user";
-    private static final String DB_PASSWORD = "database_password";
+    public TextSaverImpl(RequestEntityRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public boolean saveText(String text, int idRequest) throws SQLException {
-        Connection connection = null;
-        PreparedStatement stmt = null;
-
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        String updateQuery = "UPDATE db_schema.request SET text = ? WHERE id_request = ? RETURNING *;";
-        stmt = connection.prepareStatement(updateQuery, Statement.RETURN_GENERATED_KEYS);
-        stmt.setString(1, text);
-        stmt.setInt(2, idRequest);
-
-        int affectedRows = stmt.executeUpdate();
-        return affectedRows > 0;
+    public RequestEntity saveText(String text, int idAudioMongo) {
+        RequestEntity requestEntity = new RequestEntity();
+        requestEntity.setText(text);
+        requestEntity.setDate(new Timestamp(System.currentTimeMillis()));
+        requestEntity.setIdAudioMongo(idAudioMongo);
+        repository.save(requestEntity);
+        return requestEntity;
     }
 
 }
