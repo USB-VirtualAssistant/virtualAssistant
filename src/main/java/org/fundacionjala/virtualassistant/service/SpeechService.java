@@ -16,11 +16,7 @@ public class SpeechService {
     }
 
     public SpeechService() {
-        try {
-            asrClient = new WhisperClient();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        asrClient = new WhisperClient();
     }
 
     public void sendRecord(String pathRecord) {
