@@ -33,7 +33,7 @@ services:
 
   app:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     depends_on:
       - db
