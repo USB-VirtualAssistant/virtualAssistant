@@ -1,7 +1,6 @@
-package org.fundacionjala.virtualassistant.mongoDB.service;
+package org.fundacionjala.virtualassistant.services.mongo;
 
-import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
-import org.springframework.stereotype.Service;
+import org.fundacionjala.virtualassistant.models.mongo.Recording;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
