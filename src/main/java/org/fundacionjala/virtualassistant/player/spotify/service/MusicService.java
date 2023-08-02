@@ -96,7 +96,6 @@ public class MusicService {
         spotifyClient.logout();
     }
 
-    @GetMapping("/next")
     public ResponseEntity<String> playNextTrack() {
         if (spotifyClient.getAccessToken() == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
@@ -111,7 +110,6 @@ public class MusicService {
         }
     }
 
-    @GetMapping("/previous")
     public ResponseEntity<String> playPreviousTrack() {
         if (spotifyClient.getAccessToken() == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
