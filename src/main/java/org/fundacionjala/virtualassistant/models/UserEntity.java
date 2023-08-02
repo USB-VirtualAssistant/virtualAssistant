@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idUser;
+    private long id_user;
 
     @Column(name = "google_id")
     private String googleID;
@@ -17,7 +17,7 @@ public class UserEntity {
     }
 
     public long getIdUser() {
-        return idUser;
+        return id_user;
     }
 
     public String getGoogleID() {
