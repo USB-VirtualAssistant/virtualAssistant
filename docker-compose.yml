@@ -30,15 +30,17 @@ services:
     volumes:
       - ./sql:/flyway/sql
     command: -url=jdbc:postgresql://db/mydb -user=postgres -password=password migrate
-
-  app:
-    build:
-      context: ..
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-      - flyway
+  mongo:
+    container_name: mongo_db
+    image: mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
     ports:
-      - 8888:8888
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: VirtualAssistant60089
+      MONGO_INITDB_ROOT_PASSWORD: rGYwVKko8ihLmyaC
 volumes:
   db-data:
+  mongo_data:
