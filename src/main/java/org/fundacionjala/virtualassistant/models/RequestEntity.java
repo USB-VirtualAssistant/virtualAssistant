@@ -38,4 +38,36 @@ public class RequestEntity {
     this.idContext = idContext;
     this.idUser = idUser;
   }
+
+  public long getIdRequest() {
+    return idRequest;
+  }
+
+  public long getIdUser() {
+    return idUser;
+  }
+
+  public long getIdAudioMongo() {
+    return idAudioMongo;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public ZonedDateTime getDate() {
+    return date;
+  }
+
+  public void setDate(ZonedDateTime date) {
+    this.date = date;
+  }
+
+  public long getIdContext() {
+    return idContext;
+  }
 }
