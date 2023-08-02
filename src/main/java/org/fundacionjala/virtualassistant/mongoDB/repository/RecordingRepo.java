@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RecordingRepo {
 
-    Recording getRecording(Long idRecording);
+    Recording getRecording(String idRecording);
 
-    boolean deleteRecording(Long idRecording);
+    boolean deleteRecording(String idRecording);
 
     List<Recording> getAllRecordingsToUser(Long idUser, Long idChat);
 
