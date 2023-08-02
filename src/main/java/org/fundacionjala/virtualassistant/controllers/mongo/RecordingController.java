@@ -26,7 +26,7 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/{id}")
-    public ResponseEntity<Recording> getRecordingById(@PathVariable String id) {
+    public ResponseEntity<Recording> getRecordingID(@PathVariable String id) {
         Recording recording = recordingService.getRecording(id);
         if (recording != null) {
             return new ResponseEntity<>(recording, HttpStatus.OK);
@@ -34,18 +34,8 @@ public class RecordingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecording(@PathVariable String id) {
-        if (recordingService.deleteRecording(id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @GetMapping("/{id}/chat/{idChat}")
-    public ResponseEntity<List<Recording>> getAllRecordingsToUser(@RequestParam() Long idUser, @RequestParam() Long idChat) {
+    public ResponseEntity<List<Recording>> getRecordingsUser(@RequestParam() Long idUser, @RequestParam() Long idChat) {
         List<Recording> recordings = recordingService.getAllRecordingsToUser(idUser, idChat);
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
