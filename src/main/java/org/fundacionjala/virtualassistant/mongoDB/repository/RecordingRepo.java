@@ -1,10 +1,10 @@
-package org.fundacionjala.virtualassistant.mongoDB.service;
+package org.fundacionjala.virtualassistant.mongoDB.repository;
 
 import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
 
 import java.util.List;
 
-public interface RecordingService {
+public interface RecordingRepo {
 
     Recording getRecording(Long idRecording);
 

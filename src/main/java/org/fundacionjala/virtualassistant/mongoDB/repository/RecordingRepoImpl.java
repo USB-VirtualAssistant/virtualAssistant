@@ -1,29 +1,33 @@
-package org.fundacionjala.virtualassistant.mongoDB.service;
+package org.fundacionjala.virtualassistant.mongoDB.repository;
 
 import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
-import org.fundacionjala.virtualassistant.mongoDB.repository.RecordingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import java.util.List;
 
-public class RecordingServiceImpl implements RecordingService{
+public class RecordingRepoImpl implements RecordingRepo{
+
+    private final GridFsTemplate gridFsTemplate;
 
     @Autowired
-    RecordingRepo recordingRepo;
+    public RecordingRepoImpl(GridFsTemplate gridFsTemplate) {
+        this.gridFsTemplate = gridFsTemplate;
+    }
 
     @Override
     public Recording getRecording(Long idRecording) {
-        return recordingRepo.getRecording(idRecording);
+        return null;
     }
 
     @Override
     public boolean deleteRecording(Long idRecording) {
-        return recordingRepo.deleteRecording(idRecording);
+        return false;
     }
 
     @Override
     public List<Recording> getAllRecordings(Long idUser, Long idChat) {
-        return recordingRepo.getAllRecordings(idUser, idChat);
+        return null;
     }
 
     @Override
@@ -33,7 +37,6 @@ public class RecordingServiceImpl implements RecordingService{
 
     @Override
     public List<Recording> getAudiosByAudioIdAndUserAndSession(Long audioId, Long userId, Long sessionId) {
-        return recordingRepo.getAudiosByAudioIdAndUserAndSession(audioId, userId, sessionId);
+        return null;
     }
-
 }
