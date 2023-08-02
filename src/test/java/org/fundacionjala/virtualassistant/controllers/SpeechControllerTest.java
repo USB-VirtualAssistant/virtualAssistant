@@ -4,7 +4,6 @@ import org.fundacionjala.virtualassistant.service.SpeechService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,31 +24,30 @@ public class SpeechControllerTest {
     }
 
     @Test
-    void uploadAudio_NonEmptyFile_FileNameIsReturned() {
-        String fileName = "test_audio.mp3";
+    void uploadAudio_NonEmptyFile_OkStatus() {
+        String fileName = "audio.mp3";
         when(mockFile.isEmpty()).thenReturn(false);
         when(mockFile.getOriginalFilename()).thenReturn(fileName);
 
-        ResponseEntity<String> response = speechController.uploadAudio(mockFile);
+        HttpStatus response = speechController.uploadAudio(mockFile);
 
-        assertEquals(HttpStatus.OK, HttpStatus.valueOf(response.getStatusCodeValue()));
-        assertTrue(response.getBody().contains(fileName));
+        assertEquals(HttpStatus.OK, response);
         verify(speechService).sendRecord(fileName);
     }
 
     @Test
-    void uploadAudio_EmptyFile_BadRequestStatusCode() {
+    void uploadAudio_EmptyFile_BadRequestStatus() {
         when(mockFile.isEmpty()).thenReturn(true);
-        ResponseEntity<String> response = speechController.uploadAudio(mockFile);
+        HttpStatus response = speechController.uploadAudio(mockFile);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response);
         verify(speechService, never()).sendRecord(anyString());
     }
 
     @Test
     void uploadAudio_Exception_ExceptionIsReturned() {
         when(mockFile.isEmpty()).thenReturn(false);
-        when(mockFile.getOriginalFilename()).thenReturn("test_audio.mp3");
+        when(mockFile.getOriginalFilename()).thenReturn("audio.mp3");
         doThrow(new RuntimeException("Simulated Exception")).when(speechService).sendRecord(anyString());
 
         assertThrows(RuntimeException.class, () -> speechController.uploadAudio(mockFile));
