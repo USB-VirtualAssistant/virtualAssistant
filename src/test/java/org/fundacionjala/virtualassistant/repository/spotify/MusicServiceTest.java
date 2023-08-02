@@ -101,7 +101,7 @@ public class MusicServiceTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Playback has been resumed.", response.getBody());
 
-        verify(spotifyClient, times(1)).playSong();
+        verify(spotifyClient, times(1)).playCurrentSong();
     }
 
     @Test
@@ -115,7 +115,7 @@ public class MusicServiceTest {
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertEquals("Access token not available.", response.getBody());
 
-        verify(spotifyClient, never()).playSong();
+        verify(spotifyClient, never()).playCurrentSong();
     }
 
     @Test
