@@ -19,8 +19,6 @@ public class TextSaverImpl implements TextSaver {
         requestEntity.setText(text);
         requestEntity.setDate(new Timestamp(System.currentTimeMillis()));
         requestEntity.setIdAudioMongo(idAudioMongo);
-        repository.save(requestEntity);
-        return requestEntity;
+        return repository.save(requestEntity);
     }
-
 }
