@@ -1,27 +1,29 @@
 package org.fundacionjala.virtualassistant.mongoDB.model;
 
 
-import com.mongodb.client.gridfs.model.GridFSFile;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.Objects;
 
+@Document(collection = "recordings")
 public class Recording {
 
-    private Long idRecording;
+    @Id
+    private String idRecording;
     private Long idUser;
     private Long idChat;
-    private GridFSFile audio;
+    private MultipartFile audioFile;
 
 
-    public Recording(Long idRecording, Long idUser, Long idChat, GridFSFile audio) {
-        this.idRecording = idRecording;
+    public Recording( Long idUser, Long idChat, MultipartFile audioFile) {
         this.idUser = idUser;
         this.idChat = idChat;
-
+        this.audioFile = audioFile;
     }
 
-    public Long getIdRecording() {
+    public String getIdRecording() {
         return idRecording;
     }
 
@@ -33,8 +35,8 @@ public class Recording {
         return idChat;
     }
 
-    public GridFSFile getAudio() {
-        return audio;
+    public MultipartFile getAudio() {
+        return audioFile;
     }
 
     @Override
@@ -42,11 +44,11 @@ public class Recording {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recording recording = (Recording) o;
-        return Objects.equals(idRecording, recording.idRecording) && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) && Objects.equals(audio, recording.audio);
+        return Objects.equals(idRecording, recording.idRecording) && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) && Objects.equals(audioFile, recording.audioFile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRecording, idUser, idChat, audio);
+        return Objects.hash(idRecording, idUser, idChat, audioFile);
     }
 }
