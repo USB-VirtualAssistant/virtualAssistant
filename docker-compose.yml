@@ -22,7 +22,7 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=assistant@example.com
       - PGADMIN_DEFAULT_PASSWORD=password
-      
+
   flyway:
     image: flyway/flyway:7.15.0
     depends_on:
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./sql:/flyway/sql
     command: -url=jdbc:postgresql://db/mydb -user=postgres -password=password migrate
-  
+
   app:
     build:
       context: .
