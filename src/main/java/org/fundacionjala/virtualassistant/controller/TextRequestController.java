@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,7 +17,7 @@ public class TextRequestController {
 
     @GetMapping("/{userId}?contextId={contextID}")
     public List<RequestEntity> getTextRequests(@PathVariable Long userID, @PathVariable Long contextID) {
-        return textRequestService.getAllTextRequest(userID, contextID);
+        return textRequestService.getTextRequestByUserAndContext(userID, contextID);
     }
 
 }
