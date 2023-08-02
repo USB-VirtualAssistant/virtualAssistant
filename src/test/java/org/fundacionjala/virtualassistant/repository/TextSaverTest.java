@@ -1,28 +1,31 @@
 package org.fundacionjala.virtualassistant.repository;
+import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import java.sql.*;
 public class TextSaverTest {
-
     @Test
-    public void testSaveText_SuccessfulUpdate() throws SQLException {
-        Connection mockConnection = mock(Connection.class);
-        DriverManager mockDriverManager = mock(DriverManager.class);
-        when(mockDriverManager.getConnection(anyString(), anyString(), anyString())).thenReturn(mockConnection);
+    public void testSaveText_SuccessfulUpdate(){
+        RequestEntityRepository mockRepository = mock(RequestEntityRepository.class);
 
-        TextSaverImpl textSaver = new TextSaverImpl();
+        TextSaverImpl textSaver = new TextSaverImpl(mockRepository);
 
-        PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
-        when(mockConnection.prepareStatement(anyString(), anyInt())).thenReturn(mockPreparedStatement);
+        String text = "Test Text";
+        int idAudioMongo = 123;
 
-        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+        RequestEntity result = textSaver.saveText(text, idAudioMongo);
 
-        boolean result = textSaver.saveText("Updated text", 123);
+        verify(mockRepository).save(argThat(requestEntity ->
+                requestEntity.getText().equals(text) &&
+                        requestEntity.getIdAudioMongo() == idAudioMongo
+        ));
 
-        verify(mockPreparedStatement).setString(1, "Updated text");
-        verify(mockPreparedStatement).setInt(2, 123);
-
-        assertTrue(result);
+        RequestEntity requestEntity = new RequestEntity();
+        requestEntity.setText(text);
+        requestEntity.setIdAudioMongo(idAudioMongo);
+        assertNotNull(result);
+        assertSame(result.getText(), requestEntity.getText());
+        assertSame(result.getIdAudioMongo(), requestEntity.getIdAudioMongo());
     }
 }
