@@ -7,7 +7,7 @@ import com.theokanning.openai.service.OpenAiService;
 import java.util.*;
 
 public class OpenAIClient {
-    private final String TOKEN = "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";
+    private final String TOKEN = "PUT_YOUR_TOKEN_HERE";
 
     public static void main(String[] args) {
         OpenAIClient openAIClient = new OpenAIClient();
