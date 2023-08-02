@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface RecordingService {
 
-    Recording getRecording(Long idRecording);
+    Recording getRecording(String idRecording);
 
-    boolean deleteRecording(Long idRecording);
+    boolean deleteRecording(String idRecording);
 
     List<Recording> getAllRecordings();
 

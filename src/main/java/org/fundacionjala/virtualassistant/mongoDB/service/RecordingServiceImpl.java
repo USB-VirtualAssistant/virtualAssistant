@@ -15,12 +15,12 @@ public class RecordingServiceImpl implements RecordingService{
     RecordingRepo recordingRepo;
 
     @Override
-    public Recording getRecording(Long idRecording) {
+    public Recording getRecording(String idRecording) {
         return recordingRepo.getRecording(idRecording);
     }
 
     @Override
-    public boolean deleteRecording(Long idRecording) {
+    public boolean deleteRecording(String idRecording) {
         return recordingRepo.deleteRecording(idRecording);
     }
 

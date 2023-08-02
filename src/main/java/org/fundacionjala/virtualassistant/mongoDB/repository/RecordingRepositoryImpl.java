@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.mongoDB.repository;
 
+import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongoDB.model.Recording;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.List;
 
 @Repository
@@ -17,13 +19,14 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     MongoTemplate mongoTemplate;
 
     @Override
-    public Recording getRecording(Long idRecording) {
+    public Recording getRecording(String idRecording) {
         Query query = new Query(Criteria.where("idRecording").is(idRecording));
-        return mongoTemplate.findOne(query, Recording.class);
+        Recording document = mongoTemplate.findOne(query, Recording.class);
+        return document;
     }
 
     @Override
-    public boolean deleteRecording(Long idRecording) {
+    public boolean deleteRecording(String idRecording) {
         Query query = new Query(Criteria.where("idRecording").is(idRecording));
         Recording recordingToDelete = mongoTemplate.findOne(query, Recording.class);
         if (recordingToDelete != null) {
@@ -45,8 +48,20 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     }
 
     @Override
-    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioPath) {
-        Recording recording = new Recording(idUser, idChat, audioPath);
+    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) {
+        Document metadata = generateDocumentRecording(audioFile);
+        Recording recording = new Recording(idUser, idChat, metadata);
         return mongoTemplate.save(recording);
+    }
+
+    private Document generateDocumentRecording (MultipartFile file){
+        try {
+            byte[] audioBytes = file.getBytes();
+            String encodedAudio = Base64.getEncoder().encodeToString(audioBytes);
+            Document audioDocument = new Document("audio", encodedAudio);
+            return audioDocument;
+        } catch (Exception e) {
+            throw new RuntimeException(e + " Exception: Error in generate Document");
+        }
     }
 }

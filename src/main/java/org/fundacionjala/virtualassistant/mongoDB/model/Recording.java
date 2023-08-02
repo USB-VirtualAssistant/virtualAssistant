@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.mongoDB.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -14,10 +13,10 @@ public class Recording {
     private String idRecording;
     private Long idUser;
     private Long idChat;
-    private MultipartFile audioFile;
+    private org.bson.Document audioFile;
 
 
-    public Recording( Long idUser, Long idChat, MultipartFile audioFile) {
+    public Recording( Long idUser, Long idChat, org.bson.Document audioFile) {
         this.idUser = idUser;
         this.idChat = idChat;
         this.audioFile = audioFile;
@@ -35,16 +34,17 @@ public class Recording {
         return idChat;
     }
 
-    public MultipartFile getAudio() {
-        return audioFile;
+    public org.bson.Document getAudio() {
+        return (org.bson.Document) audioFile;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recording recording = (Recording) o;
-        return Objects.equals(idRecording, recording.idRecording) && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) && Objects.equals(audioFile, recording.audioFile);
+        return idRecording == recording.idRecording && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) ;
     }
 
     @Override
