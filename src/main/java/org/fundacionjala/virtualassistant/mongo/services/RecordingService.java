@@ -1,9 +1,12 @@
 package org.fundacionjala.virtualassistant.mongo.services;
 
+import lombok.SneakyThrows;
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
+import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFileException;
 import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
+import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +34,12 @@ public class RecordingService {
     }
 
 
-    public RecordingResponse getRecording(String idRecording) {
+    public RecordingResponse getRecording(String idRecording) throws RecordingException {
         Recording recording = recordingRepo.getRecording(idRecording);
         return convertRecordingToResponse(recording);
     }
 
-    public RecordingResponse getRecordingToUserChat(String idRecording, Long idUser, Long idChat) {
+    public RecordingResponse getRecordingToUserChat(String idRecording, Long idUser, Long idChat) throws RecordingException {
         Recording recording = recordingRepo.getRecordingToUser(idRecording, idUser, idChat);
         return convertRecordingToResponse(recording);
     }
@@ -44,17 +48,17 @@ public class RecordingService {
         return recordingRepo.deleteRecording(idRecording);
     }
 
-    public List<RecordingResponse> getAllRecordingsToUser(Long idUser, Long idChat) {
+    public List<RecordingResponse> getAllRecordingsToUser(Long idUser, Long idChat) throws RecordingException {
         List<Recording> recordings = recordingRepo.getAllRecordingsToUser(idUser,idChat);
         return convertListRecordingsToListResponse(recordings);
     }
 
-    public List<RecordingResponse> getAllRecordings() {
+    public List<RecordingResponse> getAllRecordings() throws RecordingException {
         List<Recording> recordings = recordingRepo.getAllRecordings();
         return  convertListRecordingsToListResponse(recordings);
     }
 
-    public RecordingRequest saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws GeneratedDocumentException {
+    public RecordingRequest saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws RecordingException {
         Recording recording = recordingRepo.saveRecording(idUser,idChat,audioFile);
         return convertRecordingToRequest(recording);
     }
@@ -66,7 +70,7 @@ public class RecordingService {
                 build();
     }
 
-    private RecordingResponse convertRecordingToResponse(Recording recording){
+    private RecordingResponse convertRecordingToResponse(Recording recording) throws RecordingException {
         return RecordingResponse.builder()
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
@@ -75,13 +79,16 @@ public class RecordingService {
                 .build();
     }
 
-    private List<RecordingResponse> convertListRecordingsToListResponse(List<Recording> recordings){
-        return recordings.stream()
-                .map(this::convertRecordingToResponse)
-                .collect(Collectors.toList());
+    private List<RecordingResponse> convertListRecordingsToListResponse(List<Recording> recordings) throws RecordingException {
+        List<RecordingResponse> list = new ArrayList<>();
+        for (Recording recording : recordings) {
+            RecordingResponse recordingResponse = convertRecordingToResponse(recording);
+            list.add(recordingResponse);
+        }
+        return list;
     }
 
-    private File convertDocumentToFile(Document document, String outputPath){
+    private File convertDocumentToFile(Document document, String outputPath) throws ConvertedDocumentToFileException {
         try {
             String encodedAudio = document.getString("audio");
             byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
@@ -90,10 +97,8 @@ public class RecordingService {
             fos.write(audioBytes);
             fos.close();
             return outputFile;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ConvertedDocumentToFileException(e.getMessage());
         }
     }
 }
