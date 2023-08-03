@@ -1,9 +1,10 @@
 package org.fundacionjala.virtualassistant.services.mongo;
 
 import org.bson.Document;
-import org.fundacionjala.virtualassistant.models.mongo.Recording;
-import org.fundacionjala.virtualassistant.repository.mongo.RecordingRepo;
-import org.fundacionjala.virtualassistant.repository.mongo.RecordingRepositoryImpl;
+import org.fundacionjala.virtualassistant.mongo.models.Recording;
+import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
+import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepositoryImpl;
+import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
