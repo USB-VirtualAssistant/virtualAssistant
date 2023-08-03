@@ -2,10 +2,8 @@ version: '3.8'
 services:
   db:
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+    env_file:
+      - ./.env-postgres
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
@@ -19,17 +17,17 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 9000:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=assistant@example.com
-      - PGADMIN_DEFAULT_PASSWORD=password
-
+    env_file:
+      - ./.env-postgres-admin
   flyway:
     image: flyway/flyway:7.15.0
     depends_on:
       - db
     volumes:
       - ./sql:/flyway/sql
-    command: -url=jdbc:postgresql://db/mydb -user=postgres -password=password migrate
+    command: -url=jdbc:postgresql://db/mydb migrate
+    env_file:
+      - ./.env-flyway
   mongo:
     container_name: mongo_db
     image: mongo
@@ -38,9 +36,9 @@ services:
       - mongo_data:/data/db
     ports:
       - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: VirtualAssistant60089
-      MONGO_INITDB_ROOT_PASSWORD: rGYwVKko8ihLmyaC
+    env_file:
+      - ./.env-mongo
+
 volumes:
   db-data:
   mongo_data:
