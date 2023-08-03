@@ -55,7 +55,7 @@ public class RecordingService {
         try {
             String encodedAudio = document.getString("audio");
             byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
-            File outputFile = new File("audio.wav");
+            File outputFile = new File(outputPath);
             FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(audioBytes);
             fos.close();
