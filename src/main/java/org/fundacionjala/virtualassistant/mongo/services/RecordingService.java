@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 
 @Service
 public class RecordingService {
@@ -46,7 +51,19 @@ public class RecordingService {
         return recordingRepo.saveRecording(idUser,idChat,audioFile);
     }
 
-    public File convertDocumentToFile(Document doc){
-        return null;
+    private File convertDocumentToFile(Document document, String outputPath){
+        try {
+            String encodedAudio = document.getString("audio");
+            byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
+            File outputFile = new File("audio.wav");
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            fos.write(audioBytes);
+            fos.close();
+            return outputFile;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
