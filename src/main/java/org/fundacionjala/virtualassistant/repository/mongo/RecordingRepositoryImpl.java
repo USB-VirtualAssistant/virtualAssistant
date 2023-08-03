@@ -10,32 +10,33 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RecordingRepositoryImpl implements RecordingRepo {
 
-    @Autowired
     MongoTemplate mongoTemplate;
+    private static final String AUDIO_FIELD_NAME = "audio";
 
     @Override
     public Recording getRecording(String idRecording) {
-        Query query = new Query(Criteria.where("idRecording").is(idRecording));
-        Recording document = mongoTemplate.findOne(query, Recording.class);
-        return document;
+        Query query = generateQueryCriteria(idRecording);
+        return mongoTemplate.findOne(query, Recording.class);
     }
 
     @Override
     public boolean deleteRecording(String idRecording) {
-        Query query = new Query(Criteria.where("idRecording").is(idRecording));
+        Query query = generateQueryCriteria(idRecording);
         Recording recordingToDelete = mongoTemplate.findOne(query, Recording.class);
-        if (recordingToDelete != null) {
+        Optional.ofNullable(recordingToDelete).ifPresent(recording -> {
             mongoTemplate.remove(query, Recording.class);
-            return true;
-        }
-        return false;
+        });
+        return recordingToDelete != null;
     }
+
 
     @Override
     public List<Recording> getAllRecordingsToUser(Long idUser, Long idChat) {
@@ -55,14 +56,17 @@ public class RecordingRepositoryImpl implements RecordingRepo {
         return mongoTemplate.save(recording);
     }
 
-    private Document generateDocumentRecording (MultipartFile file){
+    private Document generateDocumentRecording(MultipartFile file) {
         try {
             byte[] audioBytes = file.getBytes();
             String encodedAudio = Base64.getEncoder().encodeToString(audioBytes);
-            Document audioDocument = new Document("audio", encodedAudio);
-            return audioDocument;
-        } catch (Exception e) {
-            throw new RuntimeException(e + " Exception: Error in generate Document");
+            return new Document(AUDIO_FIELD_NAME, encodedAudio);
+        } catch (IOException e) {
+            throw new RuntimeException("Error in generateDocumentRecording: Unable to read file data.", e);
         }
+    }
+
+    private Query generateQueryCriteria(String idRecording){
+        return new Query(Criteria.where("idRecording").is(idRecording));
     }
 }
