@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.mongo.repository;
 
 import org.bson.Document;
+import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -53,19 +54,19 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     }
 
     @Override
-    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) {
+    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws GeneratedDocumentException {
         Document metadata = generateDocumentRecording(audioFile);
         Recording recording = new Recording(idUser, idChat, metadata);
         return mongoTemplate.save(recording);
     }
 
-    private Document generateDocumentRecording(MultipartFile file) {
+    private Document generateDocumentRecording(MultipartFile file) throws GeneratedDocumentException {
         try {
             byte[] audioBytes = file.getBytes();
             String encodedAudio = Base64.getEncoder().encodeToString(audioBytes);
             return new Document(AUDIO_FIELD_NAME, encodedAudio);
         } catch (IOException e) {
-            throw new RuntimeException("Error in generateDocumentRecording: Unable to read file data.", e);
+            throw new GeneratedDocumentException(e.getMessage());
         }
     }
 
