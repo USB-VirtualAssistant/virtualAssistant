@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/recordings")
@@ -26,21 +28,23 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/{id}")
-    public ResponseEntity<Recording> getRecordingID(@PathVariable String id) {
-        Recording recording = recordingService.getRecording(id);
-        if (recording != null) {
-            return new ResponseEntity<>(recording, HttpStatus.OK);
+    public ResponseEntity<Recording> getRecordingID(@PathVariable("id") String id) {
+        Optional<Recording> recording = Optional.ofNullable(recordingService.getRecording(id));
+        if (recording.isPresent()){
+            return new ResponseEntity<>(recording.get(),HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/{id}/chat/{idChat}")
-    public ResponseEntity<List<Recording>> getRecordingsUser(@RequestParam() Long idUser, @RequestParam() Long idChat) {
+    @Autowired
+    private HttpServletRequest request;
+    @GetMapping("/audio/{id}?userId={idUser}&sessionId={idChat}")
+    public ResponseEntity<List<Recording>> getRecordingsUser(@PathVariable("id") String audioId,@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat) {
         List<Recording> recordings = recordingService.getAllRecordingsToUser(idUser, idChat);
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public ResponseEntity<Recording> saveRecording(@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat, @RequestParam("file") MultipartFile file) {
         Recording savedRecording = recordingService.saveRecording(idUser, idChat, file);
         return new ResponseEntity<>(savedRecording, HttpStatus.CREATED);
