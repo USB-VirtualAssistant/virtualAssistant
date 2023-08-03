@@ -6,14 +6,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
 
 public class SpeechControllerTest {
 
     private SpeechController speechController;
     private SpeechService speechService;
     private MultipartFile multipartFile;
+    private static final String PATH_AUDIO = "audio.wav";
 
     @BeforeEach
     void setUp() {
@@ -24,14 +28,13 @@ public class SpeechControllerTest {
 
     @Test
     void uploadAudio_NonEmptyFile_OkStatus() {
-        String fileName = "audio.mp3";
         when(multipartFile.isEmpty()).thenReturn(false);
-        when(multipartFile.getOriginalFilename()).thenReturn(fileName);
+        when(multipartFile.getOriginalFilename()).thenReturn(PATH_AUDIO);
 
         HttpStatus response = speechController.uploadAudio(multipartFile);
 
         assertEquals(HttpStatus.OK, response);
-        verify(speechService).sendRecord(fileName);
+        verify(speechService).sendRecord(PATH_AUDIO);
     }
 
     @Test
