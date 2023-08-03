@@ -1,9 +1,7 @@
-package org.fundacionjala.virtualassistant.repository.mongo;
+package org.fundacionjala.virtualassistant.mongo.repository;
 
 import org.bson.Document;
-import org.fundacionjala.virtualassistant.models.mongo.Recording;
-import org.fundacionjala.virtualassistant.repository.mongo.RecordingRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,9 +20,26 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     private static final String AUDIO_FIELD_NAME = "audio";
 
     @Override
+    public List<Recording> getAllRecordings() {
+        return mongoTemplate.findAll(Recording.class);
+    }
+
+    @Override
     public Recording getRecording(String idRecording) {
         Query query = generateQueryCriteria(idRecording);
         return mongoTemplate.findOne(query, Recording.class);
+    }
+
+    @Override
+    public Recording getRecordingToUser(String idRecording, Long idUser, Long idChat) {
+        Query query = new Query(Criteria.where("idUser").is(idUser).and("idChat").is(idChat).and("idRecording").is(idRecording));
+        return mongoTemplate.findOne(query, Recording.class);
+    }
+
+    @Override
+    public List<Recording> getAllRecordingsToUser(Long idUser, Long idChat) {
+        Query query = new Query(Criteria.where("idUser").is(idUser).and("idChat").is(idChat));
+        return mongoTemplate.find(query, Recording.class);
     }
 
     @Override
@@ -35,18 +50,6 @@ public class RecordingRepositoryImpl implements RecordingRepo {
             mongoTemplate.remove(query, Recording.class);
         });
         return recordingToDelete != null;
-    }
-
-
-    @Override
-    public List<Recording> getAllRecordingsToUser(Long idUser, Long idChat) {
-        Query query = new Query(Criteria.where("idUser").is(idUser).and("idChat").is(idChat));
-        return mongoTemplate.find(query, Recording.class);
-    }
-
-    @Override
-    public List<Recording> getAllRecordings() {
-        return mongoTemplate.findAll(Recording.class);
     }
 
     @Override
