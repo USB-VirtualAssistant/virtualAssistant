@@ -2,7 +2,6 @@ package org.fundacionjala.virtualassistant.player.spotify.service;
 
 import org.fundacionjala.virtualassistant.player.spotify.client.MusicClient;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
-import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
 import org.fundacionjala.virtualassistant.player.spotify.utils.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

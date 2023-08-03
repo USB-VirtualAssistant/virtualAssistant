@@ -2,10 +2,8 @@ package org.fundacionjala.virtualassistant.player.spotify.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fundacionjala.virtualassistant.player.spotify.exceptions.ErrorMsg;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.MusicPlayerException;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
-
 import java.io.IOException;
 
 public class JsonNodeManagement {
@@ -25,6 +23,7 @@ public class JsonNodeManagement {
     private final static String URI = "uri";
     private final static String NEW_LINE = "\n";
     private final static String DATA_PLAYER_PROCESSING = "Error processing player data";
+    private final static String NO_TRACK_PLAYING = "No track is currently playing.";
     private final ObjectMapper objectMapper;
 
     public JsonNodeManagement (ObjectMapper objectMapper) {
@@ -42,7 +41,7 @@ public class JsonNodeManagement {
             if (TRACK.equals(playbackType)) {
                 JsonNode trackNode = root.path(FIELD_ITEM);
                 if (trackNode.isMissingNode()) {
-                    throw new MusicPlayerException(ErrorMsg.NO_TRACK_PLAYING.getMessage());
+                    throw new MusicPlayerException(NO_TRACK_PLAYING);
                 }
 
                 String artistName = trackNode.path(FIELD_ARTISTS).get(0).path(FIELD_NAME).asText();
