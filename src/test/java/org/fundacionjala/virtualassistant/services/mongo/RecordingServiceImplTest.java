@@ -24,7 +24,7 @@ class RecordingServiceImplTest {
   @BeforeEach
   void setUp() {
     recordingRepo = mock(RecordingRepositoryImpl.class);
-    service = new RecordingServiceImpl(recordingRepo);
+    service = new RecordingService(recordingRepo);
   }
 
   @Test
