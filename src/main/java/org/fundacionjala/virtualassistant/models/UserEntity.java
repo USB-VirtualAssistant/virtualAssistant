@@ -16,7 +16,7 @@ import javax.persistence.GenerationType;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idUser;
+    private Long idUser;
 
     @Column(name = "google_id")
     private String googleID;
