@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.services.mongo;
 
 import org.bson.Document;
+import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepositoryImpl;
@@ -29,7 +30,7 @@ class RecordingServiceImplTest {
   }
 
   @Test
-  void saveRecordingInDB() {
+  void saveRecordingInDB() throws GeneratedDocumentException {
     long idUser = 12L;
     long idChat = 13L;
     var mockFile = new MockMultipartFile("test", new byte[10]);
