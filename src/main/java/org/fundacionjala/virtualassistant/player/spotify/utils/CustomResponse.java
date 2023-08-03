@@ -22,4 +22,6 @@ public class CustomResponse {
     public static ResponseEntity<String> success(String message) {
         return ResponseEntity.ok(message);
     }
+
+
 }

@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.player.spotify.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fundacionjala.virtualassistant.player.spotify.exceptions.ErrorMsg;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.MusicPlayerException;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
 import org.fundacionjala.virtualassistant.player.spotify.utils.ApiMusic;
@@ -18,12 +17,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.IOException;
-
 @Component
 public class SpotifyClient implements MusicClient {
     private final static String SCOPE_USER = "user-library-read";
+
     private final static String ACCESS_TOKEN = "access_token";
+
+    private final static String FAILED_REQUEST_API = "Failed to make request to Music API";
+
+    private final static String ACCESS_TOKEN_JSON = "Failed to process Access token in response JSON";
+
     @Value("${spotify.client.id}")
     private String clientId;
 
@@ -34,8 +37,11 @@ public class SpotifyClient implements MusicClient {
     private String redirectUri;
 
     private String accessToken;
+
     private final CustomRequest request;
+
     private final ObjectMapper objectMapper;
+
     private final JsonNodeManagement managementJN;
 
     public SpotifyClient() {
@@ -59,7 +65,7 @@ public class SpotifyClient implements MusicClient {
 
             return response.getStatusCode() == HttpStatus.NO_CONTENT;
         } catch (Exception e) {
-            throw new MusicPlayerException(ErrorMsg.FAILED_REQUEST_API.getMessage(),e);
+            throw new MusicPlayerException(FAILED_REQUEST_API,e);
         }
     }
 
@@ -103,7 +109,7 @@ public class SpotifyClient implements MusicClient {
             JsonNode root = objectMapper.readTree(response.getBody());
             return root.path(ACCESS_TOKEN).asText();
         } catch (JsonProcessingException e) {
-            throw new TokenExtractionException(ErrorMsg.ACCESS_TOKEN_JSON.getMessage(), e);
+            throw new TokenExtractionException(ACCESS_TOKEN_JSON, e);
         }
     }
 
