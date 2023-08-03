@@ -1,6 +1,6 @@
-package org.fundacionjala.virtualassistant.repository.mongo;
+package org.fundacionjala.virtualassistant.mongo.repository;
 
-import org.fundacionjala.virtualassistant.models.mongo.Recording;
+import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,4 +17,5 @@ public interface RecordingRepo {
 
     Recording saveRecording(Long idUser, Long idChat, MultipartFile audioPath);
 
+    Recording getRecordingToUser(String idRecording, Long idUser, Long idChat);
 }
