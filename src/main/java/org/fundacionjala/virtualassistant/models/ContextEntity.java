@@ -1,6 +1,11 @@
 package org.fundacionjala.virtualassistant.models;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "context")
@@ -17,30 +22,6 @@ public class ContextEntity {
 
     public ContextEntity(String title, long idUser) {
         this.title = title;
-        this.idUser = idUser;
-    }
-
-    public long getIdContext() {
-        return idContext;
-    }
-
-    public void setIdContext(long idContext) {
-        this.idContext = idContext;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(long idUser) {
         this.idUser = idUser;
     }
 }
