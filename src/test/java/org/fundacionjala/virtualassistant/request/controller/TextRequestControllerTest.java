@@ -1,5 +1,6 @@
-package org.fundacionjala.virtualassistant.controller;
+package org.fundacionjala.virtualassistant.request.controller;
 
+import org.fundacionjala.virtualassistant.controller.TextRequestController;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
