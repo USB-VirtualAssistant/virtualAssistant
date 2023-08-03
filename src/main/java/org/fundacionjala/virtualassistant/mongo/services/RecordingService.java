@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.mongo.services;
 
 import org.bson.Document;
+import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class RecordingService {
         return recordingRepo.getAllRecordings();
     }
 
-    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) {
+    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws GeneratedDocumentException {
         return recordingRepo.saveRecording(idUser,idChat,audioFile);
     }
 
