@@ -2,11 +2,11 @@ package org.fundacionjala.virtualassistant.player.spotify.service;
 
 import org.fundacionjala.virtualassistant.player.spotify.client.MusicClient;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
+import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
+import org.fundacionjala.virtualassistant.player.spotify.utils.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class MusicService {
