@@ -1,9 +1,12 @@
 package org.fundacionjala.virtualassistant.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Data
 @Table(name = "request")
 public class RequestEntity {
   @Id
@@ -19,40 +22,9 @@ public class RequestEntity {
   @Column(name = "id_audio_mongo")
   private long idAudioMongo;
 
-  public RequestEntity() {
-  }
-
   public RequestEntity(String text, Date date, long idAudioMongo) {
     this.text = text;
     this.date = date;
     this.idAudioMongo = idAudioMongo;
-  }
-
-  public long getIdRequest() {
-    return idRequest;
-  }
-
-  public long getIdUser() {
-    return idUser;
-  }
-
-  public long getIdAudioMongo() {
-    return idAudioMongo;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
   }
 }
