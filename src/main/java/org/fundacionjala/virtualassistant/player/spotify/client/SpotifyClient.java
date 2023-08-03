@@ -27,19 +27,15 @@ public class SpotifyClient implements MusicClient {
     @Override
     public boolean playSongOnDevice(String trackUri) {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + accessToken);
+            HttpHeaders headers = CustomRequest.createHeader(getAccessToken());
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             String requestBody = "{\"uris\": [\"" + trackUri + "\"]}";
             HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> response = restTemplate.exchange(
-                    "https://api.spotify.com/v1/me/player/play",
-                    HttpMethod.PUT,
+            ResponseEntity<String> response = CustomRequest.exchange(
                     entity,
-                    String.class
+                    "https://api.spotify.com/v1/me/player/play",
+                    HttpMethod.PUT
             );
 
             return response.getStatusCode() == HttpStatus.NO_CONTENT;
@@ -51,10 +47,6 @@ public class SpotifyClient implements MusicClient {
 
     public String getAccessToken() {
         return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
 
     public RedirectView redirectToSpotifyAuthorization() {
@@ -70,7 +62,6 @@ public class SpotifyClient implements MusicClient {
 
     @Override
     public String exchangeAuthCodeForAccessToken(String authorizationCode) {
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(clientId, clientSecret);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -78,11 +69,10 @@ public class SpotifyClient implements MusicClient {
         String requestBody = "grant_type=authorization_code&code=" + authorizationCode +
                 "&redirect_uri=" + redirectUri + "&scope=" + scopes;
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://accounts.spotify.com/api/token",
-                HttpMethod.POST,
+        ResponseEntity<String> response = CustomRequest.exchange(
                 request,
-                String.class
+                "https://accounts.spotify.com/api/token",
+                HttpMethod.POST
         );
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -95,60 +85,94 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public String getSavedAlbums(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/albums",
-                HttpMethod.GET,
-                request,
-                String.class
-        );
-
-        return response.getBody();
+    public String getSavedAlbums() {
+        return exchangeGetRequest("https://api.spotify.com/v1/me/albums");
     }
 
     @Override
-    public String getSavedTracks(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/tracks",
-                HttpMethod.GET,
-                request,
-                String.class
-        );
-
-        return response.getBody();
+    public String getSavedTracks() {
+        return exchangeGetRequest("https://api.spotify.com/v1/me/tracks");
     }
 
     @Override
-    public String getFollowed(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
+    public String getFollowed() {
+        return exchangeGetRequest("https://api.spotify.com/v1/me/following?type=artist");
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
+    @Override
+    public String getPlayerInfo() {
+        return exchangeGetRequest("https://api.spotify.com/v1/me/player");
+    }
 
-        HttpEntity<String> request = new HttpEntity<>(headers);
+    private String exchangeGetRequest(String url){
+        return CustomRequest.exchange(
+                getAccessToken(),
+                url,
+                HttpMethod.GET).getBody();
+    }
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/following?type=artist",
-                HttpMethod.GET,
-                request,
-                String.class
+    @Override
+    public boolean playCurrentSong() {
+        HttpHeaders headers = CustomRequest.createHeader(getAccessToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpStatus response = CustomRequest.exchange(
+                headers,
+                "https://api.spotify.com/v1/me/player/play",
+                HttpMethod.PUT
+        ).getStatusCode();
+        return response.equals(HttpStatus.OK);
+    }
+    public boolean playNextTrackOnDevice() {
+        HttpStatus response = CustomRequest.exchange(
+                getAccessToken(),
+                "https://api.spotify.com/v1/me/player/next",
+                HttpMethod.POST
+        ).getStatusCode();
+
+        return response.equals(HttpStatus.NO_CONTENT);
+    }
+
+    public boolean playPreviousTrackOnDevice() {
+        HttpStatus response = CustomRequest.exchange(
+                getAccessToken(),
+                "https://api.spotify.com/v1/me/player/previous",
+                HttpMethod.POST
+        ).getStatusCode();
+
+        return response.equals(HttpStatus.NO_CONTENT);
+    }
+
+    public boolean pauseSongOnDevice(String trackUri) {
+        HttpHeaders headers = CustomRequest.createHeader(getAccessToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String requestBody = "{\"uris\": [\"" + trackUri + "\"]}";
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        HttpStatus response = CustomRequest.exchange(
+                entity,
+                "https://api.spotify.com/v1/me/player/pause",
+                HttpMethod.PUT
+        ).getStatusCode();
+        return response.equals(HttpStatus.OK);
+    }
+
+    public String searchTrackByArtistAndTrack(String artist, String track) {
+
+        String searchQuery = "https://api.spotify.com/v1/search?q=" + artist + " " + track + "&type=track&limit=1";
+
+        ResponseEntity<String> response = CustomRequest.exchange(
+                getAccessToken(),
+                searchQuery,
+                HttpMethod.GET
         );
 
-        return response.getBody();
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseData = response.getBody();
+            return extractTrackUriFromSearchResponse(responseData);
+        }
+        return null;
     }
 
     public String extractCurrentTrackUri(String playerData) {
@@ -168,25 +192,6 @@ public class SpotifyClient implements MusicClient {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Override
-    public String getPlayerInfo(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/player",
-                HttpMethod.GET,
-                request,
-                String.class
-        );
-
-        return response.getBody();
     }
 
     public String extractPlayerData(String playerData) {
@@ -225,122 +230,11 @@ public class SpotifyClient implements MusicClient {
         return result.toString();
     }
 
-    @Override
-    public void playCurrentSong() {
-        RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/player/play",
-                HttpMethod.PUT,
-                entity,
-                String.class
-        );
-    }
-
-    public int extractCurrentTrackPosition(String playerData) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(playerData);
-
-            if (jsonNode.has("progress_ms")) {
-                return jsonNode.get("progress_ms").asInt();
-            }
-
-            return 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    public void pauseSongOnDevice(String trackUri) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String requestBody = "{\"uris\": [\"" + trackUri + "\"]}";
-        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/player/pause",
-                HttpMethod.PUT,
-                entity,
-                String.class
-        );
-    }
-
-    public boolean playNextTrackOnDevice() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/player/next",
-                HttpMethod.POST,
-                entity,
-                String.class
-        );
-
-        return response.getStatusCode() == HttpStatus.NO_CONTENT;
-    }
-
-    public boolean playPreviousTrackOnDevice() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://api.spotify.com/v1/me/player/previous",
-                HttpMethod.POST,
-                entity,
-                String.class
-        );
-
-        return response.getStatusCode() == HttpStatus.NO_CONTENT;
-    }
 
     @Override
     public void logout() {
         accessToken = null;
-    }
-
-    public String searchTrackByArtistAndTrack(String artist, String track) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        String searchQuery = "https://api.spotify.com/v1/search?q=" + artist + " " + track + "&type=track&limit=1";
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                searchQuery,
-                HttpMethod.GET,
-                entity,
-                String.class
-        );
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            String responseData = response.getBody();
-            return extractTrackUriFromSearchResponse(responseData);
-        }
-
-        return null;
     }
 
     private String extractTrackUriFromSearchResponse(String responseData) {
@@ -360,5 +254,11 @@ public class SpotifyClient implements MusicClient {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public boolean isNotAuthorized(){
+        String token = getAccessToken();
+        return token == null || token.trim().isEmpty();
     }
 }

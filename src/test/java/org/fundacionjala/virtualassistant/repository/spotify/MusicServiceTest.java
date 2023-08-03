@@ -17,7 +17,7 @@ public class MusicServiceTest {
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
 
         String realAlbumData = "{\"items\": [{\"album\": {\"name\": \"Album 1\"}}, {\"album\": {\"name\": \"Album 2\"}}]}";
-        when(spotifyClient.getSavedAlbums("dummyAccessToken")).thenReturn(realAlbumData);
+        when(spotifyClient.getSavedAlbums()).thenReturn(realAlbumData);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -29,7 +29,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserSavedAlbums_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -44,7 +44,7 @@ public class MusicServiceTest {
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
 
         String realTracksData = "{\"items\": [{\"track\": {\"name\": \"Track 1\"}}, {\"track\": {\"name\": \"Track 2\"}}]}";
-        when(spotifyClient.getSavedTracks("dummyAccessToken")).thenReturn(realTracksData);
+        when(spotifyClient.getSavedTracks()).thenReturn(realTracksData);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -56,7 +56,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserSavedTracks_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -81,7 +81,7 @@ public class MusicServiceTest {
     @Test
     public void testPlayPreviousTrack_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -107,7 +107,7 @@ public class MusicServiceTest {
     @Test
     public void testPlayCurrentTrack_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -124,7 +124,7 @@ public class MusicServiceTest {
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
 
         String realFollowingData = "Radiohead, Gustavo Cerati, Arctic Monkeys";
-        when(spotifyClient.getFollowed("dummyAccessToken")).thenReturn(realFollowingData);
+        when(spotifyClient.getFollowed()).thenReturn(realFollowingData);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -136,7 +136,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserSavedFollowing_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -151,7 +151,7 @@ public class MusicServiceTest {
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
 
         String realPlayerData = "{\"device\": {\"name\": \"Device 1\"}, \"is_playing\": true, \"item\": {\"name\": \"Song 1\"}}";
-        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn(realPlayerData);
+        when(spotifyClient.getPlayerInfo()).thenReturn(realPlayerData);
 
         String simplifiedPlayerData = "{\"device\": \"Device 1\", \"is_playing\": true, \"current_track\": \"Song 1\"}";
         when(spotifyClient.extractPlayerData(realPlayerData)).thenReturn(simplifiedPlayerData);
@@ -166,7 +166,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserPlayerInformation_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -179,7 +179,7 @@ public class MusicServiceTest {
     public void testPauseCurrentTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
-        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn("playerData");
+        when(spotifyClient.getPlayerInfo()).thenReturn("playerData");
         when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn("currentTrackUri");
 
         MusicService musicService = new MusicService(spotifyClient);
@@ -194,7 +194,7 @@ public class MusicServiceTest {
     public void testPauseCurrentTrack_NoTrackPlaying() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
         when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
-        when(spotifyClient.getPlayerInfo("dummyAccessToken")).thenReturn("playerData");
+        when(spotifyClient.getPlayerInfo()).thenReturn("playerData");
         when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn(null);
 
         MusicService musicService = new MusicService(spotifyClient);
@@ -222,7 +222,7 @@ public class MusicServiceTest {
     @Test
     public void testPlayNextTrack_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -256,7 +256,7 @@ public class MusicServiceTest {
     @Test
     public void testPlaySongByArtistAndTrack_Unauthorized() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn(null);
+        when(spotifyClient.isNotAuthorized()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
