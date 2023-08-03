@@ -1,15 +1,12 @@
 package org.fundacionjala.virtualassistant.openai;
 
-
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionResult;
 import com.theokanning.openai.service.OpenAiService;
 import org.fundacionjala.virtualassistant.clients.openai.OpenAIClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +24,6 @@ class OpenAIClientTest {
         client = new OpenAIClient(service);
     }
 
-
     @Test
     public void chat() {
         CompletionChoice choice = new CompletionChoice();
@@ -41,6 +37,4 @@ class OpenAIClientTest {
         assertNotNull(result, "Chat result is not null");
         assertFalse(result.isEmpty(), "result is not empty");
     }
-
-
 }
