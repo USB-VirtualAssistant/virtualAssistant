@@ -1,8 +1,5 @@
 package org.fundacionjala.virtualassistant.player.spotify.client;
 
-import org.fundacionjala.virtualassistant.player.spotify.exceptions.MusicPlayerException;
-import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
-
 public interface MusicClient {
 
     String getSavedAlbums();
@@ -15,13 +12,20 @@ public interface MusicClient {
 
     boolean playCurrentSong();
 
-    boolean playSongOnDevice(String trackUri) throws MusicPlayerException;
     boolean playPreviousTrackOnDevice();
+
     boolean isNotAuthorized();
+
     boolean pauseSongOnDevice(String trackUri);
+
     String extractCurrentTrackUri(String playerData);
+
     String extractPlayerData(String playerData) ;
+
     String searchTrackByArtistAndTrack(String artist, String track);
+
+    boolean playSongOnDevice(String trackUri);
+
     boolean playNextTrackOnDevice();
 
     void logout();

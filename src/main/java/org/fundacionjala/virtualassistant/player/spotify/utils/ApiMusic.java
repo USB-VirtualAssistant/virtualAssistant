@@ -11,8 +11,8 @@ public enum ApiMusic {
     PAUSE("me/player/pause"),
     SEARCH("search"),
     REDIRECT_AUTHORIZATION_PAGE("https://accounts.spotify.com/authorize"),
-    TOKEN("https://accounts.spotify.com/api/token")
-    ;
+    TOKEN("https://accounts.spotify.com/api/token");
+
     private static final String BASE_URL = "https://api.spotify.com/v1/";
     private final String path;
 
