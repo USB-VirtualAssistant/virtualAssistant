@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.player.spotify.service;
 
+import org.fundacionjala.virtualassistant.player.spotify.client.MusicClient;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Service
 public class MusicService {
 
-    private final SpotifyClient spotifyClient;
+    private final MusicClient spotifyClient;
 
     @Autowired
     public MusicService(SpotifyClient spotifyClient) {
@@ -18,69 +19,59 @@ public class MusicService {
     }
 
     public ResponseEntity<String> getUserSavedAlbums() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
-        String savedAlbums = spotifyClient.getSavedAlbums(spotifyClient.getAccessToken());
-
+        String savedAlbums = spotifyClient.getSavedAlbums();
         return ResponseEntity.ok(savedAlbums);
     }
 
     public ResponseEntity<String> getUserSavedTracks() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
-        String tracksData = spotifyClient.getSavedTracks(spotifyClient.getAccessToken());
-
+        String tracksData = spotifyClient.getSavedTracks();
         return ResponseEntity.ok(tracksData);
     }
 
     public ResponseEntity<String> getUserFollowingArtists() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
-        String followingData = spotifyClient.getFollowed(spotifyClient.getAccessToken());
-
+        String followingData = spotifyClient.getFollowed();
         return ResponseEntity.ok(followingData);
     }
 
     public ResponseEntity<String> getUserPlayerInformation() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
-        String playerData = spotifyClient.getPlayerInfo(spotifyClient.getAccessToken());
-
+        String playerData = spotifyClient.getPlayerInfo();
         String simplifiedData = spotifyClient.extractPlayerData(playerData);
 
         return ResponseEntity.ok(simplifiedData);
     }
 
-    public ResponseEntity<String> playSong(String trackUri) {
-        return null;
-    }
-
     public ResponseEntity<String> playCurrentTrack() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
         spotifyClient.playCurrentSong();
-
         return ResponseEntity.ok("Playback has been resumed.");
     }
 
 
     public ResponseEntity<String> pauseCurrentTrack() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
-        String playerData = spotifyClient.getPlayerInfo(spotifyClient.getAccessToken());
-
+        String playerData = spotifyClient.getPlayerInfo();
         String currentTrackUri = spotifyClient.extractCurrentTrackUri(playerData);
 
         if (currentTrackUri == null) {
@@ -88,7 +79,6 @@ public class MusicService {
         }
 
         spotifyClient.pauseSongOnDevice(currentTrackUri);
-
         return ResponseEntity.ok("Current track has been paused.");
 
     }
@@ -98,10 +88,9 @@ public class MusicService {
     }
 
     public ResponseEntity<String> playNextTrack() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
-
         boolean success = spotifyClient.playNextTrackOnDevice();
 
         if (success) {
@@ -112,12 +101,11 @@ public class MusicService {
     }
 
     public ResponseEntity<String> playPreviousTrack() {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
         boolean success = spotifyClient.playPreviousTrackOnDevice();
-
         if (success) {
             return ResponseEntity.ok("Playing previous track.");
         } else {
@@ -126,8 +114,8 @@ public class MusicService {
     }
 
     public ResponseEntity<String> playSongByArtistAndTrack(String artist, String track) {
-        if (spotifyClient.getAccessToken() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access token not available.");
+        if (spotifyClient.isNotAuthorized()) {
+            return CustomResponse.notAccessTokenResponse();
         }
 
         String trackUri = spotifyClient.searchTrackByArtistAndTrack(artist, track);
