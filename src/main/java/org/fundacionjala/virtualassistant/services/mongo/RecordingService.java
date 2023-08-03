@@ -1,21 +1,45 @@
 package org.fundacionjala.virtualassistant.services.mongo;
 
 import org.fundacionjala.virtualassistant.models.mongo.Recording;
+import org.fundacionjala.virtualassistant.repository.mongo.RecordingRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Service
+public class RecordingService {
 
-public interface RecordingService {
+    @Autowired
+    RecordingRepo recordingRepo;
 
-    Recording getRecording(String idRecording);
+    public RecordingService(RecordingRepo recordingRepo) {
+        this.recordingRepo = recordingRepo;
+    }
 
-    boolean deleteRecording(String idRecording);
 
-    List<Recording> getAllRecordings();
+    public Recording getRecording(String idRecording) {
+        return recordingRepo.getRecording(idRecording);
+    }
 
-    List<Recording> getAllRecordingsToUser(Long idUser, Long idChat);
 
-    Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile);
+    public boolean deleteRecording(String idRecording) {
+        return recordingRepo.deleteRecording(idRecording);
+    }
 
+
+    public List<Recording> getAllRecordingsToUser(Long idUser, Long idChat) {
+        return recordingRepo.getAllRecordingsToUser(idUser,idChat);
+    }
+
+
+    public List<Recording> getAllRecordings() {
+        return recordingRepo.getAllRecordings();
+    }
+
+
+    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) {
+        return recordingRepo.saveRecording(idUser,idChat,audioFile);
+    }
 }
