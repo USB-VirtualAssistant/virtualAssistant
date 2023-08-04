@@ -1,13 +1,13 @@
 package org.fundacionjala.virtualassistant.clients.openai;
 
-import com.theokanning.openai.completion.CompletionChoice;
-import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.completion.*;
 import com.theokanning.openai.service.OpenAiService;
 
-import java.util.*;
+import io.github.cdimascio.dotenv.Dotenv;
 
-public class OpenAIClient {
-    private static final String TOKEN = "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";
+public class OpenAIClient implements AIClientInterface {
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String TOKEN = dotenv.get("TOKEN_AICLIENTE");
     public static final String MODEL = "text-davinci-003";
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
@@ -18,6 +18,7 @@ public class OpenAIClient {
         this.service = service;
     }
 
+    @Override
     public String chat(String request) {
         OpenAiService service = new OpenAiService(TOKEN);
         CompletionRequest completionRequest = CompletionRequest.builder()
@@ -33,6 +34,7 @@ public class OpenAIClient {
         return removePatternFromStart(answerBuilder, completionRequest.getPrompt());
     }
 
+    @Override
     public String removePatternFromStart(StringBuilder input, String toRemovePattern) {
         int patternFinishIndex = toRemovePattern.length();
         return input.substring(patternFinishIndex).trim();
