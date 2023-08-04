@@ -1,12 +1,12 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
-import lombok.AllArgsConstructor;
-import org.fundacionjala.virtualassistant.models.RequestEntity;
-import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
-import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
-import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
-import org.springframework.stereotype.Service;
+        import lombok.AllArgsConstructor;
+        import org.fundacionjala.virtualassistant.models.RequestEntity;
+        import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+        import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
+        import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
+        import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
+        import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +26,8 @@ public class TextRequestService {
 
 
         return TextRequestResponse.builder()
+                .idUser(savedRequestEntity.getIdUser())
+                .text(savedRequestEntity.getText())
                 .build();
     }
 
