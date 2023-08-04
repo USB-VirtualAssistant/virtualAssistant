@@ -6,4 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class TextRequestResponse {
+  Long idUser;
+  String text;
 }
