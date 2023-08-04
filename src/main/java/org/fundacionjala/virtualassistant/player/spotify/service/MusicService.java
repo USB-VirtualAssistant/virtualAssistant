@@ -11,6 +11,16 @@ import org.springframework.stereotype.Service;
 public class MusicService {
 
     private final MusicClient spotifyClient;
+    private final static String PLAYING_NEXT = "Playing next track.";
+    private final static String FAILED_NEXT = "Failed to play next track.";
+    private final static String PLAYING_PREVIOUS = "Playing previous track.";
+    private final static String FAILED_PREVIOUS = "Failed to play previous track.";
+    private final static String SONG_NOT_FOUND = "Song not found.";
+    private final static String PLAYING_SONG = "Playing song by ";
+    private final static String FAILED_SONG = "Failed to play the song.";
+    private final static String PLAYBACK_RESUMED = "Playback has been resumed.";
+    private final static String BAD_REQUEST = "No track is currently playing.";
+    private final static String TRACK_PAUSED = "Current track has been paused.";
 
     @Autowired
     public MusicService(SpotifyClient spotifyClient) {
@@ -61,7 +71,7 @@ public class MusicService {
         }
 
         spotifyClient.playCurrentSong();
-        return ResponseEntity.ok("Playback has been resumed.");
+        return ResponseEntity.ok(PLAYBACK_RESUMED);
     }
 
 
@@ -74,11 +84,11 @@ public class MusicService {
         String currentTrackUri = spotifyClient.extractCurrentTrackUri(playerData);
 
         if (currentTrackUri == null) {
-            return ResponseEntity.badRequest().body("No track is currently playing.");
+            return ResponseEntity.badRequest().body(BAD_REQUEST);
         }
 
         spotifyClient.pauseSongOnDevice(currentTrackUri);
-        return ResponseEntity.ok("Current track has been paused.");
+        return ResponseEntity.ok(TRACK_PAUSED);
 
     }
 
@@ -93,9 +103,9 @@ public class MusicService {
         boolean success = spotifyClient.playNextTrackOnDevice();
 
         if (success) {
-            return ResponseEntity.ok("Playing next track.");
+            return ResponseEntity.ok(PLAYING_NEXT);
         } else {
-            return ResponseEntity.badRequest().body("Failed to play next track.");
+            return ResponseEntity.badRequest().body(FAILED_NEXT);
         }
     }
 
@@ -106,9 +116,9 @@ public class MusicService {
 
         boolean success = spotifyClient.playPreviousTrackOnDevice();
         if (success) {
-            return ResponseEntity.ok("Playing previous track.");
+            return ResponseEntity.ok(PLAYING_PREVIOUS);
         } else {
-            return ResponseEntity.badRequest().body("Failed to play previous track.");
+            return ResponseEntity.badRequest().body(FAILED_PREVIOUS);
         }
     }
 
@@ -120,15 +130,17 @@ public class MusicService {
         String trackUri = spotifyClient.searchTrackByArtistAndTrack(artist, track);
 
         if (trackUri == null) {
-            return ResponseEntity.badRequest().body("Song not found.");
+            return ResponseEntity.badRequest().body(SONG_NOT_FOUND);
         }
 
         boolean success = spotifyClient.playSongOnDevice(trackUri);
 
         if (success) {
-            return ResponseEntity.ok("Playing song by " + artist + ": " + track);
+            StringBuilder responseBuilder = new StringBuilder();
+            responseBuilder.append("Playing song by ").append(artist).append(": ").append(track);
+            return ResponseEntity.ok(responseBuilder.toString());
         } else {
-            return ResponseEntity.badRequest().body("Failed to play the song.");
+            return ResponseEntity.badRequest().body(FAILED_SONG);
         }
     }
 }

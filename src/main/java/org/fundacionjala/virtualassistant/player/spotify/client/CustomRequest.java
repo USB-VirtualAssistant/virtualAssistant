@@ -7,9 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class CustomRequest {
+
     private final static String AUTHORIZATION = "Authorization";
     private final static String BEARER = "Bearer ";
-    private final RestTemplate restTemplate = new RestTemplate();
+
+    private final RestTemplate restTemplate;
+
+    public CustomRequest() {
+        restTemplate = new RestTemplate();
+    }
+
     public ResponseEntity<String> exchange(String accessToken, String url, HttpMethod verb){
         HttpEntity<String> entity = new HttpEntity<>(createHeader(accessToken));
         return exchange(entity, url, verb);

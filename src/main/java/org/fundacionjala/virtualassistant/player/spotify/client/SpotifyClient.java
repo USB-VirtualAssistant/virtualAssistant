@@ -198,7 +198,7 @@ public class SpotifyClient implements MusicClient {
                 HttpMethod.GET
         );
 
-        if (response.getStatusCode().equals(HttpStatus.OK)) {
+        if ((HttpStatus.OK).equals(response.getStatusCode())) {
             String responseData = response.getBody();
             return extractTrackUriFromSearchResponse(responseData);
         }
