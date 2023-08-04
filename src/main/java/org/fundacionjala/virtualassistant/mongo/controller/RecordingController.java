@@ -38,16 +38,15 @@ public class RecordingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @Autowired
-    private HttpServletRequest request;
-    @GetMapping("/audio/{id}")
-    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@PathVariable("id") String audioId,@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat) {
+
+    @GetMapping("/audio/")
+    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat) {
         List<RecordingResponse> recordings = recordingService.getAllRecordingsToUser(idUser, idChat);
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<RecordingResponse> saveRecording(@RequestBody RecordingRequest recordingRequest) throws RecordingException {
+    public ResponseEntity<RecordingResponse> saveRecording(@ModelAttribute RecordingRequest recordingRequest) throws RecordingException {
         RecordingResponse savedRecording = recordingService.saveRecording(recordingRequest);
         return new ResponseEntity<>(savedRecording, HttpStatus.CREATED);
     }

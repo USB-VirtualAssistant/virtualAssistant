@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.mongo.repository;
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @Repository
 public class RecordingRepositoryImpl implements RecordingRepo {
 
+    @Autowired
     MongoTemplate mongoTemplate;
     private static final String AUDIO_FIELD_NAME = "audio";
 
