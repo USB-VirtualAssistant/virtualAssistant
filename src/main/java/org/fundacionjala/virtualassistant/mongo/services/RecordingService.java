@@ -12,14 +12,11 @@ import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +27,7 @@ public class RecordingService {
 
     @Autowired
     RecordingRepo recordingRepo;
+    @Autowired
     ProcessorEither<Exception, RecordingResponse> processorEither;
 
     private static final String AUDIO_FIELD_NAME = "audio";
