@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,19 +25,30 @@ public class TextRequestControllerTest {
   @Mock
   private RequestEntityController requestEntityController;
 
+  TextRequestService textRequestService;
+
   @BeforeEach
   public void setUp() {
-    TextRequestService textRequestService = new TextRequestService(requestEntityRepository);
+    textRequestService = new TextRequestService(requestEntityRepository);
   }
 
   @Test
   public void statusShouldBeCreated() throws TextRequestException {
-    TextRequest textRequest = TextRequest.builder().idUser(12343L).build();
+    TextRequest textRequest = TextRequest.builder()
+        .idUser(1234L)
+        .text("some")
+        .build();
+    TextRequestResponse textRequestResponse = TextRequestResponse.builder()
+        .idUser(1234L)
+        .text("some")
+        .build();
 
-    when(requestEntityController.createTextRequest(textRequest)).thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
+    ResponseEntity<TextRequestResponse> expected = new ResponseEntity<>(textRequestResponse, HttpStatus.CREATED);
 
-    ResponseEntity<TextRequestResponse> actualResponseEntity= requestEntityController.createTextRequest(textRequest);
+    when(requestEntityController.createTextRequest(textRequest)).thenReturn(expected);
 
-    Assertions.assertEquals(actualResponseEntity.getStatusCode(), HttpStatus.CREATED);
+    ResponseEntity<TextRequestResponse> actualResponseEntity = requestEntityController.createTextRequest(textRequest);
+
+    assertEquals(actualResponseEntity.getStatusCode(), HttpStatus.CREATED);
   }
 }
