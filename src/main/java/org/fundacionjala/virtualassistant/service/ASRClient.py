@@ -1,20 +1,17 @@
 import os
 import whisper
-from flask import Flask, request
+from fastapi import FastAPI, File, UploadFile
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/record', methods=['POST'])
-def convertToText():
-    if 'audioFile' not in request.files:
+@app.post('/record')
+async def convert_to_text(audio_file: UploadFile = File(...)):
+    if not audio_file:
         return "No audio file found", 400
-    file = request.files['audioFile']
-    file_path = os.path.join('uploads', file.filename)
-    file.save(file_path)
-    model = whisper.load_model("tiny")
-    result = model.transcribe(file_path)
-    os.remove(file_path)
-    return result["text"]
+    
+    with open(audio_file.filename, "wb") as file:
+        file.write(audio_file.file.read())
 
-if __name__ == '__main__':
-    app.run()
+    model = whisper.load_model("tiny")
+    result = model.transcribe(audio_file.filename)
+    return result["text"].strip()
