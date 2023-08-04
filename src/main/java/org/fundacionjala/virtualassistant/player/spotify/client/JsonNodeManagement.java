@@ -24,6 +24,7 @@ public class JsonNodeManagement {
     private final static String NEW_LINE = "\n";
     private final static String DATA_PLAYER_PROCESSING = "Error processing player data";
     private final static String NO_TRACK_PLAYING = "No track is currently playing.";
+    private final static String EMPTY_STRING = "";
     private final ObjectMapper objectMapper;
 
     public JsonNodeManagement (ObjectMapper objectMapper) {
@@ -75,7 +76,7 @@ public class JsonNodeManagement {
         } catch (Exception e) {
             throw new TokenExtractionException(DATA_PLAYER_PROCESSING, e);
         }
-        return "";
+        return EMPTY_STRING;
     }
 
     public String extractCurrentTrackUri(String playerData) throws TokenExtractionException{
@@ -91,6 +92,6 @@ public class JsonNodeManagement {
         } catch (IOException e) {
             throw new TokenExtractionException(DATA_PLAYER_PROCESSING, e);
         }
-        return null;
+        return EMPTY_STRING;
     }
 }
