@@ -25,7 +25,7 @@ class OpenAIClientTest {
     }
 
     @Test
-    public void chatNotNull() {
+    public void chatNotNullOrEmpty() {
         CompletionChoice choice = new CompletionChoice();
         choice.setText("Hello world");
         CompletionResult completion = new CompletionResult();
@@ -33,21 +33,10 @@ class OpenAIClientTest {
         when(service.createCompletion(any())).thenReturn(completion);
         String result = client.chat("Hi");
 
-        assertTrue(isStringNotNull(result), "Chat result should not be null");
+        assertTrue(isStringNotNullOrEmpty(result), "result should not be null or empty");
+    }
+    public boolean isStringNotNullOrEmpty(String input) {
+        return input != null && !input.trim().isEmpty();
     }
 
-    @Test
-    public void chatNotEmpty() {
-        CompletionChoice choice = new CompletionChoice();
-        choice.setText("Hello world");
-        CompletionResult completion = new CompletionResult();
-        completion.setChoices(Collections.singletonList(choice));
-        when(service.createCompletion(any())).thenReturn(completion);
-        String result = client.chat("Hi");
-
-        assertFalse(result.isEmpty(), "Chat result should not be empty");
-    }
-    public boolean isStringNotNull(String input) {
-        return input != null;
-    }
 }
