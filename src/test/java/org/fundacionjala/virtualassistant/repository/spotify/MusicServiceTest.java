@@ -11,6 +11,14 @@ import static org.mockito.Mockito.*;
 
 public class MusicServiceTest {
 
+    public final static String TOKEN_NOT_AVAILABLE = "Access token not available.";
+    public final static String PLAYING_NEXT_TRACK = "Playing next track.";
+    public final static String PLAYING_PREVIOUS_TRACK = "Playing previous track.";
+    public final static String PLAYBACK_RESUMED = "Playback has been resumed.";
+    public final static String CURRENT_TRACK_PAUSED = "Current track has been paused.";
+    public final static String NO_TRACK_PLAYING = "No track is currently playing.";
+
+
     @Test
     public void testGetUserSavedAlbums_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
@@ -35,7 +43,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.getUserSavedAlbums();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -62,7 +70,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.getUserSavedTracks();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -75,7 +83,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playPreviousTrack();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Playing previous track.", response.getBody());
+        assertEquals(PLAYING_PREVIOUS_TRACK, response.getBody());
     }
 
     @Test
@@ -87,7 +95,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playPreviousTrack();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -99,7 +107,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playCurrentTrack();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Playback has been resumed.", response.getBody());
+        assertEquals(PLAYBACK_RESUMED, response.getBody());
 
         verify(spotifyClient, times(1)).playCurrentSong();
     }
@@ -113,7 +121,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playCurrentTrack();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
 
         verify(spotifyClient, never()).playCurrentSong();
     }
@@ -142,7 +150,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.getUserFollowingArtists();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -172,7 +180,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.getUserPlayerInformation();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -185,7 +193,7 @@ public class MusicServiceTest {
         MusicService musicService = new MusicService(spotifyClient);
 
         ResponseEntity<String> response = musicService.pauseCurrentTrack();
-        assertEquals("Current track has been paused.", response.getBody());
+        assertEquals(CURRENT_TRACK_PAUSED, response.getBody());
 
         verify(spotifyClient, times(1)).pauseSongOnDevice("currentTrackUri");
     }
@@ -201,7 +209,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.pauseCurrentTrack();
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("No track is currently playing.", response.getBody());
+        assertEquals(NO_TRACK_PLAYING, response.getBody());
 
         verify(spotifyClient, never()).pauseSongOnDevice(any());
     }
@@ -216,7 +224,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playNextTrack();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Playing next track.", response.getBody());
+        assertEquals(PLAYING_NEXT_TRACK, response.getBody());
     }
 
     @Test
@@ -228,7 +236,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playNextTrack();
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
     }
 
     @Test
@@ -262,7 +270,7 @@ public class MusicServiceTest {
 
         ResponseEntity<String> response = musicService.playSongByArtistAndTrack("Artist Name", "Track Name");
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Access token not available.", response.getBody());
+        assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
 
         verify(spotifyClient, never()).searchTrackByArtistAndTrack(any(), any());
         verify(spotifyClient, never()).playSongOnDevice(any());
