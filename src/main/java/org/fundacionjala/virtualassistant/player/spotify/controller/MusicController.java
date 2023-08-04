@@ -14,6 +14,7 @@ public class MusicController {
 
     private final MusicService musicService;
     private final SpotifyClient spotifyClient;
+    private final static String SUCCESS = "Logged out successfully.";
 
     @Autowired
     public MusicController(MusicService musicService, SpotifyClient spotifyClient) {
@@ -79,6 +80,6 @@ public class MusicController {
     @GetMapping("/logout")
     public ResponseEntity<String> logTheUserOut() {
         musicService.logTheUserOut();
-        return ResponseEntity.ok("Logged out successfully.");
+        return ResponseEntity.ok(SUCCESS);
     }
 }
