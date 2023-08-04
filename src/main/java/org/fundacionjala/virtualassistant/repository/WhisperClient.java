@@ -1,7 +1,6 @@
 package org.fundacionjala.virtualassistant.repository;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,14 +22,20 @@ public class WhisperClient implements ASRClient {
         this.audioFile = audioFile;
     }
 
+    private String audioFile;
+
+    public WhisperClient(String audioFile) {
+        this.audioFile = audioFile;
+    }
+
     @Override
     public String convertToText() {
         WebClient webClient = WebClient.builder()
-                .baseUrl(url)
+                .baseUrl(URL)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
         return webClient.post()
-                .uri(postEndpoint)
+                .uri(POST_URL)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(getBody(audioFile)))
                 .retrieve()
