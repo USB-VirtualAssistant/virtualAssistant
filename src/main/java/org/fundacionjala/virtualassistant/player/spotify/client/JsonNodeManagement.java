@@ -66,11 +66,11 @@ public class JsonNodeManagement {
     public String extractTrackUriFromSearchResponse(String responseData) throws TokenExtractionException {
         try {
             JsonNode jsonNode = objectMapper.readTree(responseData);
-
-            if (jsonNode.has(FIELD_TRACKS) && jsonNode.get(FIELD_TRACKS).has(FIELD_ITEMS)) {
-                JsonNode items = jsonNode.get(FIELD_TRACKS).get(FIELD_ITEMS);
-                if (items.isArray() && !items.isEmpty()) {
-                    return items.get(0).get(URI).asText();
+            JsonNode tracksNode = jsonNode.path(FIELD_TRACKS).path(FIELD_ITEMS);
+            if (tracksNode.isArray() && tracksNode.size() > 0) {
+                JsonNode firstItem = tracksNode.get(0);
+                if (firstItem.has(URI)) {
+                    return firstItem.get(URI).asText();
                 }
             }
         } catch (Exception e) {
