@@ -8,6 +8,7 @@ import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtract
 import org.fundacionjala.virtualassistant.player.spotify.utils.ApiMusic;
 import org.fundacionjala.virtualassistant.player.spotify.utils.CustomResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Component
+@PropertySource("classpath:spotify.properties")
 public class SpotifyClient implements MusicClient {
     private final static String SCOPE_USER = "user-library-read";
 
