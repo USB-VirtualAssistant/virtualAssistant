@@ -38,15 +38,15 @@ public class RequestEntity {
     this.idUser = idUser;
   }
 
-  public long getIdRequest() {
+  public Long getIdRequest() {
     return idRequest;
   }
 
-  public long getIdUser() {
+  public Long getIdUser() {
     return idUser;
   }
 
-  public long getIdAudioMongo() {
+  public Long getIdAudioMongo() {
     return idAudioMongo;
   }
 
@@ -66,7 +66,7 @@ public class RequestEntity {
     this.date = date;
   }
 
-  public long getIdContext() {
+  public Long getIdContext() {
     return idContext;
   }
 }
