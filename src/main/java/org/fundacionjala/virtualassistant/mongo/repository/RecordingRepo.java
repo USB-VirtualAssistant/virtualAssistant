@@ -10,7 +10,7 @@ public interface RecordingRepo {
 
     Recording getRecording(String idRecording);
 
-    boolean deleteRecording(String idRecording);
+    long deleteRecording(String idRecording);
 
     List<Recording> getAllRecordingsToUser(Long idUser, Long idChat);
 

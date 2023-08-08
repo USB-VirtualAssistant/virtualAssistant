@@ -45,7 +45,7 @@ public class RecordingService {
         return convertRecordingToResponse(recording);
     }
 
-    public boolean deleteRecording(String idRecording) {
+    public long deleteRecording(String idRecording) {
         return recordingRepo.deleteRecording(idRecording);
     }
 
@@ -92,7 +92,7 @@ public class RecordingService {
 
     private File convertDocumentToFile(Document document, String outputPath) throws ConvertedDocumentToFileException {
         try {
-            String encodedAudio = document.getString("audio");
+            String encodedAudio = document.getString(AUDIO_FIELD_NAME);
             byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
             File outputFile = new File(outputPath);
             FileOutputStream fos = new FileOutputStream(outputFile);
