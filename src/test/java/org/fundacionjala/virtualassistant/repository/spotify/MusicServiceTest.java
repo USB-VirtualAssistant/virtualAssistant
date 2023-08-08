@@ -22,12 +22,17 @@ public class MusicServiceTest {
     public final static String PLAYBACK_RESUMED = "Playback has been resumed.";
     public final static String CURRENT_TRACK_PAUSED = "Current track has been paused.";
     public final static String NO_TRACK_PLAYING = "No track is currently playing.";
-
+    public final static String FOLLOWING_DATA = "Radiohead, Gustavo Cerati, Arctic Monkeys";
+    public final static String ACCESS_TOKEN = "Access Token";
+    public final static String PLAYER_DATA = "Player Data";
+    public final static String ARTIST_NAME = "Artist Name";
+    public final static String TRACK_NAME = "Track Name";
+    public final static String CURRENT_TRACK_NAME = "Current Track Name";
 
     @Test
     public void testGetUserSavedAlbums_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
         String realAlbumData = "{\"items\": [{\"album\": {\"name\": \"Album 1\"}}, {\"album\": {\"name\": \"Album 2\"}}]}";
         when(spotifyClient.getSavedAlbums()).thenReturn(realAlbumData);
@@ -54,7 +59,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserSavedTracks_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
         String realTracksData = "{\"items\": [{\"track\": {\"name\": \"Track 1\"}}, {\"track\": {\"name\": \"Track 2\"}}]}";
         when(spotifyClient.getSavedTracks()).thenReturn(realTracksData);
@@ -81,7 +86,7 @@ public class MusicServiceTest {
     @Test
     public void testPlayPreviousTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(spotifyClient.playPreviousTrackOnDevice()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
@@ -106,7 +111,8 @@ public class MusicServiceTest {
     @Test
     public void testPlayCurrentTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(spotifyClient.playCurrentSong()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
@@ -134,16 +140,15 @@ public class MusicServiceTest {
     @Test
     public void testGetUserSavedFollowing_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
-        String realFollowingData = "Radiohead, Gustavo Cerati, Arctic Monkeys";
-        when(spotifyClient.getFollowed()).thenReturn(realFollowingData);
+        when(spotifyClient.getFollowed()).thenReturn(FOLLOWING_DATA);
 
         MusicService musicService = new MusicService(spotifyClient);
 
         ResponseEntity<String> response = musicService.getUserFollowingArtists();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Radiohead, Gustavo Cerati, Arctic Monkeys", response.getBody());
+        assertEquals(FOLLOWING_DATA, response.getBody());
     }
 
     @Test
@@ -161,7 +166,7 @@ public class MusicServiceTest {
     @Test
     public void testGetUserPlayerInformation_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
         String realPlayerData = "{\"device\": {\"name\": \"Device 1\"}, \"is_playing\": true, \"item\": {\"name\": \"Song 1\"}}";
         when(spotifyClient.getPlayerInfo()).thenReturn(realPlayerData);
@@ -191,29 +196,30 @@ public class MusicServiceTest {
     @Test
     public void testPauseCurrentTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
-        when(spotifyClient.getPlayerInfo()).thenReturn("playerData");
-        when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn("currentTrackUri");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(spotifyClient.getPlayerInfo()).thenReturn(PLAYER_DATA);
+        when(spotifyClient.extractCurrentTrackUri(PLAYER_DATA)).thenReturn(CURRENT_TRACK_NAME);
+        when(spotifyClient.pauseSongOnDevice(any())).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
 
         ResponseEntity<String> response = musicService.pauseCurrentTrack();
         assertEquals(CURRENT_TRACK_PAUSED, response.getBody());
 
-        verify(spotifyClient, times(1)).pauseSongOnDevice("currentTrackUri");
+        verify(spotifyClient, times(1)).pauseSongOnDevice(CURRENT_TRACK_NAME);
     }
 
     @Test
     public void testPauseCurrentTrack_NoTrackPlaying() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
-        when(spotifyClient.getPlayerInfo()).thenReturn("playerData");
-        when(spotifyClient.extractCurrentTrackUri("playerData")).thenReturn(null);
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(spotifyClient.getPlayerInfo()).thenReturn(PLAYER_DATA);
+        when(spotifyClient.extractCurrentTrackUri(PLAYER_DATA)).thenReturn(null);
 
         MusicService musicService = new MusicService(spotifyClient);
 
         ResponseEntity<String> response = musicService.pauseCurrentTrack();
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
         assertEquals(NO_TRACK_PLAYING, response.getBody());
 
         verify(spotifyClient, never()).pauseSongOnDevice(any());
@@ -222,7 +228,7 @@ public class MusicServiceTest {
     @Test
     public void testPlayNextTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(spotifyClient.playNextTrackOnDevice()).thenReturn(true);
 
         MusicService musicService = new MusicService(spotifyClient);
@@ -247,10 +253,10 @@ public class MusicServiceTest {
     @Test
     public void testPlaySongByArtistAndTrack_Success() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
-        String artist = "Artist Name";
-        String track = "Track Name";
+        String artist = ARTIST_NAME;
+        String track = TRACK_NAME;
         String trackUri = "spotify:track:track_id";
         when(spotifyClient.searchTrackByArtistAndTrack(artist, track)).thenReturn(trackUri);
 
@@ -273,7 +279,7 @@ public class MusicServiceTest {
 
         MusicService musicService = new MusicService(spotifyClient);
 
-        ResponseEntity<String> response = musicService.playSongByArtistAndTrack("Artist Name", "Track Name");
+        ResponseEntity<String> response = musicService.playSongByArtistAndTrack(ARTIST_NAME, TRACK_NAME);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertEquals(TOKEN_NOT_AVAILABLE, response.getBody());
 
@@ -284,7 +290,8 @@ public class MusicServiceTest {
     @Test
     public void testPlaySongByArtistAndTrack_TrackNotFound() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
-        when(spotifyClient.getAccessToken()).thenReturn("dummyAccessToken");
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(spotifyClient.playSongOnDevice(any())).thenReturn(false);
 
         String artist = "Non-existent Artist";
         String track = "Non-existent Track";
@@ -293,7 +300,7 @@ public class MusicServiceTest {
         MusicService musicService = new MusicService(spotifyClient);
 
         ResponseEntity<String> response = musicService.playSongByArtistAndTrack(artist, track);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Song not found.", response.getBody());
 
         verify(spotifyClient, never()).playSongOnDevice(any());
