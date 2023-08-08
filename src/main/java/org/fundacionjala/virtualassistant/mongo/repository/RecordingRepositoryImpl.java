@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class RecordingRepositoryImpl implements RecordingRepo {
@@ -44,13 +45,15 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     }
 
     @Override
-    public boolean deleteRecording(String idRecording) {
+    public long deleteRecording(String idRecording) {
         Query query = generateQueryCriteria(idRecording);
         Recording recordingToDelete = mongoTemplate.findOne(query, Recording.class);
+        AtomicLong asw = new AtomicLong();
         Optional.ofNullable(recordingToDelete).ifPresent(recording -> {
-            mongoTemplate.remove(query, Recording.class);
+            var deleteResult = mongoTemplate.remove(query, Recording.class);
+            asw.set(deleteResult.getDeletedCount());
         });
-        return recordingToDelete != null;
+        return asw.get();
     }
 
     @Override
