@@ -10,11 +10,11 @@ import java.util.List;
 @RequestMapping("/textRequest")
 public class TextRequestController {
 
-    private TextRequestService textRequestService;
+    private TextRequestService textRequestServiceParam;
 
-    @GetMapping("/{userId}?contextId={contextID}")
+    @GetMapping("/{userId}?id_context={id_context}")
     public List<RequestEntity> getTextRequests(@PathVariable Long userID, @RequestParam Long contextID) {
-        return textRequestService.getTextRequestByUserAndContext(userID, contextID);
+        return textRequestServiceParam.getTextRequestByUserAndContext(userID, contextID);
     }
 
 }
