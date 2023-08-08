@@ -13,11 +13,11 @@ public class Either<L, R> implements ProcessorEither<L, R> {
   private final L left;
   private final R right;
 
-  public static <L, R> Either<L, R> Left(L value) {
+  public static <L, R> Either<L, R> left(L value) {
     return new Either<>(value, null);
   }
 
-  public static <L, R> Either<L, R> Right(R value) {
+  public static <L, R> Either<L, R> right(R value) {
     return new Either<>(null, value);
   }
 
