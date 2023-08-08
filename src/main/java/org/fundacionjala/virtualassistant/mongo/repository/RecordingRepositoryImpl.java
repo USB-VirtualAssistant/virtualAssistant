@@ -66,7 +66,7 @@ public class RecordingRepositoryImpl implements RecordingRepo {
             String encodedAudio = Base64.getEncoder().encodeToString(audioBytes);
             return new Document(AUDIO_FIELD_NAME, encodedAudio);
         } catch (IOException e) {
-            throw new GeneratedDocumentException(e.getMessage());
+            throw new GeneratedDocumentException(e.getMessage(), e);
         }
     }
 

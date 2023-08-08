@@ -20,6 +20,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 
 @Service
 public class RecordingService {
@@ -64,11 +65,14 @@ public class RecordingService {
     }
 
     private RecordingResponse convertRecordingToResponse(Recording recording) throws RecordingException {
+        if (isNull(recording)) {
+          throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
+        }
         return RecordingResponse.builder()
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
                 .idChat(recording.getIdChat())
-                .audioFile(convertDocumentToFile(recording.getAudioFile(),"audio.wav"))
+                .audioFile(convertDocumentToFile(recording.getAudioFile(), "audio.wav"))
                 .build();
     }
 
@@ -96,7 +100,7 @@ public class RecordingService {
             fos.close();
             return outputFile;
         } catch (IOException e) {
-            throw new ConvertedDocumentToFileException(e.getMessage());
+            throw new ConvertedDocumentToFileException(e.getMessage(), e);
         }
     }
 }
