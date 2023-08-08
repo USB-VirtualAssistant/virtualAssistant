@@ -224,8 +224,9 @@ public class SpotifyClient implements MusicClient {
     }
 
     @Override
-    public void logout() {
+    public boolean logout() {
         accessToken = null;
+        return isNotAuthorized();
     }
 
     private String extractTrackUriFromSearchResponse(String responseData) {
