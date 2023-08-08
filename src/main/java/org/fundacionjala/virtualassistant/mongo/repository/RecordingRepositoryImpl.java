@@ -21,6 +21,10 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     MongoTemplate mongoTemplate;
     private static final String AUDIO_FIELD_NAME = "audio";
 
+    public RecordingRepositoryImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
     @Override
     public List<Recording> getAllRecordings() {
         return mongoTemplate.findAll(Recording.class);
