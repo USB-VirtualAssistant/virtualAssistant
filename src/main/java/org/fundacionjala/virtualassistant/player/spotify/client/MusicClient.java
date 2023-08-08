@@ -28,5 +28,5 @@ public interface MusicClient {
 
     boolean playNextTrackOnDevice();
 
-    void logout();
+    boolean logout();
 }
