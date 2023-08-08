@@ -7,6 +7,7 @@ import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFil
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
+import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepositoryImpl;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,6 @@ import static java.util.Objects.isNull;
 @Service
 public class RecordingService {
 
-    @Autowired
     RecordingRepo recordingRepo;
     ProcessorEither<Exception, RecordingResponse> processorEither;
 
