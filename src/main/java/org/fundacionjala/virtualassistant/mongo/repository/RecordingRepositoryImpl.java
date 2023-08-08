@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.mongo.repository;
 
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
+import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -61,10 +62,14 @@ public class RecordingRepositoryImpl implements RecordingRepo {
     }
 
     @Override
-    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws GeneratedDocumentException {
-        Document metadata = generateDocumentRecording(audioFile);
-        Recording recording = new Recording(idUser, idChat, metadata);
+    public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws RecordingException {
+      Document metadata = generateDocumentRecording(audioFile);
+      Recording recording = new Recording(idUser, idChat, metadata);
+      try {
         return mongoTemplate.save(recording);
+      } catch (IllegalArgumentException e) {
+        throw new RecordingException(e.getMessage(), e);
+      }
     }
 
     private Document generateDocumentRecording(MultipartFile file) throws GeneratedDocumentException {
