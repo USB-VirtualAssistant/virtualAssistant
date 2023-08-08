@@ -38,7 +38,6 @@ public class RecordingService {
         this.recordingRepo = recordingRepo;
     }
 
-
     public RecordingResponse getRecording(String idRecording) throws RecordingException {
         Recording recording = recordingRepo.getRecording(idRecording);
         return convertRecordingToResponse(recording);

@@ -38,18 +38,4 @@ public class Recording {
     public org.bson.Document getAudioFile() {
         return audioFile;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recording recording = (Recording) o;
-        return Objects.equals(idRecording, recording.idRecording)
-                && Objects.equals(idUser, recording.idUser) && Objects.equals(idChat, recording.idChat) ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idRecording, idUser, idChat, audioFile);
-    }
 }
