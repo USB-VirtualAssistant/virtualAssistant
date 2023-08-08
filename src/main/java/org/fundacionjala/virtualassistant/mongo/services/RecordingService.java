@@ -1,6 +1,5 @@
 package org.fundacionjala.virtualassistant.mongo.services;
 
-import lombok.SneakyThrows;
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
@@ -12,14 +11,11 @@ import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,9 +76,9 @@ public class RecordingService {
         return recordings.stream()
                 .map(processorEither.lift(recording -> {
                     try {
-                        return Either.Right(convertRecordingToResponse(recording));
+                        return Either.right(convertRecordingToResponse(recording));
                     } catch (RecordingException exception) {
-                        return Either.Left(exception);
+                        return Either.left(exception);
                     }
                 }))
                 .filter(Either::isRight)
