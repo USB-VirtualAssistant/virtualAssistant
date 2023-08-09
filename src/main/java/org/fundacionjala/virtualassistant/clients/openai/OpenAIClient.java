@@ -12,6 +12,7 @@ public class OpenAIClient implements AIClientInterface {
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
     public static final boolean ECHO = true;
+
     private final OpenAiService service;
 
     public OpenAIClient(OpenAiService service) {
@@ -20,7 +21,6 @@ public class OpenAIClient implements AIClientInterface {
 
     @Override
     public String chat(String request) {
-        OpenAiService service = new OpenAiService(TOKEN);
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt(request)
                 .model(MODEL)
