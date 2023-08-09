@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Value;
 
@@ -14,6 +15,7 @@ public class TextRequest {
 
     String text;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     Date date;
 
     long idAudioMongo;
