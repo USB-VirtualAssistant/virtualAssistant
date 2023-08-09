@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -63,13 +62,13 @@ public class RecordingRepositoryImpl implements RecordingRepo {
 
     @Override
     public Recording saveRecording(Long idUser, Long idChat, MultipartFile audioFile) throws RecordingException {
-      Document metadata = generateDocumentRecording(audioFile);
-      Recording recording = new Recording(idUser, idChat, metadata);
-      try {
-        return mongoTemplate.save(recording);
-      } catch (IllegalArgumentException e) {
-        throw new RecordingException(e.getMessage(), e);
-      }
+        Document metadata = generateDocumentRecording(audioFile);
+        Recording recording = new Recording(idUser, idChat, metadata);
+        try {
+            return mongoTemplate.save(recording);
+        } catch (IllegalArgumentException e) {
+            throw new RecordingException(e.getMessage(), e);
+        }
     }
 
     private Document generateDocumentRecording(MultipartFile file) throws GeneratedDocumentException {

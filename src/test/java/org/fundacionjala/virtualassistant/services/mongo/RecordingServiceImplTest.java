@@ -19,11 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RecordingServiceImplTest {
   private RecordingService service;
@@ -93,5 +89,37 @@ class RecordingServiceImplTest {
     assertThrows(ConvertedDocumentToFileException.class, () -> {
       serviceMock.saveRecording(recordingRequest);
     });
+  }
+
+  @Test
+  void testSaveNullRecording() throws RecordingException {
+    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, null);
+    when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
+            .thenThrow(RecordingException.class);
+    assertThrows(RecordingException.class, () -> {
+      service.saveRecording(recordingRequest);
+    });
+  }
+
+  @Test
+  void saveRecordingInDBWith1000Bytes() throws RecordingException, IOException {
+    mockFile = new MockMultipartFile("test", new byte[1000]);
+    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
+    File file = File.createTempFile("tem_", mockFile.getContentType());
+    mockFile.transferTo(file);
+
+    RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
+    when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
+            .thenReturn(new Recording(idUser, idChat, new Document("audio", "")));
+
+    RecordingResponse result = service.saveRecording(recordingRequest);
+    
+    verify(recordingRepo).saveRecording(idUser, idChat, mockFile);
+    assertNotNull(result);
+    assertTrue(result.getAudioFile().isFile());
+    assertTrue(result.getAudioFile().exists());
+    assertEquals(recordingResponse.getIdUser(), result.getIdUser());
+    assertEquals(recordingResponse.getIdChat(), result.getIdChat());
+    assertNotNull(result.getAudioFile());
   }
 }

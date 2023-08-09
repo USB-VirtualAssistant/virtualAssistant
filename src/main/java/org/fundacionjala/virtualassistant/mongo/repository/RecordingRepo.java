@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.mongo.repository;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 public interface RecordingRepo {
