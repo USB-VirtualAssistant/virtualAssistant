@@ -1,21 +1,14 @@
 package org.fundacionjala.virtualassistant.repository;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@SpringBootTest
-//@TestPropertySource
-class WhisperClientTest {
+public class WhisperClientTest {
 
     private WhisperClient whisperClient;
 
     @Test
-    public void convertToText_AudioFileQuestion_TextConverted() {
+    public void givenAudioFileQuestion_whenConvertingToText_thenTextConverted() {
         whisperClient = new WhisperClient("src/test/resources/Question.wav");
         whisperClient.setUrl("http://localhost:8000");
         whisperClient.setPostEndpoint("/record");
@@ -25,7 +18,7 @@ class WhisperClientTest {
     }
 
     @Test
-    public void convertToText_AudioFileOf10seconds_TextConverted() {
+    public void givenAudigivenAudioFile10Seconds_whenConvertingToText_thenTextConvertedoFile10Seconds_whenConvertingToText_thenTextConverted() {
         whisperClient = new WhisperClient("src/test/resources/10sec.wav");
         whisperClient.setUrl("http://localhost:8000");
         whisperClient.setPostEndpoint("/record");
@@ -35,7 +28,7 @@ class WhisperClientTest {
     }
 
     @Test
-    public void convertToText_AudioFileOf20seconds_TextConverted() {
+    public void givenAudioFile20Seconds_whenConvertingToText_thenTextConverted() {
         whisperClient = new WhisperClient("src/test/resources/20sec.wav");
         whisperClient.setUrl("http://localhost:8000");
         whisperClient.setPostEndpoint("/record");
@@ -45,7 +38,7 @@ class WhisperClientTest {
     }
 
     @Test
-    public void convertToText_AudioFileOf30seconds_TextConverted() {
+    public void givenAudioFile30Seconds_whenConvertingToText_thenTextConverted() {
         whisperClient = new WhisperClient("src/test/resources/30sec.wav");
         whisperClient.setUrl("http://localhost:8000");
         whisperClient.setPostEndpoint("/record");
