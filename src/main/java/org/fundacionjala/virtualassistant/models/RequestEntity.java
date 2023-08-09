@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+@Getter
 @Entity
 @Data
 @NoArgsConstructor
