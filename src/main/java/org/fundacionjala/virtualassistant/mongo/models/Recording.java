@@ -1,6 +1,5 @@
 package org.fundacionjala.virtualassistant.mongo.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

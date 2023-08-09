@@ -7,15 +7,11 @@ import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFil
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
-import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepositoryImpl;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.FileOutputStream;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -66,13 +62,13 @@ public class RecordingService {
 
     private RecordingResponse convertRecordingToResponse(Recording recording) throws RecordingException {
         if (isNull(recording)) {
-          throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
+            throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
         }
         return RecordingResponse.builder()
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
                 .idChat(recording.getIdChat())
-                .audioFile(convertDocumentToFile(recording.getAudioFile(), "audio.wav"))
+                .audioFile(convertDocumentToFile(recording.getAudioFile(), AUDIO_FIELD_NAME))
                 .build();
     }
 
@@ -90,11 +86,11 @@ public class RecordingService {
                 .collect(Collectors.toList());
     }
 
-    private File convertDocumentToFile(Document document, String outputPath) throws ConvertedDocumentToFileException {
+    private File convertDocumentToFile(Document document, String nameAudio) throws ConvertedDocumentToFileException {
         try {
             String encodedAudio = document.getString(AUDIO_FIELD_NAME);
             byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
-            File outputFile = new File(outputPath);
+            File outputFile =  File.createTempFile(nameAudio, ".wav");
             FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(audioBytes);
             fos.close();
