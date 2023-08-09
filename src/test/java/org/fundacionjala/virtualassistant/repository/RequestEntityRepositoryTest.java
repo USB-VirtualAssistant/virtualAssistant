@@ -4,6 +4,8 @@ import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +13,12 @@ import static org.mockito.Mockito.*;
 
 class RequestEntityRepositoryTest {
   private RequestEntityRepository repository;
+
+  private static final String REQUEST_TEXT = "hello";
+  private static final ZonedDateTime REQUEST_DATE = ZonedDateTime.of(2023, 8, 2, 12, 0, 0, 0, ZoneId.systemDefault());
+  private static final Long ID_AUDIO_A = 2L;
+  private static final Long CONTEXT_ID_1 = 1L;
+  private static final Long USER_ID_2 = 2L;
 
   @BeforeEach
   void setUp() {
@@ -24,7 +32,7 @@ class RequestEntityRepositoryTest {
 
   @Test
   void addUserWithMock() {
-    RequestEntity request = new RequestEntity("hello", new Date(), 2L);
+    RequestEntity request = new RequestEntity(REQUEST_TEXT, REQUEST_DATE, ID_AUDIO_A, CONTEXT_ID_1, USER_ID_2);
     when(repository.save(any(RequestEntity.class))).thenReturn(request);
 
     assertEquals(repository.save(request), request);
