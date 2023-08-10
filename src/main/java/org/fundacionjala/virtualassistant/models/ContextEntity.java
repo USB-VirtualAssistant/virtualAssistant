@@ -7,15 +7,17 @@ import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.Column;
 
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 @Entity
 @Table(name = "context")
-@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@Value
 public class ContextEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idContext;
+    private Long idContext = 0L;
 
     @Column(name = "title")
     private String title;
