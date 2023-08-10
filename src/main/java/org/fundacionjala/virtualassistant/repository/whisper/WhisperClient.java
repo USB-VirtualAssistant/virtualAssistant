@@ -19,14 +19,8 @@ public class WhisperClient implements ASRClient {
     @Value("${asr.whisper.post-endpoint}")
     private String postEndpoint;
 
-    private String audioFile;
-
-    public WhisperClient(String audioFile) {
-        this.audioFile = audioFile;
-    }
-
     @Override
-    public String convertToText() {
+    public String convertToText(String audioFile) {
         WebClient webClient = WebClient.builder()
                 .baseUrl(url)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
