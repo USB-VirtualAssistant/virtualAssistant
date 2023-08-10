@@ -1,6 +1,6 @@
 import os
 import whisper
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from enum import Enum
 
 app = FastAPI()
@@ -19,9 +19,9 @@ class AudioValidator:
     @staticmethod
     def validate_audio_file(audio_file):
         if audio_file is None or audio_file.filename == "":
-            return False, enumException.not_found
+            raise HTTPException(status_code=400, detail=enumException.not_found)
         if not audio_file.content_type.startswith("audio/"):
-            return False, enumException.not_valid
+            raise HTTPException(status_code=400, detail=enumException.not_valid)
         return True, None
 
 class FileHandler:
@@ -44,7 +44,7 @@ class Transcriber:
 async def convert_to_text(audio_file: UploadFile = File(None)):
     is_valid, error = AudioValidator.validate_audio_file(audio_file)
     if not is_valid:
-        return error
+        raise HTTPException(status_code=400, detail=error)
     with open(audio_file.filename, "wb") as file:
         file.write(audio_file.file.read())
     return Transcriber.transcribe(enumModel.tiny, audio_file.filename)
