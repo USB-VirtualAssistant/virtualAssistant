@@ -35,7 +35,10 @@ services:
     restart: always
     volumes:
       - mongo_data:/data/db
-    command: -url=jdbc:postgresql://db/mydb -user=postgres -password=password migrate
+    ports:
+      - 27017:27017
+    env_file:
+      - ./.env-mongo
   app:
     build:
       context: .
