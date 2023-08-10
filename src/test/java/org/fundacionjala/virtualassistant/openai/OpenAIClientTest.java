@@ -25,7 +25,7 @@ class OpenAIClientTest {
     }
 
     @Test
-    public void chatNotNullOrEmpty() {
+    public void givenServiceReturnsText_WhenChatIsCalled_ThenResultIsNotNullOrEmpty() {
         CompletionChoice choice = new CompletionChoice();
         choice.setText("Hello world");
         CompletionResult completion = new CompletionResult();
