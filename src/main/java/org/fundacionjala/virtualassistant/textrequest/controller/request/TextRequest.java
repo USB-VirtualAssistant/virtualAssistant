@@ -15,8 +15,10 @@ public class TextRequest {
 
     String text;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    Date date;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+    ZonedDateTime date;
 
-    long idAudioMongo;
+    Long idContext;
+
+    Long idAudioMongo;
 }

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -40,37 +41,5 @@ public class RequestEntity {
     this.idAudioMongo = idAudioMongo;
     this.idContext = idContext;
     this.idUser = idUser;
-  }
-
-  public Long getIdRequest() {
-    return idRequest;
-  }
-
-  public Long getIdUser() {
-    return idUser;
-  }
-
-  public Long getIdAudioMongo() {
-    return idAudioMongo;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  public ZonedDateTime getDate() {
-    return date;
-  }
-
-  public void setDate(ZonedDateTime date) {
-    this.date = date;
-  }
-
-  public Long getIdContext() {
-    return idContext;
   }
 }

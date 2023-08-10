@@ -35,6 +35,7 @@ public class TextRequestService {
         return RequestEntity.builder()
                 .idAudioMongo(textRequest.getIdAudioMongo())
                 .date(textRequest.getDate())
+                .idContext(textRequest.getIdContext())
                 .idUser(textRequest.getIdUser())
                 .text(textRequest.getText())
                 .build();
