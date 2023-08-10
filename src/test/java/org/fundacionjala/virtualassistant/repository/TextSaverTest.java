@@ -1,7 +1,10 @@
 package org.fundacionjala.virtualassistant.repository;
+
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.junit.jupiter.api.Test;
-import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -16,12 +19,11 @@ public class TextSaverTest {
         TextSaverImpl textSaver = new TextSaverImpl(mockRepository);
 
         String text = "Test Text";
-        Timestamp data = new Timestamp(System.currentTimeMillis());
+        LocalDate localDate = LocalDate.now();
+        java.util.Date date= Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         int idAudioMongo = 123;
 
-        RequestEntity requestEntity = new RequestEntity(text,data,idAudioMongo);
-        requestEntity.setText(text);
-        requestEntity.setIdAudioMongo(idAudioMongo);
+        RequestEntity requestEntity = new RequestEntity(text,date,idAudioMongo);
 
         when(mockRepository.save(any(RequestEntity.class))).thenReturn(requestEntity);
 
