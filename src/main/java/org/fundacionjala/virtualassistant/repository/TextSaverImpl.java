@@ -1,11 +1,12 @@
 package org.fundacionjala.virtualassistant.repository;
 
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-
-import java.sql.Timestamp;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class TextSaverImpl implements TextSaver {
+
     private RequestEntityRepository repository;
 
     public TextSaverImpl(RequestEntityRepository repository) {
@@ -14,11 +15,9 @@ public class TextSaverImpl implements TextSaver {
 
     @Override
     public RequestEntity saveText(String text, int idAudioMongo) {
-        Timestamp data = new Timestamp(System.currentTimeMillis());
-        RequestEntity requestEntity = new RequestEntity(text,data,idAudioMongo);
-        requestEntity.setText(text);
-        requestEntity.setDate(data);
-        requestEntity.setIdAudioMongo(idAudioMongo);
+        LocalDate localDate = LocalDate.now();
+        Date date= Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        RequestEntity requestEntity = new RequestEntity(text,date,idAudioMongo);
         return repository.save(requestEntity);
     }
 }
