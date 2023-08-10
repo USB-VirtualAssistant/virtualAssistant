@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -41,5 +42,18 @@ public class TextRequestServiceTest {
         TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
         verify(requestEntityRepository).save(requestEntity);
         assertNotNull(actualTextRequestResponse);
+    }
+
+    @Test
+    public void shouldReturnAnException() {
+        TextRequest textRequest = TextRequest.builder().idUser(null).build();
+        RequestEntity requestEntity = RequestEntity.builder().idUser(null).build();
+
+        when(requestEntityRepository.save(any(RequestEntity.class)))
+                .thenReturn(requestEntity);
+
+        requestEntityRepository.save(requestEntity);
+
+        assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(textRequest));
     }
 }
