@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
+import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
@@ -12,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TextRequestServiceTest {
@@ -24,15 +25,21 @@ public class TextRequestServiceTest {
 
     @BeforeEach
     public void setup() {
+        requestEntityRepository = mock(RequestEntityRepository.class);
         textRequestService = new TextRequestService(requestEntityRepository);
     }
 
     @Test
     public void shouldCreateATextRequest() throws TextRequestException {
+        long idUser =12343L;
+        TextRequest textRequest = TextRequest.builder().idUser(idUser).build();
+        RequestEntity requestEntity = RequestEntity.builder().idUser(idUser).build();
 
-        TextRequest textRequest = TextRequest.builder().idUser(12343L).build();
-        when(requestEntityRepository.save(any())).thenReturn(any());
+        when(requestEntityRepository.save(any(RequestEntity.class)))
+                .thenReturn(requestEntity);
+
         TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
+        verify(requestEntityRepository).save(requestEntity);
         assertNotNull(actualTextRequestResponse);
     }
 }

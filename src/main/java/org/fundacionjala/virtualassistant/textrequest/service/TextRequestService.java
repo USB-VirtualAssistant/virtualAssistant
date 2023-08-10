@@ -28,6 +28,7 @@ public class TextRequestService {
         return TextRequestResponse.builder()
                 .idUser(savedRequestEntity.getIdUser())
                 .text(savedRequestEntity.getText())
+                .idContext(savedRequestEntity.getIdContext())
                 .build();
     }
 
