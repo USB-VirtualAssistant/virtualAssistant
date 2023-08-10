@@ -12,12 +12,7 @@ public class OpenAIClient implements AIClientInterface {
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
     public static final boolean ECHO = true;
-
-    private final OpenAiService service;
-
-    public OpenAIClient(OpenAiService service) {
-        this.service = service;
-    }
+    private final OpenAiService service = new OpenAiService(TOKEN);
 
     @Override
     public String chat(String request) {
@@ -30,7 +25,7 @@ public class OpenAIClient implements AIClientInterface {
                 .build();
 
         StringBuilder answerBuilder = new StringBuilder();
-        service.createCompletion(completionRequest).getChoices().forEach(choice -> answerBuilder.append(choice.getText()));
+        this.service.createCompletion(completionRequest).getChoices().forEach(choice -> answerBuilder.append(choice.getText()));
         return removePatternFromStart(answerBuilder, completionRequest.getPrompt());
     }
 
