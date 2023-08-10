@@ -34,6 +34,14 @@ services:
     restart: always
     volumes:
       - mongo_data:/data/db
+    command: -url=jdbc:postgresql://db/mydb -user=postgres -password=password migrate
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - flyway
     ports:
       - 27017:27017
     env_file:
