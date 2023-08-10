@@ -1,6 +1,7 @@
-package org.fundacionjala.virtualassistant.repository;
+package org.fundacionjala.virtualassistant.repository.whisper;
 
 import lombok.Data;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Data
 public class WhisperClient implements ASRClient {
+
     @Value("${asr.whisper.url}")
     private String url;
     @Value("${asr.whisper.post-endpoint}")
@@ -27,7 +29,7 @@ public class WhisperClient implements ASRClient {
     public String convertToText() {
         WebClient webClient = WebClient.builder()
                 .baseUrl(url)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
                 .build();
         return webClient.post()
                 .uri(postEndpoint)
@@ -38,7 +40,7 @@ public class WhisperClient implements ASRClient {
                 .block();
     }
 
-    private MultiValueMap<String, ?> getBody(String audioFile) {
+    public MultiValueMap<String, Object> getBody(String audioFile) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("audio_file", new FileSystemResource(audioFile));
         return body;
