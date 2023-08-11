@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
-
 import java.time.ZonedDateTime;
 
 @AllArgsConstructor
-public class TextResponseService implements ITextResponseService {
+public class TextResponseService {
+
     private ResponseEntityRepository repository;
 
-
-    @Override
     public TextResponse save(long idRequest, String text) {
         ResponseEntity responseEntity = ResponseEntity.builder()
                 .idRequest(idRequest)

@@ -1,8 +1,8 @@
 package org.fundacionjala.virtualassistant.textResponse.response;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
+import lombok.Value;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
 import java.time.ZonedDateTime;
 
 @Value
