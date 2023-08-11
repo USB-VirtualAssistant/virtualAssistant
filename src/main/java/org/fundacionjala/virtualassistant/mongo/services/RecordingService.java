@@ -12,6 +12,8 @@ import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -63,7 +65,10 @@ public class RecordingService {
         return  convertListRecordingsToListResponse(recordings);
     }
 
-    public RecordingResponse saveRecording(RecordingRequest request) throws RecordingException {
+    public RecordingResponse saveRecording(@NotNull RecordingRequest request) throws RecordingException {
+        if (request.getAudioFile().isEmpty()) {
+            throw new RecordingException(RecordingException.MESSAGE_NULL_AUDIO_FILE);
+        }
         if (!validateWavFile(request.getAudioFile())) {
             throw new RecordingException(RecordingException.MESSAGE_NOT_WAV);
         }
@@ -115,10 +120,7 @@ public class RecordingService {
         }
     }
 
-    private boolean validateWavFile(MultipartFile audioFile) throws RecordingException {
-        if (isNull(audioFile)) {
-            throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
-        }
+    private boolean validateWavFile(MultipartFile audioFile) {
         String fileOriginName = Objects.requireNonNull(audioFile.getOriginalFilename());
         return fileOriginName.endsWith(AUDIO_EXTENSION);
     }
