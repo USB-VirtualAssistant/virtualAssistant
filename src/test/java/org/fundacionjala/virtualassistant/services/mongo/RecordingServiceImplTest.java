@@ -33,7 +33,7 @@ class RecordingServiceImplTest {
   void setUp() {
     idUser = 12L;
     idChat = 13L;
-    mockFile = new MockMultipartFile("test", new byte[10]);
+    mockFile = new MockMultipartFile("test",".wav", "audio/wav", new byte[10]);
     recordingRepo = mock(RecordingRepositoryImpl.class);
     service = new RecordingService(recordingRepo, new Either<>());
   }
