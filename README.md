@@ -11,11 +11,11 @@
 
 ```bash
 $ sudo apt install python3-pip
-$ pip install -U openai-whisper
+$ pip3 install -U openai-whisper
 $ sudo apt update && sudo apt install ffmpeg
-$ pip install fastapi
+$ pip3 install fastapi
 $ sudo apt install uvicorn
-$ pip install python-multipart
+$ pip3 install python-multipart
 ```
 ### Run ASR Whisper Client
 ```bash
