@@ -1,8 +1,8 @@
-package org.fundacionjala.virtualassistant.service.whisper;
+package org.fundacionjala.virtualassistant.whisper.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.fundacionjala.virtualassistant.repository.whisper.WhisperClient;
+import org.fundacionjala.virtualassistant.whisper.client.WhisperClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
