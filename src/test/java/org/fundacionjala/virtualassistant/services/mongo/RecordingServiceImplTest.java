@@ -105,7 +105,7 @@ class RecordingServiceImplTest {
 
   @Test
   void testSaveNullRecording() throws RecordingException {
-    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, null);
+    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
             .thenThrow(RecordingException.class);
     assertThrows(RecordingException.class, () -> {
