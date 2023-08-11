@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.repository.whisper;
+package org.fundacionjala.virtualassistant.whisper.client;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
