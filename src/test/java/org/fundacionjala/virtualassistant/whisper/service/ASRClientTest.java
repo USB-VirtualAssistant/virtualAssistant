@@ -1,7 +1,5 @@
 package org.fundacionjala.virtualassistant.whisper.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.fundacionjala.virtualassistant.whisper.client.WhisperClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -13,6 +11,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 @WebFluxTest(WhisperClient.class)
 public class ASRClientTest {
 
