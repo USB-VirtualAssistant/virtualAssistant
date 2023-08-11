@@ -119,11 +119,7 @@ public class RecordingService {
 
     private boolean validateWavFile(MultipartFile audioFile) throws RecordingException {
         String fileOriginName = Objects.requireNonNull(audioFile.getOriginalFilename());
-        String contentType = audioFile.getContentType();
-        System.out.println("0 " + audioFile.getOriginalFilename());
-        System.out.println("2 " + fileOriginName.endsWith(AUDIO_EXTENSION));
-        System.out.println( "1 "+ Objects.equals(contentType, AUDIO_CONTENT_TYPE));
-        return fileOriginName.endsWith(AUDIO_EXTENSION) && Objects.equals(contentType, AUDIO_CONTENT_TYPE);
+        return fileOriginName.endsWith(AUDIO_EXTENSION);
     }
 }
 
