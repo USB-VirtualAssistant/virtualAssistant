@@ -29,12 +29,15 @@ class RecordingServiceImplTest {
   long idUser;
   long idChat;
   MockMultipartFile mockFile;
+  private static final String FILE_NAME = "test";
+  private static final String ORIGINAL_FILE_NAME = "test.wav";
+  private static final String FILE_EXTENSION = ".wav";
 
   @BeforeEach
   void setUp() {
     idUser = 12L;
     idChat = 13L;
-    mockFile = new MockMultipartFile("test","test.wav",
+    mockFile = new MockMultipartFile(FILE_NAME,ORIGINAL_FILE_NAME,
             MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[10]);
     recordingRepo = mock(RecordingRepositoryImpl.class);
     service = new RecordingService(recordingRepo, new Either<>());
@@ -43,7 +46,7 @@ class RecordingServiceImplTest {
   @Test
   void saveRecordingInDB() throws RecordingException, IOException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file= File.createTempFile("test", ".wav");
+    File file= File.createTempFile(FILE_NAME, FILE_EXTENSION);
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
@@ -105,10 +108,10 @@ class RecordingServiceImplTest {
 
   @Test
   void saveRecordingInDBWith1000Bytes() throws RecordingException, IOException {
-    mockFile = new MockMultipartFile("test","test.wav",
+    mockFile = new MockMultipartFile(FILE_NAME,ORIGINAL_FILE_NAME,
             MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[1000]);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file= File.createTempFile("test", ".wav");
+    File file= File.createTempFile(FILE_NAME, FILE_EXTENSION);
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))

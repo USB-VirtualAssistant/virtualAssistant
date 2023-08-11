@@ -32,7 +32,6 @@ public class RecordingService {
     ProcessorEither<Exception, RecordingResponse> processorEither;
 
     private static final String AUDIO_FIELD_NAME = "audio";
-    private static final String MESSAGE_NOT_WAV = "The provided file is not a valid .wav file";
     private static final String AUDIO_EXTENSION = ".wav";
 
     public RecordingService(RecordingRepo recordingRepo) {
@@ -66,7 +65,7 @@ public class RecordingService {
 
     public RecordingResponse saveRecording(RecordingRequest request) throws RecordingException {
         if (!validateWavFile(request.getAudioFile())) {
-            throw new RecordingException(MESSAGE_NOT_WAV);
+            throw new RecordingException(RecordingException.MESSAGE_NOT_WAV);
         }
         Recording recording = recordingRepo.saveRecording(request.getIdUser(), request.getIdChat(), request.getAudioFile());
         return convertRecordingToResponse(recording);
