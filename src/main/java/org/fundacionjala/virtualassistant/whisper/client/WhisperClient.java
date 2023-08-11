@@ -1,7 +1,8 @@
-package org.fundacionjala.virtualassistant.repository.whisper;
+package org.fundacionjala.virtualassistant.whisper.client;
 
 import lombok.Data;
 
+import org.fundacionjala.virtualassistant.whisper.repository.ASRClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
