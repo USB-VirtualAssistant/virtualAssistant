@@ -1,16 +1,11 @@
 package org.fundacionjala.virtualassistant.textResponse;
 
-import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
-import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
