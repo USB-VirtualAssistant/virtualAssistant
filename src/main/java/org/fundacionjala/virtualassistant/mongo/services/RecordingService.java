@@ -34,7 +34,6 @@ public class RecordingService {
     private static final String AUDIO_FIELD_NAME = "audio";
     private static final String MESSAGE_NOT_WAV = "The provided file is not a valid .wav file";
     private static final String AUDIO_EXTENSION = ".wav";
-    private static final String AUDIO_CONTENT_TYPE = "audio/wav";
 
     public RecordingService(RecordingRepo recordingRepo) {
         this.recordingRepo = recordingRepo;
@@ -118,6 +117,9 @@ public class RecordingService {
     }
 
     private boolean validateWavFile(MultipartFile audioFile) throws RecordingException {
+        if (isNull(audioFile)) {
+            throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
+        }
         String fileOriginName = Objects.requireNonNull(audioFile.getOriginalFilename());
         return fileOriginName.endsWith(AUDIO_EXTENSION);
     }

@@ -14,6 +14,7 @@ import org.fundacionjala.virtualassistant.util.either.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -33,7 +34,8 @@ class RecordingServiceImplTest {
   void setUp() {
     idUser = 12L;
     idChat = 13L;
-    mockFile = new MockMultipartFile("test",".wav", "audio/wav", new byte[10]);
+    mockFile = new MockMultipartFile("test","test.wav",
+            MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[10]);
     recordingRepo = mock(RecordingRepositoryImpl.class);
     service = new RecordingService(recordingRepo, new Either<>());
   }
@@ -41,8 +43,7 @@ class RecordingServiceImplTest {
   @Test
   void saveRecordingInDB() throws RecordingException, IOException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile("tem_", mockFile.getContentType());
-    mockFile.transferTo(file);
+    File file= File.createTempFile("test", ".wav");
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
@@ -104,10 +105,10 @@ class RecordingServiceImplTest {
 
   @Test
   void saveRecordingInDBWith1000Bytes() throws RecordingException, IOException {
-    mockFile = new MockMultipartFile("test", new byte[1000]);
+    mockFile = new MockMultipartFile("test","test.wav",
+            MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[1000]);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile("tem_", mockFile.getContentType());
-    mockFile.transferTo(file);
+    File file= File.createTempFile("test", ".wav");
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
