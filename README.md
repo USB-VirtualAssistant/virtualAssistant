@@ -58,7 +58,7 @@ pip install python-multipart
 ```
 ### Run ASR Whisper Client
 ```bash
-cd src/main/java/org/fundacionjala/virtualassistant/service/whisper
+cd src/main/java/org/fundacionjala/virtualassistant/whisper/service
 ```
 ```bash
 uvicorn ASRClient:app --reload
