@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 public class TextResponseTest {
     @Test
-    public void testSaveText_SuccessfulUpdate(){
+    public void givenResponseEntity_whenSaveTextResponseService_thenSaveTextResponse(){
         ResponseEntityRepository mockRepository = mock(ResponseEntityRepository.class);
 
         TextResponseService textResponseService = new TextResponseService(mockRepository);
