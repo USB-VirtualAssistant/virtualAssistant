@@ -41,6 +41,7 @@ Now we will install fastapi which will help us to set up the whisper service wit
 ```bash
 pip3 install fastapi
 ```
+or
 ```bash
 pip install fastapi
 ```
@@ -53,6 +54,7 @@ Now we will install python-multipart which is a support library for uvicorn.
 ```bash
 pip3 install python-multipart
 ```
+or
 ```bash
 pip install python-multipart
 ```
