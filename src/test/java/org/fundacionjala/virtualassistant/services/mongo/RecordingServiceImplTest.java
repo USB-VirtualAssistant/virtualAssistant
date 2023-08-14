@@ -12,6 +12,7 @@ import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepositoryIm
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.MimeTypeUtils;
@@ -44,16 +45,18 @@ class RecordingServiceImplTest {
   void setUp() {
     idUser = 12L;
     idChat = 13L;
-    mockFile = new MockMultipartFile(FILE_NAME,ORIGINAL_FILE_NAME,
+    mockFile = new MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME,
             MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[10]);
     recordingRepo = mock(RecordingRepositoryImpl.class);
     service = new RecordingService(recordingRepo, new Either<>());
   }
 
   @Test
-  void saveRecordingInDB() throws RecordingException, IOException {
+  @DisplayName("Save a RecordingRequest and return a RecordingResponse")
+  void givenARecordingRequestInDBWhenItIsSavedThenItWillReturnARecordingResponse()
+          throws RecordingException, IOException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file= File.createTempFile(FILE_NAME, FILE_EXTENSION);
+    File file = File.createTempFile(FILE_NAME, FILE_EXTENSION);
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
@@ -68,7 +71,9 @@ class RecordingServiceImplTest {
   }
 
   @Test
-  void testThrowExceptionToGenerateDocumentFromRecording() throws RecordingException {
+  @DisplayName("Throw GeneratedDocumentException")
+  void givenARecordingRequestWhenItIsTriedToSaveThenThrowAnGeneratedDocumentException()
+          throws RecordingException {
     String message = "Not possible to generate the document";
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
@@ -81,7 +86,9 @@ class RecordingServiceImplTest {
   }
 
   @Test
-  void testThrowExceptionRelatedToSavingRecording() throws RecordingException {
+  @DisplayName("Throw RecordingException")
+  void givenARecordingRequestWhenItIsTriedToSaveThenThrowRecordingException()
+          throws RecordingException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
             .thenThrow(RecordingException.class);
@@ -92,7 +99,9 @@ class RecordingServiceImplTest {
   }
 
   @Test
-  void testThrowExceptionConvertedDocumentToFile() throws RecordingException {
+  @DisplayName("Throw ConvertedDocumentToFileException")
+  void givenARecordingRequestWhenItIsTriedToSaveThenThrowConvertedDocumentToFileException()
+          throws RecordingException {
     RecordingService serviceMock = mock(RecordingService.class);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
     when(serviceMock.saveRecording(any(RecordingRequest.class)))
@@ -104,28 +113,32 @@ class RecordingServiceImplTest {
   }
 
   @Test
-  void testSaveNullRecording() throws RecordingException {
-    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
+  @DisplayName("Throw NullPointerException")
+  void givenARecordingRequestWhenMockFileIsNullThenThrowNullPointerException()
+          throws RecordingException {
+    RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, null);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
             .thenThrow(RecordingException.class);
-    assertThrows(RecordingException.class, () -> {
+    assertThrows(NullPointerException.class, () -> {
       service.saveRecording(recordingRequest);
     });
   }
 
   @Test
-  void saveRecordingInDBWith1000Bytes() throws RecordingException, IOException {
-    mockFile = new MockMultipartFile(FILE_NAME,ORIGINAL_FILE_NAME,
+  @DisplayName("Save a mock file with 1000 bytes of size")
+  void givenARecordingRequestWhenMockFileIs1000BytesAndSaveItThenReturnARecordingResponse()
+          throws RecordingException, IOException {
+    mockFile = new MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME,
             MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[1000]);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file= File.createTempFile(FILE_NAME, FILE_EXTENSION);
+    File file = File.createTempFile(FILE_NAME, FILE_EXTENSION);
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
             .thenReturn(new Recording(idUser, idChat, new Document("audio", "")));
 
     RecordingResponse result = service.saveRecording(recordingRequest);
-    
+
     verify(recordingRepo).saveRecording(idUser, idChat, mockFile);
     assertNotNull(result);
     assertTrue(result.getAudioFile().isFile());
