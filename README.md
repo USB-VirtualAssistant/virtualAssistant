@@ -68,5 +68,3 @@ uvicorn ASRClient:app --reload
 These steps will ensure that all necessary tools are available and ready to facilitate the successful installation of ASRClient.
 
 Note: If you want to run the gradle build command and have it compile without errors you will have to run the server with ASRClient so that it can run and pass its tests.
-
-![image](https://raw.githubusercontent.com/openai/whisper/main/approach.png)
