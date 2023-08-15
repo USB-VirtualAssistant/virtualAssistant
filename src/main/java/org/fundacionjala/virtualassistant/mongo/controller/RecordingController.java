@@ -2,17 +2,11 @@ package org.fundacionjala.virtualassistant.mongo.controller;
 
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
-
-
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +14,11 @@ import java.util.Optional;
 @RequestMapping("/recordings")
 public class RecordingController {
 
-    @Autowired
     RecordingService recordingService;
+
+    public RecordingController(RecordingService recordingService) {
+        this.recordingService = recordingService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<RecordingResponse>> getAllRecordings() {
@@ -40,7 +37,7 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/")
-    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat) {
+    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@RequestParam("idUser") String idUser, @RequestParam("idChat") String idChat) {
         List<RecordingResponse> recordings = recordingService.getAllRecordingsToUser(idUser, idChat);
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
