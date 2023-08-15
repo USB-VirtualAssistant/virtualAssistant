@@ -21,7 +21,7 @@ public class RecordingController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<RecordingResponse>> getAllRecordings() {
+    public ResponseEntity<List<RecordingResponse>> getAllRecordings() throws RecordingException {
         List<RecordingResponse> recordings = recordingService.getAllRecordings();
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
@@ -37,7 +37,7 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/")
-    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@RequestParam("idUser") String idUser, @RequestParam("idChat") String idChat) {
+    public ResponseEntity<List<RecordingResponse>> getRecordingsUser(@RequestParam("idUser") Long idUser, @RequestParam("idChat") Long idChat) throws RecordingException {
         List<RecordingResponse> recordings = recordingService.getAllRecordingsToUser(idUser, idChat);
         return new ResponseEntity<>(recordings, HttpStatus.OK);
     }
