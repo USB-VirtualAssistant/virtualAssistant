@@ -12,9 +12,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+
 
 @ExtendWith(MockitoExtension.class)
 public class TextRequestServiceTest {
@@ -32,7 +36,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequest() throws TextRequestException {
-        long idUser =12343L;
+        long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().idUser(idUser).build();
         RequestEntity requestEntity = RequestEntity.builder().idUser(idUser).build();
 
@@ -45,7 +49,38 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void shouldReturnAnException() {
+    public void shouldCreateATextRequestWithCorrectValues() throws TextRequestException {
+        final long idUser = 12343L;
+        final String text = "some text";
+        final long idContext = 1234L;
+
+        TextRequest textRequest = TextRequest.builder()
+                .idUser(idUser)
+                .text(text)
+                .idContext(idContext)
+                .build();
+
+        RequestEntity requestEntity = RequestEntity.builder()
+                .idUser(idUser)
+                .text(text)
+                .idContext(idContext)
+                .build();
+
+        when(requestEntityRepository.save(any(RequestEntity.class)))
+                .thenReturn(requestEntity);
+
+        TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
+        verify(requestEntityRepository).save(requestEntity);
+
+        assertNotNull(actualTextRequestResponse);
+
+        assertEquals(actualTextRequestResponse.getIdUser(), idUser);
+        assertEquals(actualTextRequestResponse.getText(), text);
+        assertEquals(actualTextRequestResponse.getIdContext(), idContext);
+    }
+
+    @Test
+    public void shouldThrowsAnException() {
         TextRequest textRequest = TextRequest.builder().idUser(null).build();
         RequestEntity requestEntity = RequestEntity.builder().idUser(null).build();
 
@@ -55,5 +90,23 @@ public class TextRequestServiceTest {
         requestEntityRepository.save(requestEntity);
 
         assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(textRequest));
+    }
+
+    @Test
+    public void shouldThrowsACorrectExceptionMessage() {
+        TextRequest textRequest = TextRequest.builder().idUser(null).build();
+        RequestEntity requestEntity = RequestEntity.builder().idUser(null).build();
+
+        when(requestEntityRepository.save(any(RequestEntity.class)))
+                .thenReturn(requestEntity);
+
+        requestEntityRepository.save(requestEntity);
+
+        Exception exceptionExpected = assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(textRequest));
+
+        String expected = "User id should not be null";
+        String actual = exceptionExpected.getMessage();
+
+        assertEquals(expected, actual);
     }
 }
