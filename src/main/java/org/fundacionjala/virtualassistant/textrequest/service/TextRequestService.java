@@ -17,7 +17,7 @@ public class TextRequestService {
     RequestEntityRepository requestEntityRepository;
 
     public TextRequestResponse createTextRequest(TextRequest textRequest) throws TextRequestException {
-        if (textRequest.getIdUser() == null || textRequest.getIdUser() <= 0) {
+        if (null == textRequest.getIdUser() || textRequest.getIdUser() <= 0) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
 
