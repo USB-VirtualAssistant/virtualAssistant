@@ -27,18 +27,11 @@ import static java.util.Objects.isNull;
 @Service
 @AllArgsConstructor
 public class RecordingService {
-
-    private static final String AUDIO_FIELD_NAME = "audio";
-    private static final String MESSAGE_EITHER_NULL = "The either processor is null";
-    RecordingRepo recordingRepo;
-    ProcessorEither<Exception, RecordingResponse> processorEither;
-
+    private RecordingRepo recordingRepo;
+    private ProcessorEither<Exception, RecordingResponse> processorEither;
     private static final String AUDIO_FIELD_NAME = "audio";
     private static final String AUDIO_EXTENSION = ".wav";
-
-    public RecordingService(RecordingRepo recordingRepo) {
-        this.recordingRepo = recordingRepo;
-    }
+    private static final String MESSAGE_EITHER_NULL = "The either processor is null";
 
     public RecordingResponse getRecording(String idRecording) throws RecordingException {
         Recording recording = recordingRepo.getRecording(idRecording);
