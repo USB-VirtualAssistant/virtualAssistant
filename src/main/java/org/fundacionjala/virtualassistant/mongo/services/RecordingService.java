@@ -3,17 +3,14 @@ package org.fundacionjala.virtualassistant.mongo.services;
 import lombok.AllArgsConstructor;
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
+import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
-import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFileException;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.repository.RecordingRepo;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +64,7 @@ public class RecordingService {
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
                 .idChat(recording.getIdChat())
-                .audioFile(convertDocumentToFile(recording.getAudioFile(), AUDIO_FIELD_NAME))
+                .audioResponse(convertDocumentToAudioResponse(recording.getAudioFile(), recording.getIdRecording()+".wav"))
                 .build();
     }
 
@@ -89,18 +86,15 @@ public class RecordingService {
                 .collect(Collectors.toList());
     }
 
-    private File convertDocumentToFile(Document document, String nameAudio) throws ConvertedDocumentToFileException {
-        try {
-            String encodedAudio = document.getString(AUDIO_FIELD_NAME);
-            byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
-            File outputFile =  File.createTempFile(nameAudio, ".wav");
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            fos.write(audioBytes);
-            fos.close();
-            return outputFile;
-        } catch (IOException e) {
-            throw new ConvertedDocumentToFileException(e.getMessage(), e);
+    private AudioResponse convertDocumentToAudioResponse(Document document, String nameAudio) throws RecordingException {
+        if (isNull(document)) {
+            throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
         }
+        String encodedAudio = document.getString(AUDIO_FIELD_NAME);
+        byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
+        return AudioResponse.builder()
+                .nameAudio(nameAudio)
+                .audioByte(audioBytes)
+                .build();
     }
 }
-
