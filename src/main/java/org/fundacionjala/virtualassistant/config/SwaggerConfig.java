@@ -11,6 +11,10 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
+
+import java.awt.*;
 
 @Configuration
 @EnableWebMvc
@@ -32,8 +36,16 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public UiConfiguration uiConfiguration() {
+        return UiConfigurationBuilder.builder()
+                .defaultModelsExpandDepth(-1)
+                .build();
+    }
+
+    @Bean
     public InternalResourceViewResolver defaultViewResolver() {
         return new InternalResourceViewResolver();
     }
+
 
 }
