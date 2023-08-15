@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.services.mongo;
 
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
+import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFileException;
 import org.fundacionjala.virtualassistant.mongo.exception.GeneratedDocumentException;
@@ -16,10 +17,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class RecordingServiceImplTest {
@@ -41,10 +44,9 @@ class RecordingServiceImplTest {
   @Test
   void saveRecordingInDB() throws RecordingException, IOException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile("tem_", mockFile.getContentType());
-    mockFile.transferTo(file);
+    AudioResponse audioResponse = new AudioResponse("tem_", mockFile.getBytes());
 
-    RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
+    RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, audioResponse);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
             .thenReturn(new Recording(idUser, idChat, new Document("audio", "")));
 
@@ -53,7 +55,7 @@ class RecordingServiceImplTest {
     assertNotNull(result);
     assertEquals(recordingResponse.getIdUser(), result.getIdUser());
     assertEquals(recordingResponse.getIdChat(), result.getIdChat());
-    assertNotNull(result.getAudioFile());
+    assertNotNull(result.getAudioResponse());
   }
 
   @Test
@@ -106,21 +108,20 @@ class RecordingServiceImplTest {
   void saveRecordingInDBWith1000Bytes() throws RecordingException, IOException {
     mockFile = new MockMultipartFile("test", new byte[1000]);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile("tem_", mockFile.getContentType());
-    mockFile.transferTo(file);
+    AudioResponse audioResponse = new AudioResponse("tem_", mockFile.getBytes());
 
-    RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, file);
+    RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, audioResponse);
+    String encodedAudio = Base64.getEncoder().encodeToString(mockFile.getBytes());
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
-            .thenReturn(new Recording(idUser, idChat, new Document("audio", "")));
+            .thenReturn(new Recording(idUser, idChat, new Document("audio", encodedAudio)));
 
     RecordingResponse result = service.saveRecording(recordingRequest);
     
     verify(recordingRepo).saveRecording(idUser, idChat, mockFile);
     assertNotNull(result);
-    assertTrue(result.getAudioFile().isFile());
-    assertTrue(result.getAudioFile().exists());
+    assertEquals(recordingResponse.getAudioResponse().getAudioByte().length,recordingRequest.getAudioFile().getBytes().length );
     assertEquals(recordingResponse.getIdUser(), result.getIdUser());
     assertEquals(recordingResponse.getIdChat(), result.getIdChat());
-    assertNotNull(result.getAudioFile());
+    assertNotNull(result.getAudioResponse());
   }
 }
