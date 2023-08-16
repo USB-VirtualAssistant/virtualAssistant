@@ -2,6 +2,7 @@ from jproperties import Properties
 from fastapi import FastAPI, HTTPException, Query
 import httpx
 import os
+from pydantic import BaseModel
 
 root_conf_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(
@@ -39,7 +40,7 @@ class WitAiTextProcessor:
             raise HTTPException(status_code=500, detail=f"Failed processing: {str(e)}")
 
     async def get_response(self, input_text: str):
-        url = properties_config.get("wit.url")
+        url = properties_config.get("wit.url").data
         act_given_params = {"q": input_text}
         act_headers = {"Authorization": f"Bearer {self.wit_token}"}
         return await self.http_client.get(url, params=act_given_params, headers=act_headers)
@@ -47,8 +48,7 @@ class WitAiTextProcessor:
     def process_val_extract(self, wit_data):
         if self.target_entity and self.target_property:
             return wit_data["entities"].get(self.target_entity, {}).get(self.target_property, {}).get("value")
-        else:
-            return None
+        return None
 
     async def close(self):
         await self.http_client.aclose()
