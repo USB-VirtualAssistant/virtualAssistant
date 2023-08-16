@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.mongo.services;
 
+import lombok.AllArgsConstructor;
 import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
@@ -20,16 +21,13 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 
 @Service
+@AllArgsConstructor
 public class RecordingService {
 
+    private static final String AUDIO_FIELD_NAME = "audio";
+    private static final String MESSAGE_EITHER_NULL = "The either processor is null";
     RecordingRepo recordingRepo;
     ProcessorEither<Exception, RecordingResponse> processorEither;
-
-    private static final String AUDIO_FIELD_NAME = "audio";
-
-    public RecordingService(RecordingRepo recordingRepo) {
-        this.recordingRepo = recordingRepo;
-    }
 
     public RecordingResponse getRecording(String idRecording) throws RecordingException {
         Recording recording = recordingRepo.getRecording(idRecording);
@@ -45,12 +43,13 @@ public class RecordingService {
         return recordingRepo.deleteRecording(idRecording);
     }
 
-    public List<RecordingResponse> getAllRecordingsToUser(Long idUser, Long idChat) {
+    public List<RecordingResponse> getAllRecordingsToUser(Long idUser, Long idChat)
+            throws RecordingException {
         List<Recording> recordings = recordingRepo.getAllRecordingsToUser(idUser,idChat);
         return convertListRecordingsToListResponse(recordings);
     }
 
-    public List<RecordingResponse> getAllRecordings() {
+    public List<RecordingResponse> getAllRecordings() throws RecordingException {
         List<Recording> recordings = recordingRepo.getAllRecordings();
         return  convertListRecordingsToListResponse(recordings);
     }
@@ -72,7 +71,11 @@ public class RecordingService {
                 .build();
     }
 
-    private List<RecordingResponse> convertListRecordingsToListResponse(List<Recording> recordings) {
+    private List<RecordingResponse> convertListRecordingsToListResponse(List<Recording> recordings)
+            throws RecordingException {
+        if (isNull(processorEither)) {
+            throw new RecordingException(MESSAGE_EITHER_NULL);
+        }
         return recordings.stream()
                 .map(processorEither.lift(recording -> {
                     try {

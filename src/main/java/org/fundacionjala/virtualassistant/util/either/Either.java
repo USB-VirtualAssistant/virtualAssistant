@@ -2,16 +2,20 @@ package org.fundacionjala.virtualassistant.util.either;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @ToString
+@Component
 public class Either<L, R> implements ProcessorEither<L, R> {
-  private final L left;
-  private final R right;
+  private L left;
+  private R right;
 
   public static <L, R> Either<L, R> left(L value) {
     return new Either<>(value, null);
