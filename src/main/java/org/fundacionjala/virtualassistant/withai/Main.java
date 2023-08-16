@@ -2,39 +2,31 @@ package org.fundacionjala.virtualassistant.withai;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class Main {
 
     public static void main(String[] args) {
-        // Define the user input
-        String userInput = "What is the weather like today?";
+        String userInput = "How is the weather today?";
 
-        // Make a POST request to the With AI API
+        String encodedInput = URLEncoder.encode(userInput, StandardCharsets.UTF_8);
         HttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://api.wit.ai/language?v=20230215&q=bonjour");
+        HttpGet httpGet = new HttpGet("https://api.wit.ai/message?v=20230215&q=" + encodedInput);
 
-        // Set the request headers
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("Authorization", "Bearer YOUR_API_KEY");
-
-        // Set the request body
-        StringEntity requestBody = new StringEntity("{\"text\": \"" + userInput + "\"}", "UTF-8");
-        httpPost.setEntity(requestBody);
+        httpGet.setHeader("Content-Type", "application/json");
+        httpGet.setHeader("Authorization", "Bearer PYMNGHHB77HJZOX3L2VYXE6I4TXVAYTA");
 
         try {
-            // Send the POST request
-            HttpResponse response = httpClient.execute(httpPost);
+            HttpResponse response = httpClient.execute(httpGet);
 
-            // Get the response body
             String responseBody = EntityUtils.toString(response.getEntity());
 
-            // Print the response
             System.out.println(responseBody);
         } catch (IOException e) {
             e.printStackTrace();
