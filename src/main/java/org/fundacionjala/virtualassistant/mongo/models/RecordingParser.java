@@ -25,16 +25,15 @@ public class RecordingParser {
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
                 .idChat(recording.getIdChat())
-                .audioFile(convertDocumentToFile(recording.getAudioFile(), AUDIO_FIELD_NAME))
+                .audioFile(convertDocumentToFile(recording.getAudioFile()))
                 .build();
     }
 
-    private static File convertDocumentToFile(org.bson.Document document, String nameAudio)
-            throws ConvertedDocumentToFileException {
+    private static File convertDocumentToFile(org.bson.Document document) throws ConvertedDocumentToFileException {
         try {
-            String encodedAudio = document.getString(nameAudio);
+            String encodedAudio = document.getString(AUDIO_FIELD_NAME);
             byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
-            File outputFile = File.createTempFile(nameAudio, AUDIO_EXTENSION);
+            File outputFile = File.createTempFile(AUDIO_FIELD_NAME, AUDIO_EXTENSION);
             FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(audioBytes);
             fos.close();
@@ -43,4 +42,5 @@ public class RecordingParser {
             throw new ConvertedDocumentToFileException(e.getMessage(), e);
         }
     }
+
 }

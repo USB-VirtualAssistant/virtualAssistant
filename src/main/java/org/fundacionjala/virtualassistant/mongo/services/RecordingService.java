@@ -89,11 +89,9 @@ public class RecordingService {
     }
 
     private boolean validateWavFile(MultipartFile audioFile) {
-        return Optional.ofNullable(audioFile)
-                .map(MultipartFile::getOriginalFilename)
+        return Optional.ofNullable(audioFile.getOriginalFilename())
                 .map(filename -> filename.toLowerCase().endsWith(AUDIO_EXTENSION))
                 .orElse(false);
     }
-
 }
 
