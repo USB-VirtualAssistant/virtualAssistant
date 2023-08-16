@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 
 
 @Entity
-@Table(name = "db_schema.user_info")
+@Table(name = "user_info")
 @NoArgsConstructor(force = true)
 @Value
 public class UserEntity {
