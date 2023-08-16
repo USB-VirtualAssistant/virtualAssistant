@@ -9,8 +9,8 @@ root_conf_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
 properties_file_data = os.path.join(root_conf_dir, "resources", "application.properties")
 properties_config = Properties()
 
-with open(properties_file_data, "rb") as f:
-    properties_config.load(f)
+with open(properties_file_data, "rb") as file:
+    properties_config.load(file)
 
 class WitAiResponseHandler:
     @staticmethod
@@ -63,6 +63,6 @@ async def process_text_endpoint(input_data: str = Query(...)):
     response = await text_processor.process_given_text(input_data)
     return response
 
-@app.on_event("end")
-async def turnoff_event():
+@app.on_event("shutdown")
+async def shutdown_event():
     await text_processor.close()
