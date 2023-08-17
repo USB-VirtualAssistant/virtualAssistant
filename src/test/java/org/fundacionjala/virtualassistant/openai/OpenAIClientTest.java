@@ -21,7 +21,7 @@ class OpenAIClientTest {
     @BeforeEach
     void setUp() {
         service = mock(OpenAiService.class);
-        client = new OpenAIClient(service);
+        client = new OpenAIClient();
     }
 
     @Test
