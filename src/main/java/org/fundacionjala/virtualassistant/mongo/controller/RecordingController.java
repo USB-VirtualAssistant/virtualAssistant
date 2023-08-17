@@ -1,9 +1,11 @@
 package org.fundacionjala.virtualassistant.mongo.controller;
 
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
+import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +58,24 @@ public class RecordingController {
     public ResponseEntity<RecordingResponse> saveRecording(@ModelAttribute RecordingRequest recordingRequest) throws RecordingException {
         RecordingResponse savedRecording = recordingService.saveRecording(recordingRequest);
         return new ResponseEntity<>(savedRecording, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/audio/download/{id}")
+    public ResponseEntity<InputStreamResource> getRecordingIdDownload(@PathVariable("id") String id) throws RecordingException {
+        Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
+        if (recording.isPresent()){
+            AudioResponse audioResponse = recording.get().getAudioResponse();
+            InputStream inputStream = new ByteArrayInputStream(audioResponse.getAudioByte());
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename="+audioResponse.getNameAudio());
+            InputStreamResource resource = new InputStreamResource(inputStream);
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
