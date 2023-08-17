@@ -39,4 +39,9 @@ class SwaggerConfigTest {
                 .andExpect(jsonPath("$[0].name").value("default"));
     }
 
+    @Test
+    void testSwaggerAPIDocsForEndpoint() throws Exception {
+        mockMvc.perform(get("/v3/api-docs")).andExpect(status().isOk());
+    }
+
 }
