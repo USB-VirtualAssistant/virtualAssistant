@@ -15,7 +15,7 @@ public class DocumentCategorizerExample {
 
         DocumentCategorizerME categorizer = new DocumentCategorizerME(model);
 
-        String document = "Replay this song, please";
+        String document = "Calculate 2 + 2";
 
         SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE;
         String[] tokens = tokenizer.tokenize(document);
