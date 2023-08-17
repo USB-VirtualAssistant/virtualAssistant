@@ -56,4 +56,9 @@ class SwaggerConfigTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void testSwaggerDocumentationGetTextRequestsUsingGET() throws Exception {
+        mockMvc.perform(get("/swagger-ui/index.html?url=/v3/api-docs#/text-request-controller/getTextRequestsUsingGET"))
+                .andExpect(status().isOk());
+    }
 }
