@@ -34,8 +34,8 @@ public class TextRequestControllerTest {
 
     @Test
     void getTextRequestsById() {
-        RequestEntity requestA = new RequestEntity(REQUEST_TEXT_A, REQUEST_DATE, ID_AUDIO_A, CONTEXT_ID_1, USER_ID_1);
-        RequestEntity requestB = new RequestEntity(REQUEST_TEXT_B, REQUEST_DATE, ID_AUDIO_B, CONTEXT_ID_1, USER_ID_1);
+        RequestEntity requestA = new RequestEntity();
+        RequestEntity requestB = new RequestEntity();
 
         List<RequestEntity> requests = new ArrayList<>();
         requests.add(requestB);
@@ -48,8 +48,8 @@ public class TextRequestControllerTest {
 
     @Test
     void getTextRequestsByIdWithAnotherValuesOfId() {
-        RequestEntity requestA = new RequestEntity(REQUEST_TEXT_A, REQUEST_DATE, ID_AUDIO_A, CONTEXT_ID_2, USER_ID_2);
-        RequestEntity requestB = new RequestEntity(REQUEST_TEXT_B, REQUEST_DATE, ID_AUDIO_B, CONTEXT_ID_2, USER_ID_2);
+        RequestEntity requestA = new RequestEntity();
+        RequestEntity requestB = new RequestEntity();
 
         List<RequestEntity> requests = new ArrayList<>();
         requests.add(requestB);

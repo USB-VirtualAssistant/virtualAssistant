@@ -34,7 +34,7 @@ class RequestEntityRepositoryTest {
 
   @Test
   void addUserWithMock() {
-    RequestEntity request = new RequestEntity(REQUEST_TEXT, REQUEST_DATE, ID_AUDIO_A, CONTEXT_ID_1, USER_ID_2);
+    RequestEntity request = new RequestEntity();
     when(repository.save(any(RequestEntity.class))).thenReturn(request);
 
     assertEquals(repository.save(request), request);
