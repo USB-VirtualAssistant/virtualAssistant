@@ -8,9 +8,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @TestPropertySource(properties = {
@@ -29,4 +30,13 @@ class SwaggerConfigTest {
         mockMvc.perform(get("/swagger-ui/"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void testSwaggerResourceListing() throws Exception {
+        mockMvc.perform(get("/swagger-resources"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$[0].name").value("default"));
+    }
+
 }
