@@ -3,12 +3,13 @@ package org.fundacionjala.virtualassistant.textrequest.controller.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 @Value
 @Builder
+@Jacksonized
 public class TextRequest {
 
     Long idUser;
@@ -20,5 +21,5 @@ public class TextRequest {
 
     Long idContext;
 
-    Long idAudioMongo;
+    String idAudioMongo;
 }

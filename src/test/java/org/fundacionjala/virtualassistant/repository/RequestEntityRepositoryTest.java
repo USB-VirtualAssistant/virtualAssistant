@@ -18,7 +18,7 @@ class RequestEntityRepositoryTest {
 
   private static final String REQUEST_TEXT = "hello";
   private static final ZonedDateTime REQUEST_DATE = ZonedDateTime.of(2023, 8, 2, 12, 0, 0, 0, ZoneId.systemDefault());
-  private static final Long ID_AUDIO_A = 2L;
+  private static final String ID_AUDIO_A = "mongo_id";
   private static final Long CONTEXT_ID_1 = 1L;
   private static final Long USER_ID_2 = 2L;
 
