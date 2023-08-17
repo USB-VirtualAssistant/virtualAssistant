@@ -7,6 +7,7 @@ import org.fundacionjala.virtualassistant.textrequest.controller.request.TextReq
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.springframework.stereotype.Service;
+import org.fundacionjala.virtualassistant.openai.component.OpenAIComponent;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class TextRequestService {
     private static final String TEXT_REQUEST_USER_ID_NULL = "User id should not be null";
     RequestEntityRepository requestEntityRepository;
+    OpenAIComponent openAi;
 
     public TextRequestResponse createTextRequest(TextRequest textRequest) throws TextRequestException {
         if (null == textRequest.getIdUser() || textRequest.getIdUser() <= 0) {
@@ -27,7 +29,7 @@ public class TextRequestService {
 
         return TextRequestResponse.builder()
                 .idUser(savedRequestEntity.getIdUser())
-                .text(savedRequestEntity.getText())
+                .text(openAi.getResponse(savedRequestEntity.getText()))
                 .idContext(savedRequestEntity.getIdContext())
                 .build();
     }
