@@ -88,7 +88,7 @@ public class RecordingService {
 
     private AudioResponse convertDocumentToAudioResponse(Document document, String nameAudio) throws RecordingException {
         if (isNull(document)) {
-            throw new RecordingException(RecordingException.MESSAGE_RECORDING_NULL);
+            throw new RecordingException("The Document to be converted to AudioResponse is null");
         }
         String encodedAudio = document.getString(AUDIO_FIELD_NAME);
         byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
