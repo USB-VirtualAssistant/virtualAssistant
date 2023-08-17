@@ -10,10 +10,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class Main {
+public class WitAi {
 
-    public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
+    public String processIntent() {
         String userInput = "How is the weather today?";
 
         String encodedInput = URLEncoder.encode(userInput, StandardCharsets.UTF_8);
@@ -28,16 +27,11 @@ public class Main {
 
             String responseBody = EntityUtils.toString(response.getEntity());
 
-            System.out.println(responseBody);
-            long endTime = System.currentTimeMillis();
-            long elapsedTimeMillis = endTime - startTime;
-            double elapsedTimeSeconds = elapsedTimeMillis / 1000.0;
-            System.out.println("Time Taken: " + elapsedTimeSeconds + " s");
+            return responseBody;
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
-//        TaskHandler taskHandler = new TaskHandler();
-//        taskHandler.handleResponse();
     }
 }
 
