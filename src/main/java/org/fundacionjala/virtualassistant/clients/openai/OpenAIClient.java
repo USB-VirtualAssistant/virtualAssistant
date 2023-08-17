@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.clients.openai;
 
-import com.theokanning.openai.completion.*;
+
+import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -12,6 +13,7 @@ public class OpenAIClient implements AIClientInterface {
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
     public static final boolean ECHO = true;
+
     private final OpenAiService service = new OpenAiService(TOKEN);
 
     @Override
