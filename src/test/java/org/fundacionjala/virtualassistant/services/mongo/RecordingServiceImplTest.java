@@ -34,8 +34,8 @@ import static org.mockito.Mockito.when;
 class RecordingServiceImplTest {
   private RecordingService service;
   private RecordingRepo recordingRepo;
-  long idUser;
-  long idChat;
+  private long idUser;
+  private long idChat;
   MockMultipartFile mockFile;
   private static final String FILE_NAME = "test";
   private static final String ORIGINAL_FILE_NAME = "test.wav";
