@@ -33,9 +33,9 @@ public class RequestEntity {
     @Column(name = "date")
     private ZonedDateTime date;
     @Column(name = "id_audio_mongo")
-    private Long idAudioMongo;
+    private String idAudioMongo;
 
-    public RequestEntity(String text, ZonedDateTime date, Long idAudioMongo, Long idContext, Long idUser) {
+    public RequestEntity(String text, ZonedDateTime date, String idAudioMongo, Long idContext, Long idUser) {
         this.text = text;
         this.date = date;
         this.idAudioMongo = idAudioMongo;
