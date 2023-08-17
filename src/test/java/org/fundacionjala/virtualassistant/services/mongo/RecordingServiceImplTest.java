@@ -31,16 +31,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 class RecordingServiceImplTest {
   private RecordingService service;
   private RecordingRepo recordingRepo;
@@ -49,7 +39,6 @@ class RecordingServiceImplTest {
   MockMultipartFile mockFile;
   private static final String FILE_NAME = "test";
   private static final String ORIGINAL_FILE_NAME = "test.wav";
-  private static final String FILE_EXTENSION = ".wav";
 
   @BeforeEach
   void setUp() {
@@ -66,7 +55,7 @@ class RecordingServiceImplTest {
   void givenARecordingRequestInDBWhenSavingThenItWillReturnARecordingResponse()
           throws RecordingException, IOException {
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile(FILE_NAME, FILE_EXTENSION);
+    AudioResponse audioResponse = new AudioResponse(ORIGINAL_FILE_NAME, mockFile.getBytes());
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, audioResponse);
     when(recordingRepo.saveRecording(anyLong(), anyLong(), any(MultipartFile.class)))
@@ -141,7 +130,7 @@ class RecordingServiceImplTest {
     mockFile = new MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME,
             MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[1000]);
     RecordingRequest recordingRequest = new RecordingRequest(idUser, idChat, mockFile);
-    File file = File.createTempFile(FILE_NAME, FILE_EXTENSION);
+    AudioResponse audioResponse = new AudioResponse(ORIGINAL_FILE_NAME, mockFile.getBytes());
 
     RecordingResponse recordingResponse = new RecordingResponse("Id", idUser, idChat, audioResponse);
     String encodedAudio = Base64.getEncoder().encodeToString(mockFile.getBytes());
