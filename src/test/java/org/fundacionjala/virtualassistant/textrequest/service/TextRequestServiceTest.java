@@ -12,8 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -108,5 +108,29 @@ public class TextRequestServiceTest {
         String actual = exceptionExpected.getMessage();
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void givenRequestEntity_whenSaveTextRequestService_thenSaveTextRequest() {
+        String text = "Test Text";
+        long idRequest = 123L;
+        long idAudio = 456L;
+        long idUser = 789L;
+
+        RequestEntity requestEntity = RequestEntity.builder()
+                .idRequest(idRequest)
+                .text(text)
+                .idAudioMongo(idAudio)
+                .idUser(idUser)
+                .build();
+
+        when(requestEntityRepository.save(any(RequestEntity.class))).thenReturn(requestEntity);
+
+        TextRequest result = textRequestService.save(idRequest, text, idAudio, idUser);
+
+        assertNotNull(result);
+        assertSame(result.getText(), requestEntity.getText());
+        assertSame(result.getIdUser(), requestEntity.getIdUser());
+        assertSame(result.getIdAudioMongo(), requestEntity.getIdAudioMongo());
     }
 }
