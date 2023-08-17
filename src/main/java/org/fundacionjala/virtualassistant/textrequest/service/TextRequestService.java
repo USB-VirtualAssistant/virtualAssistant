@@ -9,6 +9,8 @@ import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestExcep
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 
+        import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TextRequestService {
@@ -57,5 +59,9 @@ public class TextRequestService {
                 .idUser(textRequest.getIdUser())
                 .text(textRequest.getText())
                 .build();
+    }
+
+    public List<RequestEntity> getTextRequestByUserAndContext(Long id, Long contextId) {
+        return requestEntityRepository.findAllByIdUserAndIdContext(id, contextId);
     }
 }

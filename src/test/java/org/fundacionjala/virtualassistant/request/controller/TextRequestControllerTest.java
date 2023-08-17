@@ -1,7 +1,7 @@
 package org.fundacionjala.virtualassistant.request.controller;
 
-import org.fundacionjala.virtualassistant.controllers.TextRequestController;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
+import org.fundacionjala.virtualassistant.textrequest.controller.RequestEntityController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TextRequestControllerTest {
-    private TextRequestController textRequestController;
+    private RequestEntityController textRequestController;
 
     private static final String REQUEST_TEXT_A = "How's the weather today?";
     private static final String REQUEST_TEXT_B = "Hello assistant!";
@@ -29,7 +29,7 @@ public class TextRequestControllerTest {
 
     @BeforeEach
     void setUp() {
-        textRequestController = mock(TextRequestController.class);
+        textRequestController = mock(RequestEntityController.class);
     }
 
     @Test

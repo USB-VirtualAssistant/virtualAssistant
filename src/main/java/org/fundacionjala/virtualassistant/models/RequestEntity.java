@@ -21,6 +21,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "request")
 public class RequestEntity {
     @Id
