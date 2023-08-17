@@ -44,4 +44,10 @@ class SwaggerConfigTest {
         mockMvc.perform(get("/v3/api-docs")).andExpect(status().isOk());
     }
 
+    @Test
+    void testSwaggerDocumentationGetRecordingsUserUsingGET() throws Exception {
+        mockMvc.perform(get("/swagger-ui/index.html?url=/v3/api-docs#/recording-controller/getRecordingsUserUsingGET"))
+                .andExpect(status().isOk());
+    }
+
 }
