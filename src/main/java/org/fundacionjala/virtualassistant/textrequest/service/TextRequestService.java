@@ -2,11 +2,16 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
         import lombok.AllArgsConstructor;
         import org.fundacionjala.virtualassistant.models.RequestEntity;
+        import org.fundacionjala.virtualassistant.models.ResponseEntity;
         import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+        import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
         import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
         import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
         import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
         import org.springframework.stereotype.Service;
+        import org.w3c.dom.Text;
+
+        import java.time.ZonedDateTime;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +35,22 @@ public class TextRequestService {
                 .text(savedRequestEntity.getText())
                 .idContext(savedRequestEntity.getIdContext())
                 .build();
+    }
+
+    public TextRequest save(long idRequest, String text, Long idAudio, Long idUser) {
+        RequestEntity requestEntity = RequestEntity.builder()
+                .idRequest(idRequest)
+                .text(text)
+                .date(ZonedDateTime.now())
+                .idAudioMongo(idAudio)
+                .idUser(idUser)
+                .build();
+        RequestEntity requestEntitySaved = requestEntityRepository.save(requestEntity);
+        return TextRequest.builder()
+                .idUser(requestEntitySaved.getIdUser())
+                .idAudioMongo(requestEntitySaved.getIdAudioMongo())
+                .idContext(requestEntitySaved.getIdContext())
+                .text(requestEntitySaved.getText()).build();
     }
 
     private RequestEntity requestEntityFromTextRequest(TextRequest textRequest) {
