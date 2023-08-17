@@ -50,4 +50,10 @@ class SwaggerConfigTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void testSwaggerDocumentationGetAllRecordingsUsingGET() throws Exception {
+        mockMvc.perform(get("/swagger-ui/index.html?url=/v3/api-docs#/recording-controller/getAllRecordingsUsingGET"))
+                .andExpect(status().isOk());
+    }
+
 }
