@@ -27,7 +27,9 @@ public class ResponseEntity {
     Long idResponse;
     @Column(name = "id_request")
     Long idRequest;
+    @Column(name = "text")
     String text;
+    @Column(name = "date")
     ZonedDateTime date;
 }
 
