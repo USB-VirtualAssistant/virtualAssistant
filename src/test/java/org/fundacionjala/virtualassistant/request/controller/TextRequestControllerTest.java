@@ -19,8 +19,8 @@ public class TextRequestControllerTest {
 
     private static final String REQUEST_TEXT_A = "How's the weather today?";
     private static final String REQUEST_TEXT_B = "Hello assistant!";
-    private static final Long ID_AUDIO_A = 2L;
-    private static final Long ID_AUDIO_B = 1L;
+    private static final String ID_AUDIO_A = "mongo_id";
+    private static final String ID_AUDIO_B = "mongo_id";
     private static final Long CONTEXT_ID_1 = 1L;
     private static final Long USER_ID_1 = 2L;
     private static final Long CONTEXT_ID_2 = 2L;
