@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 public class Main {
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         String userInput = "How is the weather today?";
 
         String encodedInput = URLEncoder.encode(userInput, StandardCharsets.UTF_8);
@@ -28,6 +29,10 @@ public class Main {
             String responseBody = EntityUtils.toString(response.getEntity());
 
             System.out.println(responseBody);
+            long endTime = System.currentTimeMillis();
+            long elapsedTimeMillis = endTime - startTime;
+            double elapsedTimeSeconds = elapsedTimeMillis / 1000.0;
+            System.out.println("Time Taken: " + elapsedTimeSeconds + " s");
         } catch (IOException e) {
             e.printStackTrace();
         }
