@@ -2,7 +2,7 @@ package org.fundacionjala.virtualassistant.textResponse.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
-import org.fundacionjala.virtualassistant.repository.ResponseEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import java.time.ZonedDateTime;
 
