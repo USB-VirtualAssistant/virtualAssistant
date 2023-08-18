@@ -1,11 +1,12 @@
 package org.fundacionjala.virtualassistant.clients.openai;
 
-
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class OpenAIClient implements AIClientInterface {
     private static final Dotenv dotenv = Dotenv.load();
     private static final String TOKEN = dotenv.get("TOKEN_AICLIENTE");
@@ -13,8 +14,11 @@ public class OpenAIClient implements AIClientInterface {
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
     public static final boolean ECHO = true;
+    private OpenAiService service;
 
-    private final OpenAiService service = new OpenAiService(TOKEN);
+    public OpenAIClient(OpenAiService service) {
+        this.service = service;
+    }
 
     @Override
     public String chat(String request) {
@@ -27,7 +31,9 @@ public class OpenAIClient implements AIClientInterface {
                 .build();
 
         StringBuilder answerBuilder = new StringBuilder();
-        this.service.createCompletion(completionRequest).getChoices().forEach(choice -> answerBuilder.append(choice.getText()));
+        this.service.createCompletion(completionRequest)
+                .getChoices()
+                .forEach(choice -> answerBuilder.append(choice.getText()));
         return removePatternFromStart(answerBuilder, completionRequest.getPrompt());
     }
 
