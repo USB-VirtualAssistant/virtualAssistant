@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.npl;
+package org.fundacionjala.virtualassistant.opennlp;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
