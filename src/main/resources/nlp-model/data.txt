@@ -1,0 +1,140 @@
+Asking_for_information What is the capital of Australia?
+Asking_for_information Explain the concept of gravity.
+Asking_for_information Can you tell me about the history of Ancient Egypt?
+Asking_for_information What is the boiling point of water?
+Asking_for_information Define the term "photosynthesis."
+Asking_for_information How does the respiratory system work?
+Asking_for_information Explain the law of conservation of energy.
+Asking_for_information What are renewable energy sources?
+Asking_for_information Describe the process of mitosis.
+Asking_for_information What is the function of the ozone layer?
+Asking_for_information How does a touchscreen technology work?
+Asking_for_information What is the definition of biodiversity?
+Asking_for_information Explain the concept of inflation in economics.
+Asking_for_information How do plants perform gas exchange?
+Asking_for_information What is the significance of the Mona Lisa painting?
+Reproduce_music Play "Shape of You" by Ed Sheeran.
+Reproduce_music Start playing some jazz music.
+Reproduce_music Play my "Relaxation" playlist.
+Reproduce_music Play the latest album by Beyoncé.
+Reproduce_music Begin playing music from the 90s.
+Reproduce_music Play a random track from my library.
+Reproduce_music Play some energetic rock music.
+Reproduce_music Start playing the "Road Trip" playlist.
+Reproduce_music Play the top hits of the decade.
+Reproduce_music Play "Bohemian Rhapsody" by Queen.
+Reproduce_music Begin playing songs by Michael Jackson.
+Reproduce_music Play a calming acoustic song.
+Reproduce_music Play the soundtrack from the movie "Interstellar."
+Reproduce_music Play some electronic dance music (EDM).
+Reproduce_music Play music for studying and focus.
+Replay_music Replay the last song.
+Replay_music Play the previous track.
+Replay_music Repeat the current song.
+Replay_music Play the song again.
+Replay_music Start the song over.
+Replay_music Replay the last five tracks.
+Replay_music Play the previous song in the playlist.
+Replay_music Repeat the entire playlist.
+Replay_music Play the previous album.
+Replay_music Replay the song that just finished.
+Replay_music Start the current track from the beginning.
+Replay_music Play the last song one more time.
+Replay_music Replay the track that's currently playing.
+Replay_music Play the song from the beginning again.
+Replay_music Repeat the last two minutes of the song.
+Sending_greetings Hello, how are you today?
+Sending_greetings Hey there, what's new?
+Sending_greetings Hi! How's your day going?
+Sending_greetings Good morning! How did you sleep?
+Sending_greetings Hi, how's everything on your end?
+Sending_greetings Greetings! How's the weather there?
+Sending_greetings Hello! What's the latest news?
+Sending_greetings Hey, hope you're having a great day!
+Sending_greetings Hi, it's been a while. How have you been?
+Sending_greetings Hey, just wanted to say hi!
+Sending_greetings Hello, are you ready for today's tasks?
+Sending_greetings Hi there! How's life treating you?
+Sending_greetings Greetings! How's your week looking?
+Sending_greetings Hello, any exciting plans for the weekend?
+Sending_greetings Hi! How's your project coming along?
+Setting_reminders Remind me to buy groceries at 5 PM.
+Setting_reminders Set a reminder for tomorrow's meeting at 10 AM.
+Setting_reminders Remind me to call mom in an hour.
+Setting_reminders Set a reminder to take a break every two hours.
+Setting_reminders Remind me to water the plants every Tuesday.
+Setting_reminders Create a reminder for my dentist appointment next week.
+Setting_reminders Set an alarm for 7:30 AM.
+Setting_reminders Remind me to submit the report by Friday.
+Setting_reminders Set a reminder to pay the bills on the 15th.
+Setting_reminders Create a reminder for the webinar on Monday.
+Making_appointments Schedule a haircut for next Tuesday.
+Making_appointments Book a reservation for two at a fine dining restaurant.
+Making_appointments Set up a meeting with John for Friday.
+Making_appointments Schedule a doctor's appointment for my annual checkup.
+Making_appointments Make an appointment with the mechanic to fix my car.
+Making_appointments Book a massage for this weekend.
+Making_appointments Set up a call with the client for tomorrow.
+Making_appointments Schedule a video conference with the team on Monday.
+Making_appointments Make an appointment with the financial advisor.
+Making_appointments Book a session with the personal trainer.
+Weather_inquiries What's the weather forecast for tomorrow?
+Weather_inquiries Will it rain later today?
+Weather_inquiries What's the temperature in New York right now?
+Weather_inquiries Is it going to be sunny this weekend?
+Weather_inquiries How's the weather looking for the next few days?
+Weather_inquiries Will there be snow tomorrow?
+Weather_inquiries What's the humidity level in my area?
+Weather_inquiries What's the weather like in London?
+Weather_inquiries Will there be a thunderstorm today?
+Weather_inquiries How cold is it expected to get tonight?
+Making_notes Take a note: Buy milk and eggs on the way home.
+Making_notes Note down: Prepare presentation for the meeting.
+Making_notes Make a note: Read chapter 5 of the book.
+Making_notes Write this down: Call the insurance company tomorrow.
+Making_notes Create a note: Research vacation destinations.
+Making_notes Jot this down: Pick up dry cleaning after work.
+Making_notes Make note of: Finish project proposal by Friday.
+Making_notes Write this in a note: Look up recipe for lasagna.
+Making_notes Note: Call Sarah for her birthday next week.
+Making_notes Take a note: Research best hiking trails nearby.
+Calculations_conversions Calculate the square root of 64.
+Calculations_conversions Convert 5 miles to kilometers.
+Calculations_conversions What's 20% of $150?
+Calculations_conversions Convert 100 Celsius to Fahrenheit.
+Calculations_conversions Calculate the area of a circle with a radius of 10.
+Calculations_conversions Convert 50 pounds to kilograms.
+Calculations_conversions What's 15 multiplied by 6?
+Calculations_conversions Convert 2000 meters to feet.
+Calculations_conversions Calculate 30 divided by 2.
+Calculations_conversions Convert 3 hours to minutes.
+Sending_messages Send a message to Jane: "Are you coming to the party?"
+Sending_messages Text mom: "I'll be home for dinner."
+Sending_messages Send an email to John with the quarterly report attached.
+Sending_messages Message Dave: "Let's meet at the coffee shop at 3 PM."
+Sending_messages Send a message to the group chat: "Meeting postponed to next week."
+Sending_messages Email the team: "Important update on the project."
+Sending_messages Text Susan: "Happy birthday! Have a great day!"
+Sending_messages Message my boss: "I need to take a sick day tomorrow."
+Sending_messages Send a message to Alex: "Remember to bring the documents."
+Sending_messages Text my friend: "Movie night at my place on Saturday!"
+Finding_information Look up the recipe for chocolate chip cookies.
+Finding_information Find information about the Eiffel Tower.
+Finding_information Search for the latest tech news.
+Finding_information Look up the symptoms of the common cold.
+Finding_information Find details about the upcoming concert in my city.
+Finding_information Search for the best hiking trails in California.
+Finding_information Look up the meaning of the word "ephemeral."
+Finding_information Find information about the benefits of meditation.
+Finding_information Search for the best budget-friendly smartphones.
+Finding_information Look up historical facts about the Renaissance.
+Health_fitness How many calories are burned during a 30-minute jog?
+Health_fitness What's the recommended daily water intake?
+Health_fitness How can I improve my posture?
+Health_fitness What are some good exercises for lower back pain?
+Health_fitness What's a balanced diet for weight loss?
+Health_fitness How can I increase my flexibility?
+Health_fitness What's the proper form for a plank exercise?
+Health_fitness How do I calculate my body mass index (BMI)?
+Health_fitness What are the benefits of regular cardio workouts?
+Health_fitness How can I prevent muscle cramps during exercise?
