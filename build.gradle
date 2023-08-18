@@ -52,6 +52,7 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
     implementation "io.springfox:springfox-boot-starter:$swaggerVersion"
     testImplementation "com.h2database:h2:$h2Database"
+    implementation group: 'org.apache.opennlp', name: 'opennlp-tools', version: '2.2.0'
 }
 
 tasks.named('test') {
