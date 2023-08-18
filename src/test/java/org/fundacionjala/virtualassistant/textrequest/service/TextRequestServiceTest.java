@@ -121,7 +121,7 @@ public class TextRequestServiceTest {
         RequestEntity requestEntity = RequestEntity.builder()
                 .idRequest(idRequest)
                 .text(text)
-                .idAudioMongo(idAudio)
+                .idAudioMongo(String.valueOf(idAudio))
                 .idUser(idUser)
                 .build();
 
