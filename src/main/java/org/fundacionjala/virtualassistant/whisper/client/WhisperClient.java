@@ -16,9 +16,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class WhisperClient implements ASRClient {
 
-    @Value("${asr.whisper.url}")
+    @Value("${index.controller.server}")
     private String url;
-    @Value("${asr.whisper.post-endpoint}")
+    @Value("${index.whisper.post-endpoint}")
     private String postEndpoint;
 
     @Override
