@@ -138,3 +138,19 @@ Health_fitness What's the proper form for a plank exercise?
 Health_fitness How do I calculate my body mass index (BMI)?
 Health_fitness What are the benefits of regular cardio workouts?
 Health_fitness How can I prevent muscle cramps during exercise?
+Get_albums   Recommend some classic rock albums.
+Get_albums   Can you suggest recent pop albums?
+Get_albums   Tell me about the top hip-hop albums of the year.
+Get_albums   What are some must-listen jazz albums?
+Get_albums   Suggest albums by female vocalists.
+Get_albums   Can you recommend indie music albums?
+Get_albums   Tell me about iconic electronic music albums.
+Get_albums   What are the best country music albums?
+Get_albums   Suggest albums with relaxing instrumental music.
+Get_albums   Recommend albums by singer-songwriters.
+Get_albums   Tell me about popular rap albums.
+Get_albums   What are some great alternative rock albums?
+Get_albums   Suggest albums for a road trip playlist.
+Get_albums   Tell me about critically acclaimed R&B albums.
+Get_albums   What are the top metal albums of all time?
+Get_albums   Get all my albums.
