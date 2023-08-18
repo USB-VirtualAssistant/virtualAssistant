@@ -1,26 +1,36 @@
 package org.fundacionjala.virtualassistant.config;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@TestPropertySource(properties = {
-        "POSTGRES_USER=postgres",
-        "POSTGRES_PASSWORD=password",
-        "MONGO_INITDB_ROOT_USERNAME=VirtualAssistant60089",
-        "MONGO_INITDB_ROOT_PASSWORD=rGYwVKko8ihLmyaC"
-})
 @AutoConfigureMockMvc
 class SwaggerConfigTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        String postgresUser = System.getenv("POSTGRES_USER");
+        String postgresPassword = System.getenv("POSTGRES_PASSWORD");
+        String mongoUsername = System.getenv("MONGO_INITDB_ROOT_USERNAME");
+        String mongPassword = System.getenv("MONGO_INITDB_ROOT_PASSWORD");
+
+        System.setProperty("POSTGRES_USER", postgresUser);
+        System.setProperty("POSTGRES_PASSWORD", postgresPassword);
+        System.setProperty("MONGO_INITDB_ROOT_USERNAME", mongoUsername);
+        System.setProperty("MONGO_INITDB_ROOT_PASSWORD", mongPassword);
+    }
 
     @Test
     void givenSwaggerUIEndpoint_whenGetRequest_thenResponseStatusIsOk() throws Exception {
