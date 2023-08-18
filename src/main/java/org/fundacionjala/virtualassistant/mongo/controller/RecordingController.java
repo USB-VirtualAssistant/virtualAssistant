@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.mongo.controller;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
+import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFileException;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.springframework.core.io.InputStreamResource;
@@ -77,5 +78,10 @@ public class RecordingController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/{id}")
+    public String getPathString(@PathVariable("id") String id) throws ConvertedDocumentToFileException {
+        return recordingService.getPathTempRecording(id);
     }
 }
