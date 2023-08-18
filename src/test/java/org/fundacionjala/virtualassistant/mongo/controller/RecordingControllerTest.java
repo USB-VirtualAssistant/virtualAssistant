@@ -58,12 +58,18 @@ class RecordingControllerTest {
     @Test
     void givenAudioEndpoint_whenGetRequestWithUserIdAndChatId_thenResponseStatusIsOk()
             throws Exception {
-        Long userId = 123L;
-        Long chatId = 456L;
+
         mockMvc.perform(get(END_POINT_PATH + "/audio/")
-                        .param("idUser", userId.toString())
-                        .param("idChat", chatId.toString()))
+                        .param("idUser",  String.valueOf(idUser))
+                        .param("idChat",  String.valueOf(idChat)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void givenAudioEndpoint_whenGetRequestWithNoUserAndNoIdAndChatId_thenResponseStatusIsBadRequest()
+            throws Exception {
+        mockMvc.perform(get(END_POINT_PATH + "/audio/"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
