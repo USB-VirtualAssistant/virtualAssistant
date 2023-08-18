@@ -2,12 +2,13 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
+import javax.validation.constraints.NotNull;
+import org.fundacionjala.virtualassistant.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.springframework.stereotype.Service;
-import org.fundacionjala.virtualassistant.openai.component.OpenAIComponent;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -18,14 +19,13 @@ public class TextRequestService {
     RequestEntityRepository requestEntityRepository;
     OpenAIComponent openAi;
 
-    public TextRequestResponse createTextRequest(TextRequest textRequest) throws TextRequestException {
+    public TextRequestResponse createTextRequest(@NotNull TextRequest textRequest) throws TextRequestException {
         if (null == textRequest.getIdUser() || textRequest.getIdUser() <= 0) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
 
         RequestEntity requestEntity = requestEntityFromTextRequest(textRequest);
         RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
-
 
         return TextRequestResponse.builder()
                 .idUser(savedRequestEntity.getIdUser())
