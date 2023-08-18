@@ -28,72 +28,69 @@ class RecordingControllerTest {
     @Autowired
     private ObjectMapper mapper;
     @MockBean
-    private RecordingService recordingServ;
-    private long idUser;
-    private long idChat;
+    private RecordingService recordingService;
+    private long userId;
+    private long chatId;
     private MockMultipartFile audioFile;
-    private String mongoId;
+    private String recordingId;
     private RecordingResponse recordingResponse;
 
     @BeforeEach
     void setUp() {
-        idUser = 1L;
-        idChat = 1L;
+        userId = 1L;
+        chatId = 1L;
         audioFile = new MockMultipartFile("test", "test.wav",
                 MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[100]);
-        mongoId = "64debc2d04d1fc7bfe27a989";
+        recordingId = "64debc2d04d1fc7bfe27a989";
         recordingResponse = RecordingResponse.builder()
                 .idRecording("")
-                .idChat(idChat)
-                .idUser(idUser)
+                .idChat(chatId)
+                .idUser(userId)
                 .build();
     }
 
     @Test
-    void givenRecordingsEndpoint_whenGetRequest_thenResponseStatusIsOk() throws Exception {
+    void shouldRespondWithStatusOkWhenAGetRequestIsPerformed() throws Exception {
         mockMvc.perform(get("/recordings"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void givenAudioEndpoint_whenGetRequestWithUserIdAndChatId_thenResponseStatusIsOk()
-            throws Exception {
+    void shouldReturnOkStatusForGetAudioWithUserIdAndChatId() throws Exception {
 
         mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
-                        .param("idUser",  String.valueOf(idUser))
-                        .param("idChat",  String.valueOf(idChat)))
+                        .param("idUser",  String.valueOf(userId))
+                        .param("idChat",  String.valueOf(chatId)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void givenAudioEndpoint_whenGetRequestWithNoUserAndNoIdAndChatId_thenResponseStatusIsBadRequest()
-            throws Exception {
+    void shouldReturnBadRequestStatusForGetAudioWithNoUserAndNoIdAndChatId() throws Exception {
         mockMvc.perform(get(ENDPOINT_PATH + "/audio/"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void givenAudioEndpoint_whenGetRequestWithUserIdAndChatId_thenResponseStatusIsBad() throws Exception {
+    void shouldReturnBadRequestStatusForGetAudioWithUserIdAndNoChatId() throws Exception {
         mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
-                        .param("idUser", String.valueOf(idUser)))
+                        .param("idUser", String.valueOf(userId)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void givenARecordingRequest_whenMockRecordingController_thenVerifyResponseIsOk()
-            throws Exception {
+    void shouldReturnCreatedStatusForRecordingRequestWithUserIdAndChatId() throws Exception {
         mockMvc.perform(multipart("/recordings/")
                         .file(audioFile)
-                        .param("idUser", Long.toString(idUser))
-                        .param("idChat", Long.toString(idChat))
+                        .param("idUser", Long.toString(userId))
+                        .param("idChat", Long.toString(chatId))
                 )
                 .andExpect(status().isCreated());
     }
 
     @Test
-    void givenAnId_whenMockRecordingController_thenVerifyResponseIsOk() throws Exception {
-        when(recordingServ.getRecording(mongoId)).thenReturn(recordingResponse);
-        mockMvc.perform(get("/recordings/audio/" + mongoId))
+    void shouldReturnOkStatusForGetRecordingWithValidId() throws Exception {
+        when(recordingService.getRecording(recordingId)).thenReturn(recordingResponse);
+        mockMvc.perform(get("/recordings/audio/" + recordingId))
                 .andExpect(status().isOk());
     }
 }
