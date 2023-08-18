@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RecordingControllerTest {
 
-    private final static String END_POINT_PATH = "/recordings";
+    private final static String ENDPOINT_PATH = "/recordings";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -59,7 +59,7 @@ class RecordingControllerTest {
     void givenAudioEndpoint_whenGetRequestWithUserIdAndChatId_thenResponseStatusIsOk()
             throws Exception {
 
-        mockMvc.perform(get(END_POINT_PATH + "/audio/")
+        mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
                         .param("idUser",  String.valueOf(idUser))
                         .param("idChat",  String.valueOf(idChat)))
                 .andExpect(status().isOk());
@@ -68,13 +68,13 @@ class RecordingControllerTest {
     @Test
     void givenAudioEndpoint_whenGetRequestWithNoUserAndNoIdAndChatId_thenResponseStatusIsBadRequest()
             throws Exception {
-        mockMvc.perform(get(END_POINT_PATH + "/audio/"))
+        mockMvc.perform(get(ENDPOINT_PATH + "/audio/"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenAudioEndpoint_whenGetRequestWithUserIdAndChatId_thenResponseStatusIsBad() throws Exception {
-        mockMvc.perform(get(END_POINT_PATH + "/audio/")
+        mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
                         .param("idUser", String.valueOf(idUser)))
                 .andExpect(status().isBadRequest());
     }
