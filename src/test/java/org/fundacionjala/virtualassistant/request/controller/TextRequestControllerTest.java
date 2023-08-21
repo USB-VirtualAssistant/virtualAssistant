@@ -25,18 +25,20 @@ public class TextRequestControllerTest {
     private static final Long USER_ID_1 = 2L;
     private static final Long CONTEXT_ID_2 = 2L;
     private static final Long USER_ID_2 = 1L;
-    private static final ZonedDateTime REQUEST_DATE = ZonedDateTime.of(2023, 8, 2, 12, 0, 0, 0, ZoneId.systemDefault());
+    private static final ZonedDateTime REQUEST_DATE = ZonedDateTime.of(2023, 8, 2, 12,
+            0, 0, 0, ZoneId.systemDefault());
+    private RequestEntity requestA;
+    private RequestEntity requestB;
 
     @BeforeEach
     void setUp() {
         textRequestController = mock(RequestEntityController.class);
+        requestA = new RequestEntity();
+        requestB = new RequestEntity();
     }
 
     @Test
     void getTextRequestsById() {
-        RequestEntity requestA = new RequestEntity();
-        RequestEntity requestB = new RequestEntity();
-
         List<RequestEntity> requests = new ArrayList<>();
         requests.add(requestB);
         requests.add(requestA);
@@ -48,8 +50,6 @@ public class TextRequestControllerTest {
 
     @Test
     void getTextRequestsByIdWithAnotherValuesOfId() {
-        RequestEntity requestA = new RequestEntity();
-        RequestEntity requestB = new RequestEntity();
 
         List<RequestEntity> requests = new ArrayList<>();
         requests.add(requestB);
