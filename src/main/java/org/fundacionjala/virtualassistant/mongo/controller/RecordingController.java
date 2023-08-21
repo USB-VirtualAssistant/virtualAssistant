@@ -1,7 +1,6 @@
 package org.fundacionjala.virtualassistant.mongo.controller;
 
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
-import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.services.AudioConverter;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +58,7 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/download/{id}")
-    public ResponseEntity<InputStreamResource> getRecordingByIdDownload(@PathVariable("id") String id) throws RecordingException {
+    public ResponseEntity<InputStreamResource> getRecordingByIdDownload(@NotEmpty @PathVariable("id") String id) throws RecordingException {
         Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
         if (recording.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

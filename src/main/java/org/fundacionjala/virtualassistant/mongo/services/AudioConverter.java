@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.mongo.services;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Optional;
-
 import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.springframework.core.io.InputStreamResource;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import javax.validation.constraints.NotNull;
 
 public class AudioConverter {
