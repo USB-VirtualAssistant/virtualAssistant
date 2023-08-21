@@ -4,6 +4,7 @@ import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequ
 import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
+import org.fundacionjala.virtualassistant.mongo.services.AudioConverter;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -61,21 +62,11 @@ public class RecordingController {
     }
 
     @GetMapping("/audio/download/{id}")
-    public ResponseEntity<InputStreamResource> getRecordingIdDownload(@PathVariable("id") String id) throws RecordingException {
+    public ResponseEntity<InputStreamResource> getRecordingByIdDownload(@PathVariable("id") String id) throws RecordingException {
         Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
-        if (recording.isPresent()){
-            AudioResponse audioResponse = recording.get().getAudioResponse();
-            InputStream inputStream = new ByteArrayInputStream(audioResponse.getAudioByte());
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename="+audioResponse.getNameAudio());
-            InputStreamResource resource = new InputStreamResource(inputStream);
-            return ResponseEntity
-                    .ok()
-                    .headers(headers)
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(resource);
-        } else {
+        if (recording.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return AudioConverter.convertRecordingToInputStreamResource(recording);
     }
 }
