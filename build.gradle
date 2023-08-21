@@ -51,6 +51,11 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:$swaggerVersion"
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
     implementation "io.springfox:springfox-boot-starter:$swaggerVersion"
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+    implementation group: 'org.springframework.data', name: 'spring-data-cassandra', version: '4.0.2'
+    implementation group: 'org.cognitor.cassandra', name: 'cassandra-migration', version: '2.5.0_v4'
+    implementation group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '4.0.0'
 }
 
 tasks.named('test') {
