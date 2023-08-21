@@ -26,7 +26,6 @@ public class TaskHandlerTest {
         TaskHandler taskHandler = new TaskHandler(musicService);
         String response = taskHandler.handleTask("Reproduce a song.");
         System.out.println(response);
-        //assertEquals(ALBUM_DATA, response);
     }
 
     @Test
