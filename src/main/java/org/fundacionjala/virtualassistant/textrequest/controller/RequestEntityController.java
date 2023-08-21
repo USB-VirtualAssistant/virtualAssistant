@@ -6,7 +6,6 @@ import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRe
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.fundacionjala.virtualassistant.textrequest.service.TextRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
