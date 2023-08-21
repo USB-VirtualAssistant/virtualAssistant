@@ -1,6 +1,5 @@
-package org.fundacionjala.virtualassistant.task.handler;
+package org.fundacionjala.virtualassistant.opennpl;
 
-import com.sun.source.util.TaskListener;
 import org.fundacionjala.virtualassistant.opennlp.TaskHandler;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
