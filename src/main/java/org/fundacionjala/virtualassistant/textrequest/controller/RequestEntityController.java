@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -32,7 +33,8 @@ public class RequestEntityController {
     }
 
     @GetMapping("/{userId}")
-    public List<RequestEntity> getTextRequests(@PathVariable Long userId, @RequestParam(name = "id_context") Long contextID) {
+    public List<RequestEntity> getTextRequests(@NotNull @PathVariable Long userId,
+                                               @NotNull @RequestParam(name = "id_context") Long contextID) {
         return requestEntityService.getTextRequestByUserAndContext(userId, contextID);
     }
 }
