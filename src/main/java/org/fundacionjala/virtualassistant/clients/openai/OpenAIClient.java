@@ -36,8 +36,7 @@ public class OpenAIClient implements AIClientInterface {
         return removePatternFromStart(answerBuilder, completionRequest.getPrompt());
     }
 
-    @Override
-    public String removePatternFromStart(StringBuilder input, String toRemovePattern) {
+    private String removePatternFromStart(StringBuilder input, String toRemovePattern) {
         int patternFinishIndex = toRemovePattern.length();
         return input.substring(patternFinishIndex).trim();
     }
