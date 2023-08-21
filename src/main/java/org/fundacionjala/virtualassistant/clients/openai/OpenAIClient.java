@@ -16,7 +16,7 @@ public class OpenAIClient implements AIClientInterface {
     private OpenAiService service;
 
     public OpenAIClient() {
-        this.service = new OpenAiService(TOKEN);;
+        this.service = new OpenAiService(TOKEN);
     }
 
     @Override

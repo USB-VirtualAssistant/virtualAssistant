@@ -7,6 +7,7 @@ import com.theokanning.openai.service.OpenAiService;
 import org.fundacionjala.virtualassistant.clients.openai.OpenAIClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -25,9 +26,12 @@ class OpenAIClientTest {
     private static final String REQUEST = "hi how are you";
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws NoSuchFieldException, IllegalAccessException {
         openAiService = mock(OpenAiService.class);
-        openAIClient = new OpenAIClient(openAiService);
+        openAIClient = new OpenAIClient();
+        Field serviceField = OpenAIClient.class.getDeclaredField("service");
+        serviceField.setAccessible(true);
+        serviceField.set(openAIClient, openAiService);
         completionRequest = CompletionRequest.builder()
                 .prompt(REQUEST)
                 .model(OpenAIClient.MODEL)
