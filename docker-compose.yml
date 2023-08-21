@@ -38,6 +38,10 @@ services:
       - 27017:27017
     env_file:
       - ./.env-mongo
+  cassandra:
+    image: cassandra:4.0.2
+    ports:
+      - "9042:9042"
 volumes:
   db-data:
   mongo_data:
