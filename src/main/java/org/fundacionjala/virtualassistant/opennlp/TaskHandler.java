@@ -16,13 +16,14 @@ public class TaskHandler {
         String result;
 
         switch (intentWrapper.getIntent()) {
-            case "Music_Request":
+            case "Replay_music":
                 result = handleSpotify(intentWrapper.getEntities());
                 break;
             case "Setting_reminders":
                 result = "google";
                 break;
             default:
+                System.out.println(intentWrapper.toString());
                 result = "chatgpt";
                 break;
         }

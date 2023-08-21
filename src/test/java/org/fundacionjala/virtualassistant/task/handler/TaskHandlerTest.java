@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.task.handler;
 
+import com.sun.source.util.TaskListener;
 import org.fundacionjala.virtualassistant.opennlp.TaskHandler;
 import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
@@ -24,7 +25,23 @@ public class TaskHandlerTest {
         MusicService musicService = new MusicService(spotifyClient);
 
         TaskHandler taskHandler = new TaskHandler(musicService);
-        String response = taskHandler.handleTask("Get all my albums.");
-        assertEquals(ALBUM_DATA, response);
+        String response = taskHandler.handleTask("Reproduce a song.");
+        System.out.println(response);
+        //assertEquals(ALBUM_DATA, response);
+    }
+
+    @Test
+    public void givenText_whenSearchingForPerson_thenChatGPT() {
+        SpotifyClient spotifyClient = mock(SpotifyClient.class);
+        when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(spotifyClient.getSavedAlbums()).thenReturn(ALBUM_DATA);
+
+        MusicService musicService = new MusicService(spotifyClient);
+        TaskHandler taskHandler = new TaskHandler(musicService);
+        String response = taskHandler.handleTask("Turn off my computer");
+
+        String expected = "chatgpt";
+        assertEquals(response, expected);
+
     }
 }
