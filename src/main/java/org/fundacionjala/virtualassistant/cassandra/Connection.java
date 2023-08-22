@@ -2,15 +2,41 @@ package org.fundacionjala.virtualassistant.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-
+import lombok.Data;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+@Data
+@Component
 public class Connection {
-    public static void main(String[] args) {
-        Cluster cluster;
-        Session session;
+    private Cluster cluster;
+    @Getter
+    private Session session;
+    @Value("${spring.data.cassandra.keyspace-name}")
+    private String keySpace;
+    @Value("${spring.data.cassandra.table-name}")
+    private String tableName;
 
-        cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
-        session = cluster.connect();
-        session.execute("CREATE KEYSPACE IF NOT EXISTS cassandra_keyspace WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };");
-        session.execute("CREATE TABLE IF NOT EXISTS cassandra_keyspace.audio_files (audio_id uuid PRIMARY KEY,audioFile blob);");
+    public Connection() {
+        this.cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+        this.session = cluster.connect();
+    }
+    public void createSchema() {
+        createKeyspace();
+        createTable();
+    }
+    public void createKeyspace() {
+        String query ="CREATE KEYSPACE IF NOT EXISTS " +keySpace+ " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
+        session.execute(query);
+    }
+
+    public void createTable() {
+        String query ="CREATE TABLE IF NOT EXISTS "+ keySpace+"."+tableName +" (audio_id uuid PRIMARY KEY,audioFile blob);";
+        session.execute(query);
+    }
+
+    public void close() {
+        session.close();
+        cluster.close();
     }
 }
