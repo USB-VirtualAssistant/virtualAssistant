@@ -38,7 +38,7 @@ public class TextRequestService {
                 .idRequest(idRequest)
                 .text(text)
                 .date(ZonedDateTime.now())
-                .idAudioMongo(idAudio.toString())
+                .idAudioMongo(idAudio)
                 .idUser(idUser)
                 .build();
         RequestEntity requestEntitySaved = requestEntityRepository.save(requestEntity);
