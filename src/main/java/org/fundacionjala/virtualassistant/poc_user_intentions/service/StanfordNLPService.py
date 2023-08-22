@@ -1,7 +1,7 @@
 import stanza
 from fastapi import FastAPI
 
-class StandFordNLPProcessor:
+class StanFordNLPProcessor:
     def __init__(self):
         try:
             self.nlp_pipeline = stanza.Pipeline('en', processors='tokenize,pos,lemma,depparse,ner')
@@ -18,11 +18,11 @@ class StandFordNLPProcessor:
                 "NamedEntities": [entity.text for entity in sentence.ents],
                 "DependencyTree": [f'{word.text} ({word.deprel})' for word in sentence.words]
             }
-            processed_docs.append(processed_doc)
+            processed_docs.append(processed_doc)git
         return processed_docs
 
 app = FastAPI()
-language_processor = StandFordNLPProcessor()
+language_processor = StanFordNLPProcessor()
 
 @app.post("/analyze-text")
 def analyze_text(input_text):
