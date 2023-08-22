@@ -1,1 +1,1 @@
-ALTER TABLE "user" RENAME TO user_info;
+ALTER TABLE db_schema."user" RENAME TO user_info;
