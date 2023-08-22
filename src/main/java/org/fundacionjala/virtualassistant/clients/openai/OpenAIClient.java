@@ -4,10 +4,13 @@ import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
-public class OpenAIClient implements AIClientInterface {
-    private static final Dotenv dotenv = Dotenv.load();
-    private static final String TOKEN = dotenv.get("TOKEN_AICLIENT");
+@Component
+@PropertySource("classpath:openAi.properties")
+public class OpenAIClient implements AIClient {
     public static final String MODEL = "text-davinci-003";
     public static final int MAX_TOKENS = 1000;
     public static final double TEMPERATURE = 0.8;
@@ -15,8 +18,16 @@ public class OpenAIClient implements AIClientInterface {
 
     private OpenAiService service;
 
+    @Value("${openAi.client.token}")
+    private String clientToken;
+
     public OpenAIClient() {
-        this.service = new OpenAiService(TOKEN);
+        System.out.println(clientToken);
+    }
+
+    @Override
+    public Boolean connect() {
+        return null;
     }
 
     @Override
