@@ -20,10 +20,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser = 0L;
 
-    @Column(name = "google_id")
-    private String googleID;
-
-    public UserEntity(String googleID) {
-        this.googleID = googleID;
-    }
+    @Column(name = "id_google")
+    private String idGoogle;
 }
