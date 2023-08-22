@@ -2,36 +2,45 @@ package org.fundacionjala.virtualassistant.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-import lombok.Data;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
-@Data
+
+import java.io.IOException;
+import java.util.Properties;
+
 @Component
 public class Connection {
+
     private Cluster cluster;
     @Getter
     private Session session;
-    @Value("${spring.data.cassandra.keyspace-name}")
-    private String keySpace;
-    @Value("${spring.data.cassandra.table-name}")
-    private String tableName;
 
-    public Connection() {
+    Resource resource = new ClassPathResource("/application.properties");
+    Properties props = PropertiesLoaderUtils.loadProperties(resource);
+
+    private String keyspace = props.getProperty("spring.data.cassandra.keyspace-name");
+    private String table = props.getProperty("spring.data.cassandra.table-name");
+
+    public Connection() throws IOException {
         this.cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
         this.session = cluster.connect();
     }
+
     public void createSchema() {
         createKeyspace();
         createTable();
     }
+
     public void createKeyspace() {
-        String query ="CREATE KEYSPACE IF NOT EXISTS " +keySpace+ " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
+        String query ="CREATE KEYSPACE IF NOT EXISTS " +keyspace+ " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
         session.execute(query);
     }
 
     public void createTable() {
-        String query ="CREATE TABLE IF NOT EXISTS "+ keySpace+"."+tableName +" (audio_id uuid PRIMARY KEY,audioFile blob);";
+        String query ="CREATE TABLE IF NOT EXISTS "+ keyspace+"."+table +" (audio_id uuid PRIMARY KEY,audioFile blob);";
         session.execute(query);
     }
 
