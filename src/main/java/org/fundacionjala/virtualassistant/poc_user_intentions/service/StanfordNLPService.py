@@ -18,7 +18,7 @@ class StanFordNLPProcessor:
                 "NamedEntities": [entity.text for entity in sentence.ents],
                 "DependencyTree": [f'{word.text} ({word.deprel})' for word in sentence.words]
             }
-            processed_docs.append(processed_doc)git
+            processed_docs.append(processed_doc)
         return processed_docs
 
 app = FastAPI()
