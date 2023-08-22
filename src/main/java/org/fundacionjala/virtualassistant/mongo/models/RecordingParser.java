@@ -4,7 +4,7 @@ import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.response.AudioResponse;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
-
+import javax.validation.constraints.NotEmpty;
 import java.util.Base64;
 
 import static java.util.Objects.isNull;
@@ -24,7 +24,8 @@ public class RecordingParser {
                 .idRecording(recording.getIdRecording())
                 .idUser(recording.getIdUser())
                 .idChat(recording.getIdChat())
-                .audioResponse(convertDocumentToAudioResponse(recording.getAudioFile(), recording.getIdRecording()+AUDIO_EXTENSION))
+                .audioResponse(convertDocumentToAudioResponse(recording.getAudioFile(),
+                        generateNameAudio(recording.getIdRecording())))
                 .build();
     }
 
@@ -38,5 +39,9 @@ public class RecordingParser {
                 .nameAudio(nameAudio)
                 .audioByte(audioBytes)
                 .build();
+    }
+    
+    private static String generateNameAudio(@NotEmpty String name){
+        return name + AUDIO_EXTENSION;
     }
 }
