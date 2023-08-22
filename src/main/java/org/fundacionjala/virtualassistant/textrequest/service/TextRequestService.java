@@ -33,7 +33,7 @@ public class TextRequestService {
                 .build();
     }
 
-    public TextRequest save(long idRequest, String text, Long idAudio, Long idUser) {
+    public TextRequest save(long idRequest, String text, String idAudio, Long idUser) {
         RequestEntity requestEntity = RequestEntity.builder()
                 .idRequest(idRequest)
                 .text(text)

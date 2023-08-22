@@ -112,10 +112,10 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void givenRequestEntity_whenSaveTextRequestService_thenSaveTextRequest() {
+    public void givenRequestEntityWhenSaveTextRequestServiceThenSaveTextRequest() {
         String text = "Test Text";
         long idRequest = 123L;
-        long idAudio = 456L;
+        String idAudio = "456";
         long idUser = 789L;
 
         RequestEntity requestEntity = RequestEntity.builder()
