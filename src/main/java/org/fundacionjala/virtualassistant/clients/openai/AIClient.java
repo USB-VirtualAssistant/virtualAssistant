@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.clients.openai;
 
-public interface AIClientInterface {
+public interface AIClient {
+    Boolean connect();
     String chat(String request);
 }
 
