@@ -8,8 +8,7 @@ import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRe
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
-
-        import java.util.List;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
