@@ -8,7 +8,10 @@ import opennlp.tools.doccat.DocumentCategorizerME;
 import opennlp.tools.tokenize.SimpleTokenizer;
 
 public class DocumentCategorizerExample {
-    
+
+    private DocumentCategorizerExample() {
+    }
+
     public static String getIntent(String userRequest) {
         InputStream modelIn = null;
         DoccatModel model = null;

@@ -3,14 +3,15 @@ package org.fundacionjala.virtualassistant.opennlp;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-
-import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.util.Span;
 
 public class NameEntityRecognition {
+
+    private NameEntityRecognition() {
+    }
+
     public static String[] recognizeEntity(String userRequest) {
         try {
             InputStream inputStream = new FileInputStream("src/main/resources/nlp-model/en-ner-person.bin");

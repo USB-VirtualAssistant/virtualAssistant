@@ -16,7 +16,7 @@ public class TaskHandlerTest {
     public final static String ALBUM_DATA = "{\"items\": [{\"album\": {\"name\": \"Album 1\"}}, {\"album\": {\"name\": \"Album 2\"}}]}";
 
     @Test
-    public void givenText_whenHandlingText_thenGetAlbums() {
+    void givenText_whenHandlingTask_thenGetAlbums() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
         when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
 
@@ -24,22 +24,22 @@ public class TaskHandlerTest {
         MusicService musicService = new MusicService(spotifyClient);
 
         TaskHandler taskHandler = new TaskHandler(musicService);
-        String response = taskHandler.handleTask("Reproduce a song.");
-        System.out.println(response);
+        String response = taskHandler.handleTask("Get all my albums.");
+
+        assertEquals(ALBUM_DATA, response);
     }
 
     @Test
-    public void givenText_whenSearchingForPerson_thenChatGPT() {
+    void givenText_whenSearchingForPerson_thenChatGPT() {
         SpotifyClient spotifyClient = mock(SpotifyClient.class);
         when(spotifyClient.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(spotifyClient.getSavedAlbums()).thenReturn(ALBUM_DATA);
 
         MusicService musicService = new MusicService(spotifyClient);
         TaskHandler taskHandler = new TaskHandler(musicService);
-        String response = taskHandler.handleTask("Turn off my computer");
+        String response = taskHandler.handleTask("What is the size of earth?");
 
         String expected = "chatgpt";
         assertEquals(response, expected);
-
     }
 }

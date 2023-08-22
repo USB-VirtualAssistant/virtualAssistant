@@ -16,7 +16,7 @@ public class TaskHandler {
         String result;
 
         switch (intentWrapper.getIntent()) {
-            case "Replay_music":
+            case "Music_Request":
                 result = handleSpotify(intentWrapper.getEntities());
                 break;
             case "Setting_reminders":
