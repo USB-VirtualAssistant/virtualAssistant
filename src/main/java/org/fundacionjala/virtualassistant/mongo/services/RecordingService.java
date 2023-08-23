@@ -37,22 +37,6 @@ public class RecordingService {
         return RecordingParser.parseToRecordingResponseFrom(recording);
     }
 
-    public String getPathTempRecording(String idRecording) throws ConvertedDocumentToFileException {
-        Recording recording = recordingRepo.getRecording(idRecording);
-        Document document = recording.getAudioFile();
-        try {
-            String encodedAudio = document.getString("audio");
-            byte[] audioBytes = Base64.getDecoder().decode(encodedAudio);
-            File outputFile = File.createTempFile(idRecording, ".wav");
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            fos.write(audioBytes);
-            fos.close();
-            return outputFile.getPath();
-        } catch (IOException e) {
-            throw new ConvertedDocumentToFileException(e.getMessage(), e);
-        }
-    }
-
     public RecordingResponse getRecordingToUserChat(String idRecording, Long idUser, Long idChat) throws RecordingException {
         Recording recording = recordingRepo.getRecordingToUser(idRecording, idUser, idChat);
         return RecordingParser.parseToRecordingResponseFrom(recording);

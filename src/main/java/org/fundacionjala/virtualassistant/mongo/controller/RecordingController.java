@@ -79,9 +79,4 @@ public class RecordingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @GetMapping("/{id}")
-    public String getPathString(@PathVariable("id") String id) throws ConvertedDocumentToFileException {
-        return recordingService.getPathTempRecording(id);
-    }
 }
