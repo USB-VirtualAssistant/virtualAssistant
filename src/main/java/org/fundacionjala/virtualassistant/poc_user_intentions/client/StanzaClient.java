@@ -22,8 +22,8 @@ public class StanzaClient implements UserIntentsClient {
         this.stanzaMsUrl = stanzaMsUrl;
     }
 
-    @GetMapping("/handleStanzaMicroService")
     @Override
+    @GetMapping("/handleStanzaMicroService")
     public ResponseEntity<String> processUserIntentsByMicroService(@RequestParam("input") String input) {
         StringBuilder urlBuilder = new StringBuilder(stanzaMsUrl).append(INPUT_TEXT_PARAM);
         urlBuilder.append(input);
