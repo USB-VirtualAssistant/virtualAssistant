@@ -10,15 +10,10 @@ import java.time.ZonedDateTime;
 @Builder
 @Jacksonized
 public class TextRequest {
-
     Long idUser;
-
     String text;
-
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     ZonedDateTime date;
-
     Long idContext;
-
     String idAudioMongo;
 }
