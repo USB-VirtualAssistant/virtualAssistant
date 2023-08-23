@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -32,27 +29,29 @@ public class Operations {
   public Operations() throws IOException {
   }
 
-  public ByteBuffer getAudioFile(UUID audioId) {
+    public byte[] getAudioFile(UUID audioId) {
         PreparedStatement preparedStatement = session.prepare("SELECT audioFile FROM " + keySpace + "." + tableName + " WHERE audio_id = ?");
         BoundStatement boundStatement = preparedStatement.bind(audioId);
         ResultSet resultSet = session.execute(boundStatement);
         Row row = resultSet.one();
         if (row == null) {
-          return null;
+            return null;
         }
-        return row.getBytes("audioFile");
+        ByteBuffer buffer = row.getBytes("audioFile");
+        return buffer.array();
     }
 
-    public void uploadAudioFile(UUID audioId, String filePath) {
+
+    public boolean uploadAudioFile(UUID audioId, byte[] audioData) {
         try {
-            Path path = Paths.get(filePath);
-            byte[] data = Files.readAllBytes(path);
-            ByteBuffer buffer = ByteBuffer.wrap(data);
+            ByteBuffer buffer = ByteBuffer.wrap(audioData);
             PreparedStatement preparedStatement = session.prepare("INSERT INTO " + keySpace + "." + tableName + " (audio_id, audioFile) VALUES (?, ?)");
             BoundStatement boundStatement = preparedStatement.bind(audioId, buffer);
             session.execute(boundStatement);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
