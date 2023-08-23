@@ -7,12 +7,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.DisposableBean;
 
 import java.io.IOException;
 import java.util.Properties;
 
 @Component
-public class Connection {
+public class Connection implements DisposableBean{
 
     private Cluster cluster;
     @Getter
@@ -49,5 +50,9 @@ public class Connection {
     public void close() {
         session.close();
         cluster.close();
+    }
+    @Override
+    public void destroy() {
+        close();
     }
 }
