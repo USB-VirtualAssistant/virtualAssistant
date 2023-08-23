@@ -38,6 +38,13 @@ services:
       - 27017:27017
     env_file:
       - ./.env-mongo
+  asr_client:
+    build:
+      context: .
+      dockerfile: Dockerfile_Python
+    command: sh -c "uvicorn src.main.java.org.fundacionjala.virtualassistant.whisper.service.ASRClient:app --reload --port=8000 --host=0.0.0.0"
+    ports:
+      - 8000:8000
 volumes:
   db-data:
   mongo_data:
