@@ -13,9 +13,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TextRequestService {
-
     private static final String TEXT_REQUEST_USER_ID_NULL = "User id should not be null";
-
     RequestEntityRepository requestEntityRepository;
 
     public TextRequestResponse createTextRequest(TextRequest textRequest) throws TextRequestException {
