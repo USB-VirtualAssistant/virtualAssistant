@@ -5,7 +5,6 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Row;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
@@ -17,35 +16,34 @@ import java.util.UUID;
 @Component
 public class Operations {
 
-    Connection connection = new Connection();
-    Session session =connection.getSession();
+    Connection connection;
+    Session session;
+    private String keyspace;
+    private String table;
 
-    @Value("${spring.data.cassandra.keyspace-name}")
-    private String keySpace;
-
-    @Value("${spring.data.cassandra.table-name}")
-    private String tableName;
-
-  public Operations() throws IOException {
-  }
+    public Operations() throws IOException {
+        connection = new Connection();
+        session = connection.getSession();
+        keyspace = connection.getKeyspace();
+        table = connection.getTable();
+    }
 
     public byte[] getAudioFile(UUID audioId) {
-        PreparedStatement preparedStatement = session.prepare("SELECT audioFile FROM " + keySpace + "." + tableName + " WHERE audio_id = ?");
+        PreparedStatement preparedStatement = session.prepare("SELECT audioFile FROM " + keyspace + "." + table + " WHERE audio_id = ?");
         BoundStatement boundStatement = preparedStatement.bind(audioId);
         ResultSet resultSet = session.execute(boundStatement);
         Row row = resultSet.one();
         if (row == null) {
-            return null;
+            return new byte[0];
         }
         ByteBuffer buffer = row.getBytes("audioFile");
         return buffer.array();
     }
 
-
     public boolean uploadAudioFile(UUID audioId, byte[] audioData) {
         try {
             ByteBuffer buffer = ByteBuffer.wrap(audioData);
-            PreparedStatement preparedStatement = session.prepare("INSERT INTO " + keySpace + "." + tableName + " (audio_id, audioFile) VALUES (?, ?)");
+            PreparedStatement preparedStatement = session.prepare("INSERT INTO " + keyspace + "." + table + " (audio_id, audioFile) VALUES (?, ?)");
             BoundStatement boundStatement = preparedStatement.bind(audioId, buffer);
             session.execute(boundStatement);
             return true;
