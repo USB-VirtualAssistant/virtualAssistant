@@ -24,7 +24,7 @@ class StanFordNLPProcessor:
 app = FastAPI()
 language_processor = StanFordNLPProcessor()
 
-@app.post("/analyze-text")
+@app.get("/analyze-text")
 def analyze_text(input_text):
     processed_docs = language_processor.analyze_text(input_text)
     return processed_docs
