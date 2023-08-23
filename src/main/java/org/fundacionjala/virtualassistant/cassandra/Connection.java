@@ -17,16 +17,18 @@ public class Connection {
     private Cluster cluster;
     @Getter
     private Session session;
-
-    Resource resource = new ClassPathResource("/application.properties");
-    Properties props = PropertiesLoaderUtils.loadProperties(resource);
-
+    private Resource resource;
+    private Properties props;
     private String keyspace = props.getProperty("spring.data.cassandra.keyspace-name");
     private String table = props.getProperty("spring.data.cassandra.table-name");
+    private String contactPoint = props.getProperty("spring.data.cassandra.contact-points");
+    private static final String PROPERTIES_FILE_PATH = "/application.properties";
 
     public Connection() throws IOException {
-        this.cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+        this.cluster = Cluster.builder().addContactPoint(contactPoint).build();
         this.session = cluster.connect();
+        resource = new ClassPathResource(PROPERTIES_FILE_PATH);
+        props = PropertiesLoaderUtils.loadProperties(resource);
     }
 
     public void createSchema() {
@@ -35,12 +37,12 @@ public class Connection {
     }
 
     public void createKeyspace() {
-        String query ="CREATE KEYSPACE IF NOT EXISTS " +keyspace+ " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
+        String query ="CREATE KEYSPACE IF NOT EXISTS " + keyspace + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
         session.execute(query);
     }
 
     public void createTable() {
-        String query ="CREATE TABLE IF NOT EXISTS "+ keyspace+"."+table +" (audio_id uuid PRIMARY KEY,audioFile blob);";
+        String query ="CREATE TABLE IF NOT EXISTS "+ keyspace + "." + table + " (audio_id uuid PRIMARY KEY,audioFile blob);";
         session.execute(query);
     }
 
