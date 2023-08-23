@@ -14,6 +14,7 @@ public class StanzaClient implements UserIntentsClient {
 
     private RestTemplate restTemplate;
     private String stanzaMsUrl;
+    private static final String INPUT_TEXT_PARAM = "?input_text=";
 
     @Autowired
     public StanzaClient(@Value("${stanza.ms.url}") String stanzaMsUrl) {
@@ -24,8 +25,8 @@ public class StanzaClient implements UserIntentsClient {
     @GetMapping("/handleStanzaMicroService")
     @Override
     public ResponseEntity<String> processUserIntentsByMicroService(@RequestParam("input") String input) {
-        String urlWithInput = stanzaMsUrl + "?input_text=" + input;
-        return restTemplate.getForEntity(urlWithInput, String.class);
+        StringBuilder urlBuilder = new StringBuilder(stanzaMsUrl).append(INPUT_TEXT_PARAM);
+        urlBuilder.append(input);
+        return restTemplate.getForEntity(urlBuilder.toString(), String.class);
     }
 }
-
