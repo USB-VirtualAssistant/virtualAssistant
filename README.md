@@ -1,6 +1,43 @@
 # Virtual Assistant
+## Initializing Docker Compose, PostgreSQL, Flyway, MongoDB and Gradle
 
-Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
+This project uses Docker Compose to initialize PostgreSQL services, pgAdmin4 (a web user interface for PostgreSQL), Flyway (for database migrations) and MongoDB. Gradle is used as the build system.
+
+## 1.  Prerequisites
+- Have  [Docker](https://docs.docker.com/desktop/install/ubuntu/) and [Docker Compose](https://docs.docker.com/get-started/08_using_compose/) installed.
+- Have [Gradle](https://gradle.org/install/) installed.
+- [Java 11](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html) installed.
+
+- **Environment variables**.
+  Make sure you have the following files with the necessary environment variables:
+    - .env-postgres
+    - .env-postgres-admin
+    - .env-flyway
+    - .env-mongo
+## 2.  Build and Run the program
+- **Initialize services with Docker Compose**.
+  To initialize all services defined in the `docker-compose.yml` file, run:
+   ````bash
+   docker-compose up -d
+
+- **Compiling and running with Gradle**.
+  To compile and run the project, use:
+  `./gradlew bootRun`.
+
+- **Virtual assistant**
+  To run the project execute the main class VirtualAssistantApplication on the project
+
+- **Access to the tools**
+
+    - **pgAdmin**: Access [http://localhost:9000](http://localhost:9000/) to use pgAdmin.
+    - **Application**: Once your Spring Boot application is up and running it can be accessed using [http://localhost:8080](http://localhost:8080/)
+
+### 3. Common problems and solutions
+- **Port conflict**: If you encounter an error indicating that a port is already in use check that you don't have another service running on that port.
+- **Missing dependencies in Gradle**: If you encounter errors related to missing dependencies, check your `build.gradle` file and verify the dependencies.
+  Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
+
+## ASR
 ![image](https://raw.githubusercontent.com/openai/whisper/main/approach.png)
 ### Requirements
 - Python 3.0+
@@ -10,38 +47,6 @@ Whisper is a general-purpose speech recognition model. It is trained on a large 
 - python-multipart
 
 
-### Initializing Docker Compose, PostgreSQL, Flyway, MongoDB and Gradle
-
-This project uses Docker Compose to initialize PostgreSQL services, pgAdmin4 (a web user interface for PostgreSQL), Flyway (for database migrations) and MongoDB. Gradle is used as the build system.
-
-### Prerequisites:
-
-- Have **Docker** and **Docker Compose** installed.
-- Have **Gradle** installed.
-- **JDK 11** installed.
-
-### Initialization steps:
-1. **Environment variables**.
-   Make sure you have the following files with the necessary environment variables:
-    - .env-postgres
-    - .env-postgres-admin
-    - .env-flyway
-    - .env-mongo
-2. **Initialize services with Docker Compose**.
-   To initialize all services defined in the `docker-compose.yml` file, run:
-   ````bash
-   docker-compose up -d
-3.  **Compiling and running with Gradle**.
-    To compile and run the project, use:
-    `./gradlew bootRun`.
-4.  **Access to the tools**
-
-    - **pgAdmin**: Access [http://localhost:9000](http://localhost:9000/) to use pgAdmin.
-    - **Application**: Once your Spring Boot application is up and running it can be accessed using [http://localhost:8080](http://localhost:8080/)
-
-### Common problems and solutions
-- Port conflict**: If you encounter an error indicating that a port is already in use check that you don't have another service running on that port.
-- Missing dependencies in Gradle**: If you encounter errors related to missing dependencies, check your `build.gradle` file and verify the dependencies.
 ### Required installations for ASRClient
 The correct implementation of ASRClient from this repository requires the prior installation of some essential tools for its smooth operation.
 
