@@ -1,43 +1,52 @@
+package org.fundacionjala.virtualassistant.openai;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import com.theokanning.openai.service.OpenAiService;
+import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.completion.CompletionResult;
+import com.theokanning.openai.completion.CompletionChoice;
+import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
+import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChatServiceTest {
+public class OpenAIClientTest {
 
     @Mock
-    private OpenAiClient openAiClient;
+    private OpenAiService openAiService;
 
-    private ChatService chatService;
+    private OpenAiClient openAIClient;
+    private  ChatService chatService;
+
+    private static final String REQUEST = "hi how are you";
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
-        chatService = new ChatService(openAiClient);
+        openAIClient = new OpenAiClient();
+        chatService = new ChatService(openAIClient);
     }
 
     @Test
-    public void testChatService() {
-        String inputMessage = "Hola, ¿cómo estás?";
-        String expectedResponse = "¡Hola! Estoy bien.";
+    void shouldReturnAStringAndCallOpenAIServiceMethodsWhenARequestIsUseInOpenAIClient() {
+        CompletionChoice completionChoice = new CompletionChoice();
+        completionChoice.setText(REQUEST);
 
-        // Simulamos el comportamiento del cliente de OpenAI
-        when(openAiClient.getToken()).thenReturn("fake-token");
-        when(openAiClient.buildCompletionRequest(inputMessage)).thenReturn(/* ... */);
+        CompletionResult completionResult = mock(CompletionResult.class);
+        when(completionResult.getChoices()).thenReturn(List.of(completionChoice));
 
-        // Simulamos la respuesta de OpenAI
-        when(openAiClient.buildCompletionRequest(inputMessage).getChoices().get(0).getText())
-                .thenReturn(expectedResponse);
+        CompletionRequest completionRequest = openAIClient.buildCompletionRequest(REQUEST);
 
-        // Llamamos al método del servicio y verificamos la respuesta
-        String actualResponse = chatService.chat(inputMessage);
-        assertEquals(expectedResponse, actualResponse);
+        when(openAiService.createCompletion(completionRequest)).thenReturn(completionResult);
 
-        // Verificamos si los métodos del cliente de OpenAI se llamaron correctamente
-        verify(openAiClient).getToken();
-        verify(openAiClient).buildCompletionRequest(inputMessage);
+        String result = chatService.chat(REQUEST);
+
+        verify(openAiService).createCompletion(completionRequest);
+        verify(completionResult).getChoices();
+        assertNotNull(result, "result should not be null");
     }
 }
