@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
+import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
@@ -24,22 +25,25 @@ public class TextRequestControllerTest {
   @Mock
   private RequestEntityController requestEntityController;
 
+  @Mock
+  private OpenAIComponent component;
+
   TextRequestService textRequestService;
 
   @BeforeEach
   public void setUp() {
-    textRequestService = new TextRequestService(requestEntityRepository);
+    textRequestService = new TextRequestService(requestEntityRepository,component);
   }
 
   @Test
   public void statusShouldBeCreated() throws TextRequestException {
     TextRequest textRequest = TextRequest.builder()
         .idUser(1234L)
-        .text("some")
+        .text("How many months does a year have?")
         .build();
     TextRequestResponse textRequestResponse = TextRequestResponse.builder()
         .idUser(1234L)
-        .text("some")
+        .text("A year has 12 months.")
         .build();
 
     ResponseEntity<TextRequestResponse> expected = new ResponseEntity<>(textRequestResponse, HttpStatus.CREATED);
