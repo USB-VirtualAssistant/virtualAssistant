@@ -24,7 +24,7 @@ public class Connection implements DisposableBean{
     private String table;
     private String contactPoint;
     private static final String PROPERTIES_FILE_PATH = "/application.properties";
-
+    CassandraQueries cassandraQueries;
     public Connection() throws IOException {
         resource = new ClassPathResource(PROPERTIES_FILE_PATH);
         props = PropertiesLoaderUtils.loadProperties(resource);
@@ -33,24 +33,16 @@ public class Connection implements DisposableBean{
         contactPoint = props.getProperty("spring.data.cassandra.contact-points");
         this.cluster = Cluster.builder().addContactPoint(contactPoint).build();
         this.session = cluster.connect();
+        cassandraQueries = new CassandraQueries(session,keyspace,table);
+
     }
 
-    public void createSchema() {
-        createKeyspace(keyspace);
-        createTable();
+    public void createSchema(){
+        cassandraQueries.createKeySpace(keyspace);
+        cassandraQueries.createTable();
     }
 
-    public void createKeyspace(String keyspace) {
-        String query ="CREATE KEYSPACE IF NOT EXISTS " + keyspace + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };";
-        session.execute(query);
-    }
-
-    public void createTable() {
-        String query ="CREATE TABLE IF NOT EXISTS "+ keyspace + "." + table + " (audio_id uuid PRIMARY KEY,audioFile blob);";
-        session.execute(query);
-    }
-
-    public void close() {
+    private void close() {
         session.close();
         cluster.close();
     }
