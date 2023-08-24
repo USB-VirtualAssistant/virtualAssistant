@@ -3,7 +3,7 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import javax.validation.constraints.NotNull;
-import org.fundacionjala.virtualassistant.openai.component.OpenAIComponent;
+import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
