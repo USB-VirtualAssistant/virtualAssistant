@@ -3,6 +3,8 @@ package org.fundacionjala.virtualassistant.clients.openai.service;
 import com.theokanning.openai.service.OpenAiService;
 import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
 
+import javax.validation.constraints.NotEmpty;
+
 public class ChatService {
     private OpenAiClient openAiClient;
 
@@ -10,6 +12,7 @@ public class ChatService {
         this.openAiClient = openAiClient;
     }
 
+    @NotEmpty
     public String chat(String request) {
         OpenAiService service = new OpenAiService(openAiClient.getToken());
 
