@@ -79,13 +79,13 @@ class RecordingControllerTest {
     @Test
     void shouldReturnBadRequestStatusForGetAudioWithNoUserAndNoIdAndChatId() throws Exception {
         mockMvc.perform(get(ENDPOINT_PATH + "/ "))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReturnBadRequestStatusForGetAudioWithUserIdAndNoChatId() throws Exception {
         mockMvc.perform(get(ENDPOINT_PATH + "/" + userId))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -121,6 +121,6 @@ class RecordingControllerTest {
     void shouldReturnBadRequestForGetRecordingWithValidId() throws Exception {
         when(recordingService.getRecording(recordingId)).thenReturn(recordingResponse);
         mockMvc.perform(get(ENDPOINT_PATH + "/ "))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 }

@@ -41,7 +41,7 @@ public class RecordingController {
             throws RecordingException {
         Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
         return recording.map(recordingResponse -> new ResponseEntity<>(recordingResponse, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/user/{idUser}/chat/{idChat}")
