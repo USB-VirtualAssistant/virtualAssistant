@@ -4,4 +4,3 @@ public interface AIClient {
     Boolean connect();
     String chat(String request);
 }
-
