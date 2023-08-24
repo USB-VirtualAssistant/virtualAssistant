@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.mongo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecordingControllerTest {
 
     private final static String ENDPOINT_PATH = "/recordings";
+    private final static String USER = "/user";
+    private final static String CHAT = "/chat";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -39,7 +42,7 @@ class RecordingControllerTest {
     void setUp() {
         userId = 1L;
         chatId = 1L;
-        audioFile = new MockMultipartFile("test", "test.wav",
+        audioFile = new MockMultipartFile("audioFile", "test.wav",
                 MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[100]);
         recordingId = "64debc2d04d1fc7bfe27a989";
         recordingResponse = RecordingResponse.builder()
@@ -57,29 +60,49 @@ class RecordingControllerTest {
 
     @Test
     void shouldReturnOkStatusForGetAudioWithUserIdAndChatId() throws Exception {
-
-        mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
-                        .param("idUser",  String.valueOf(userId))
-                        .param("idChat",  String.valueOf(chatId)))
+        mockMvc.perform(get(ENDPOINT_PATH + USER + "/" + userId + CHAT + "/" + chatId))
                 .andExpect(status().isOk());
     }
 
     @Test
+    void shouldReturnInternalServerErrorForGetAudioWithUserId() throws Exception {
+        mockMvc.perform(get(ENDPOINT_PATH + USER + "/" + userId + CHAT + "/ "))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorForGetAudioWithChatId() throws Exception {
+        mockMvc.perform(get(ENDPOINT_PATH + USER + "/ " + userId + CHAT + "/ "))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
     void shouldReturnBadRequestStatusForGetAudioWithNoUserAndNoIdAndChatId() throws Exception {
-        mockMvc.perform(get(ENDPOINT_PATH + "/audio/"))
+        mockMvc.perform(get(ENDPOINT_PATH + "/ "))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void shouldReturnBadRequestStatusForGetAudioWithUserIdAndNoChatId() throws Exception {
-        mockMvc.perform(get(ENDPOINT_PATH + "/audio/")
-                        .param("idUser", String.valueOf(userId)))
+        mockMvc.perform(get(ENDPOINT_PATH + "/" + userId))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnBadRequestForRecordingRequestWithUserIdAndChatId() throws Exception {
+        audioFile = new MockMultipartFile("test", "test.wav",
+                MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE, new byte[100]);
+        mockMvc.perform(multipart("/recordings")
+                        .file(audioFile)
+                        .param("idUser", Long.toString(userId))
+                        .param("idChat", Long.toString(chatId))
+                )
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void shouldReturnCreatedStatusForRecordingRequestWithUserIdAndChatId() throws Exception {
-        mockMvc.perform(multipart("/recordings/")
+        mockMvc.perform(multipart("/recordings")
                         .file(audioFile)
                         .param("idUser", Long.toString(userId))
                         .param("idChat", Long.toString(chatId))
@@ -90,7 +113,14 @@ class RecordingControllerTest {
     @Test
     void shouldReturnOkStatusForGetRecordingWithValidId() throws Exception {
         when(recordingService.getRecording(recordingId)).thenReturn(recordingResponse);
-        mockMvc.perform(get("/recordings/audio/" + recordingId))
+        mockMvc.perform(get(ENDPOINT_PATH + "/" + recordingId))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturnBadRequestForGetRecordingWithValidId() throws Exception {
+        when(recordingService.getRecording(recordingId)).thenReturn(recordingResponse);
+        mockMvc.perform(get(ENDPOINT_PATH + "/ "))
+                .andExpect(status().isBadRequest());
     }
 }
