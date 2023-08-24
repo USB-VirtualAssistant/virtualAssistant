@@ -17,7 +17,6 @@ public class CassandraOperations {
     private final CassandraQueries cassandraQueries;
     private static final String AUDIO_FILE = "audioFile";
 
-
     public CassandraOperations() throws IOException {
         CassandraConnection cassandraConnection = new CassandraConnection();
         session = cassandraConnection.getSession();

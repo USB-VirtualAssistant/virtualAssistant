@@ -26,6 +26,7 @@ public class CassandraQueries {
     public void createKeySpace(String keyspace){
         session.execute("CREATE KEYSPACE IF NOT EXISTS " + keyspace + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };");
     }
+
     public void createTable(){
         session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (audio_id uuid PRIMARY KEY,audioFile blob);");
     }

@@ -14,7 +14,7 @@ import java.util.Properties;
 
 @Data
 @Component
-public class Connection implements DisposableBean{
+public class CassandraConnection implements DisposableBean{
 
     private Cluster cluster;
     private Session session;
@@ -24,8 +24,9 @@ public class Connection implements DisposableBean{
     private String table;
     private String contactPoint;
     private static final String PROPERTIES_FILE_PATH = "/application.properties";
-    CassandraQueries cassandraQueries;
-    public Connection() throws IOException {
+    private CassandraQueries cassandraQueries;
+
+    public CassandraConnection() throws IOException {
         resource = new ClassPathResource(PROPERTIES_FILE_PATH);
         props = PropertiesLoaderUtils.loadProperties(resource);
         keyspace = props.getProperty("spring.data.cassandra.keyspace-name");
@@ -33,16 +34,15 @@ public class Connection implements DisposableBean{
         contactPoint = props.getProperty("spring.data.cassandra.contact-points");
         this.cluster = Cluster.builder().addContactPoint(contactPoint).build();
         this.session = cluster.connect();
-        cassandraQueries = new CassandraQueries(session,keyspace,table);
-
+        this.cassandraQueries = new CassandraQueries(session,keyspace,table);
     }
 
-    public void createSchema(){
+    public void createSchema() {
         cassandraQueries.createKeySpace(keyspace);
         cassandraQueries.createTable();
     }
 
-    private void close() {
+    public void close() {
         session.close();
         cluster.close();
     }
