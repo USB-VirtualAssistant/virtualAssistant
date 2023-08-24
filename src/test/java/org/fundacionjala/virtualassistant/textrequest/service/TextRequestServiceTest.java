@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
+import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
@@ -27,12 +28,15 @@ public class TextRequestServiceTest {
     @Mock
     private RequestEntityRepository requestEntityRepository;
 
+    @Mock
+    private OpenAIComponent component;
+
     private TextRequestService textRequestService;
 
     @BeforeEach
     public void setup() {
         requestEntityRepository = mock(RequestEntityRepository.class);
-        textRequestService = new TextRequestService(requestEntityRepository);
+        textRequestService = new TextRequestService(requestEntityRepository,component);
     }
 
     @Test
@@ -52,7 +56,8 @@ public class TextRequestServiceTest {
     @Test
     public void shouldCreateATextRequestWithCorrectValues() throws TextRequestException {
         final long idUser = 12343L;
-        final String text = "some text";
+        final String text = "How many months does a year have?";
+        final String textResponse = "How many months does a year have?";
         final long idContext = 1234L;
 
         TextRequest textRequest = TextRequest.builder()
@@ -70,13 +75,14 @@ public class TextRequestServiceTest {
         when(requestEntityRepository.save(any(RequestEntity.class)))
                 .thenReturn(requestEntity);
 
-        TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
+        when(textRequestService.createTextRequest(textRequest).getText()).thenReturn(textResponse);
         verify(requestEntityRepository).save(requestEntity);
+        TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
 
         assertNotNull(actualTextRequestResponse);
 
         assertEquals(actualTextRequestResponse.getIdUser(), idUser);
-        assertEquals(actualTextRequestResponse.getText(), text);
+        assertEquals(actualTextRequestResponse.getText(), textResponse);
         assertEquals(actualTextRequestResponse.getIdContext(), idContext);
     }
 
