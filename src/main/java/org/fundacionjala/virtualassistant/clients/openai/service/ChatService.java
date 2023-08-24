@@ -4,6 +4,7 @@ import com.theokanning.openai.service.OpenAiService;
 import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 public class ChatService {
     private OpenAiClient openAiClient;
@@ -13,6 +14,7 @@ public class ChatService {
     }
 
     @NotEmpty
+    @Pattern(regexp = ".*[a-zA-Z].*")
     public String chat(String request) {
         OpenAiService service = new OpenAiService(openAiClient.getToken());
 
