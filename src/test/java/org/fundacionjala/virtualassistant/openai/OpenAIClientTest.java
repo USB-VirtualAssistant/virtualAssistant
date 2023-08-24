@@ -4,55 +4,55 @@ import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.completion.CompletionResult;
 import com.theokanning.openai.service.OpenAiService;
-
+import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
+import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Field;
-import java.util.List;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class OpenAIClientTest {
+class ChatServiceTest {
 
-    private OpenAiService openAiService;
-    private OpenAIClient openAIClient;
-    private CompletionRequest completionRequest;
-    private CompletionResult completionResult;
-    private CompletionChoice completionChoice;
+    private OpenAiService mockOpenAiService;
+    private OpenAiClient mockOpenAiClient;
+    private ChatService chatService;
     private static final String REQUEST = "hi how are you";
+    private String getToken(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(OpenAiClient.class);
+        context.refresh();
+        OpenAiClient openAiClient = context.getBean(OpenAiClient.class);
+        return openAiClient.getToken();
+    }
 
     @BeforeEach
-    void setUp() throws NoSuchFieldException, IllegalAccessException {
-        openAiService = mock(OpenAiService.class);
-        openAIClient = new OpenAIClient();
-        Field serviceField = OpenAIClient.class.getDeclaredField("service");
-        serviceField.setAccessible(true);
-        serviceField.set(openAIClient, openAiService);
-        completionRequest = CompletionRequest.builder()
-                .prompt(REQUEST)
-                .model(OpenAIClient.MODEL)
-                .maxTokens(OpenAIClient.MAX_TOKENS)
-                .temperature(OpenAIClient.TEMPERATURE)
-                .echo(OpenAIClient.ECHO)
-                .build();
+    void setUp() {
+        mockOpenAiService = mock(OpenAiService.class);
+        mockOpenAiClient = mock(OpenAiClient.class);
+        chatService = new ChatService(mockOpenAiClient);
+        chatService.setOpenAiService(mockOpenAiService);
 
-        completionChoice = new CompletionChoice();
+        when(mockOpenAiClient.getToken()).thenReturn(getToken());
+        when(mockOpenAiClient.buildCompletionRequest(REQUEST)).thenCallRealMethod();
+
+        CompletionChoice completionChoice = new CompletionChoice();
         completionChoice.setText(REQUEST);
-        completionResult = mock(CompletionResult.class);
+        CompletionResult completionResult = mock(CompletionResult.class);
+        when(completionResult.getChoices()).thenReturn(Collections.singletonList(completionChoice));
+
+        when(mockOpenAiService.createCompletion(any(CompletionRequest.class)))
+                .thenReturn(completionResult);
     }
 
     @Test
-    void shouldReturnAStringAndCallOpenAIServiceMethodsWhenARequestIsUseInOpenAIClient() {
-        when(openAiService.createCompletion(completionRequest)).thenReturn(completionResult);
-        when(completionResult.getChoices()).thenReturn(List.of(completionChoice));
+    void shouldReturnAStringAndCallOpenAiClientMethodsWhenARequestIsUsedInChatService() {
+        String result = chatService.chat(REQUEST);
 
-        String result = openAIClient.chat(REQUEST);
-
-        verify(openAiService).createCompletion(completionRequest);
-        verify(completionResult).getChoices();
+        verify(mockOpenAiClient).getToken();
+        verify(mockOpenAiClient, times(2)).buildCompletionRequest(REQUEST);
         assertNotNull(result, "result should not be null");
     }
 }

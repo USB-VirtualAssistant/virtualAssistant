@@ -29,4 +29,6 @@ public class ChatService {
         int patternFinishIndex = toRemovePattern.length();
         return input.substring(patternFinishIndex).trim();
     }
+    public void setOpenAiService(OpenAiService openAiService) {
+    }
 }
