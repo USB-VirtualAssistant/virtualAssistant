@@ -8,6 +8,7 @@ public class CassandraQueries {
     private final Session session;
     private final String keyspace;
     private final String table;
+    private static final int ONE_HOUR_IN_SECONDS = 3600;
 
     public CassandraQueries(Session session, String keyspace, String table) {
         this.session = session;
@@ -19,9 +20,6 @@ public class CassandraQueries {
         return session.prepare("SELECT audioFile FROM " + keyspace + "." + table + " WHERE audio_id = ?");
     }
 
-    public PreparedStatement uploadAudioFileQuery() {
-        return session.prepare("INSERT INTO " + keyspace + "." + table + " (audio_id, audioFile) VALUES (?, ?)");
-    }
 
     public void createKeySpace(String keyspace){
         session.execute("CREATE KEYSPACE IF NOT EXISTS " + keyspace + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };");
@@ -29,5 +27,8 @@ public class CassandraQueries {
 
     public void createTable(){
         session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (audio_id uuid PRIMARY KEY,audioFile blob);");
+    }
+    public PreparedStatement uploadAudioFileWithTTLQuery() {
+        return session.prepare("INSERT INTO " + keyspace + "." + table + " (audio_id, audioFile) VALUES (?, ?) USING TTL " + ONE_HOUR_IN_SECONDS);
     }
 }
