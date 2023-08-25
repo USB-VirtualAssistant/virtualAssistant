@@ -1,4 +1,5 @@
 package org.fundacionjala.virtualassistant.poc_user_intentions.client;
+
 import org.fundacionjala.virtualassistant.poc_user_intentions.repository.UserIntentsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
