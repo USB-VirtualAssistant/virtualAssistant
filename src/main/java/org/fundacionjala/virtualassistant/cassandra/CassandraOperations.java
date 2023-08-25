@@ -1,9 +1,6 @@
 package org.fundacionjala.virtualassistant.cassandra;
 
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
+import com.datastax.driver.core.*;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
@@ -36,11 +33,11 @@ public class CassandraOperations {
         }
         return new byte[0];
     }
-
     public boolean uploadAudioFile(UUID audioId, byte[] audioData) {
         try {
             ByteBuffer buffer = ByteBuffer.wrap(audioData);
-            BoundStatement boundStatement = cassandraQueries.uploadAudioFileQuery().bind(audioId, buffer);
+            PreparedStatement preparedStatement = cassandraQueries.uploadAudioFileWithTTLQuery();
+            BoundStatement boundStatement = preparedStatement.bind(audioId, buffer);
             session.execute(boundStatement);
             return true;
         } catch (Exception e) {
