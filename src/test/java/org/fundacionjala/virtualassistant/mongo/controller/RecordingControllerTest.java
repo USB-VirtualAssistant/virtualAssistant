@@ -3,18 +3,26 @@ package org.fundacionjala.virtualassistant.mongo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
+import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
+import org.fundacionjala.virtualassistant.mongo.services.AudioConverter;
 import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MimeTypeUtils;
 
-import static org.mockito.Mockito.when;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +34,7 @@ class RecordingControllerTest {
     private final static String ENDPOINT_PATH = "/recordings";
     private final static String USER = "/user";
     private final static String CHAT = "/chat";
+    private final static String AUDIO_DOWNLOAD = "/audio/download";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -123,4 +132,33 @@ class RecordingControllerTest {
         mockMvc.perform(get(ENDPOINT_PATH + "/ "))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldReturnNotFoundForgetAnAudioFileWithInvalidId() throws Exception {
+        when(recordingService.getRecording(anyString())).thenReturn(recordingResponse);
+
+        try (MockedStatic<AudioConverter> mockedStatic = mockStatic(AudioConverter.class)) {
+            mockedStatic.when(() -> AudioConverter.convertRecordingToInputStreamResource(any(Optional.class)))
+                    .thenReturn(ResponseEntity.notFound().build());
+
+            mockMvc.perform(get(ENDPOINT_PATH + AUDIO_DOWNLOAD + "/" + recordingId))
+                    .andExpect(status().isNotFound());
+            mockedStatic.verify(() -> AudioConverter.convertRecordingToInputStreamResource(Optional.of(recordingResponse)));
+        }
+    }
+
+    @Test
+    void shouldReturnOkStatusForgetAnAudioFileWithInvalidId() throws Exception {
+        when(recordingService.getRecording(anyString())).thenReturn(recordingResponse);
+
+        try (MockedStatic<AudioConverter> mockedStatic = mockStatic(AudioConverter.class)) {
+            mockedStatic.when(() -> AudioConverter.convertRecordingToInputStreamResource(any(Optional.class)))
+                    .thenReturn(ResponseEntity.ok().build());
+
+            mockMvc.perform(get(ENDPOINT_PATH + AUDIO_DOWNLOAD + "/" + recordingId))
+                    .andExpect(status().isOk());
+            mockedStatic.verify(() -> AudioConverter.convertRecordingToInputStreamResource(Optional.of(recordingResponse)));
+        }
+    }
+
 }
