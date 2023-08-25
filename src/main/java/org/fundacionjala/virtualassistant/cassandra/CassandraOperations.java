@@ -1,6 +1,13 @@
 package org.fundacionjala.virtualassistant.cassandra;
 
-import com.datastax.driver.core.*;
+
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.ResultSet;
+
+
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
