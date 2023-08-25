@@ -8,7 +8,7 @@ public class SingletonServices {
 
     private SingletonServices() {}
 
-    public static MusicService getMusicService() {
+    public static synchronized MusicService getMusicService() {
         if (musicService == null) {
             musicService = new MusicService(new SpotifyClient());
         }
