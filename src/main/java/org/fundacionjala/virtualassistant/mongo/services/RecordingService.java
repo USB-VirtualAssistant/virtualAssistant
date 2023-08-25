@@ -1,10 +1,8 @@
 package org.fundacionjala.virtualassistant.mongo.services;
 
 import lombok.AllArgsConstructor;
-import org.bson.Document;
 import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
 import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
-import org.fundacionjala.virtualassistant.mongo.exception.ConvertedDocumentToFileException;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.mongo.models.Recording;
 import org.fundacionjala.virtualassistant.mongo.models.RecordingParser;
@@ -14,10 +12,6 @@ import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.DisposableBean;
 @Data
 @Component
 @Import(CassandraConfig.class)
-public class CassandraConnection implements DisposableBean{
+public class CassandraConnection implements DisposableBean, TempDataBase {
 
     private Cluster cluster;
     private Session session;
