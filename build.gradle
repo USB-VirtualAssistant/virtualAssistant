@@ -58,6 +58,10 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
     implementation "io.springfox:springfox-boot-starter:$swaggerVersion"
     testImplementation "com.h2database:h2:$h2Database"
+
+    //Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation "io.lettuce:lettuce-core:$lettuceVersion"
 }
 
 tasks.named('test') {

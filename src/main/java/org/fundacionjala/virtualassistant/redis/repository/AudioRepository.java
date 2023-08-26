@@ -1,6 +1,5 @@
 package org.fundacionjala.virtualassistant.redis.repository;
 
-
 import org.fundacionjala.virtualassistant.redis.entity.Audio;
 import org.springframework.data.repository.CrudRepository;
 
