@@ -23,4 +23,9 @@ public class ContextEntity {
 
     @Column(name = "id_user")
     private Long idUser;
+
+    public ContextEntity(String title, Long idUser) {
+        this.title = title;
+        this.idUser = idUser;
+    }
 }
