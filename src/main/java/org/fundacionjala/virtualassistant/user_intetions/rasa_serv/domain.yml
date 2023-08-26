@@ -12,6 +12,8 @@ intents:
   - weather_inquiry
   - location_inquiry
 
+entities:
+  - location
 responses:
   utter_greet:
   - text: "Hey! How are you?"
