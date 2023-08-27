@@ -16,14 +16,13 @@ import static org.mockito.Mockito.when;
 
 class ProxyTest {
     private Proxy proxy;
-    private TaskActionFactory<SpotifyIntent> factory;
     private MusicService musicService;
     private static final String TEXT = "text for tests";
 
     @BeforeEach
     void setUp() {
         musicService = mock(MusicService.class);
-        factory = new SpotifyTaskActionFactory(musicService);
+        TaskActionFactory<SpotifyIntent> factory = new SpotifyTaskActionFactory(musicService);
         proxy = new Proxy(factory);
     }
 
@@ -32,7 +31,7 @@ class ProxyTest {
         when(musicService.getUserSavedAlbums()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("GET_ALBUMS");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -40,7 +39,7 @@ class ProxyTest {
         when(musicService.getUserSavedTracks()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("GET_TRACKS");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -48,7 +47,7 @@ class ProxyTest {
         when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("GET_FOLLOWING");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -56,7 +55,7 @@ class ProxyTest {
         when(musicService.getUserPlayerInformation()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("GET_PLAYER");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -64,7 +63,7 @@ class ProxyTest {
         when(musicService.pauseCurrentTrack()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("PAUSE");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -72,7 +71,7 @@ class ProxyTest {
         when(musicService.playNextTrack()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("NEXT");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -80,7 +79,7 @@ class ProxyTest {
         when(musicService.playPreviousTrack()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("PREVIOUS");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test
@@ -88,7 +87,7 @@ class ProxyTest {
         when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("CONTINUE");
         assertNotNull(handledIntent);
-        assertEquals(handledIntent, TEXT);
+        assertEquals(TEXT, handledIntent);
     }
 
     @Test

@@ -13,12 +13,11 @@ import static org.mockito.Mockito.mock;
 
 class FactoryTest {
 
-    private MusicService musicService;
     private TaskActionFactory<SpotifyIntent> factory;
 
     @BeforeEach
     void setUp() {
-        musicService = mock(MusicService.class);
+        MusicService musicService = mock(MusicService.class);
         factory = new SpotifyTaskActionFactory(musicService);
     }
 

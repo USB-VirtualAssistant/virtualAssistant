@@ -4,6 +4,7 @@ import org.fundacionjala.virtualassistant.player.spotify.client.SpotifyClient;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 
 public class SingletonServices {
+
     private static MusicService musicService;
 
     private SingletonServices() {}
@@ -12,7 +13,6 @@ public class SingletonServices {
         if (musicService == null) {
             musicService = new MusicService(new SpotifyClient());
         }
-
         return musicService;
     }
 }

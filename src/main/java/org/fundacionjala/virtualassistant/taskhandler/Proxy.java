@@ -10,6 +10,7 @@ import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionFactory;
 public class Proxy {
 
     private TaskActionFactory<SpotifyIntent> taskActionFactory;
+
     public String handleIntent(String userIntent) throws IntentException {
         try {
             SpotifyIntent enumSpotifyIntent = SpotifyIntent.valueOf(userIntent);
