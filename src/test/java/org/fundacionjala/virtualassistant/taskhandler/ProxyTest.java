@@ -28,7 +28,63 @@ class ProxyTest {
     }
 
     @Test
-    void shouldMatchWithContinueActionEnum() throws IntentException {
+    void givenGetAlbumEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.getUserSavedAlbums()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("GET_ALBUMS");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenGetTracksEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.getUserSavedTracks()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("GET_TRACKS");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenGetFollowingEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("GET_FOLLOWING");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenGetPlayerEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.getUserPlayerInformation()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("GET_PLAYER");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenPauseEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.pauseCurrentTrack()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("PAUSE");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenNextEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.playNextTrack()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("NEXT");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenPreviousEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        when(musicService.playPreviousTrack()).thenReturn(ResponseEntity.ok(TEXT));
+        String handledIntent = proxy.handleIntent("PREVIOUS");
+        assertNotNull(handledIntent);
+        assertEquals(handledIntent, TEXT);
+    }
+
+    @Test
+    void givenContinueEnumWhenHandleIntentThenHandleIntent() throws IntentException {
         when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(TEXT));
         String handledIntent = proxy.handleIntent("CONTINUE");
         assertNotNull(handledIntent);
@@ -36,8 +92,8 @@ class ProxyTest {
     }
 
     @Test
-    void shouldThrowAnIntentException() {
+    void givenEmptyEnumWhenHandleIntentThenHandleException() {
         IntentException exception = assertThrows(IntentException.class, () -> proxy.handleIntent(""));
-        assertEquals(exception.getMessage(), IntentException.INTENT_NOT_FOUND);
+        assertEquals(IntentException.INTENT_NOT_FOUND, exception.getMessage());
     }
 }
