@@ -1,6 +1,5 @@
-package org.fundacionjala.virtualassistant.redis;
+package org.fundacionjala.virtualassistant.redis.controller;
 
-import org.fundacionjala.virtualassistant.redis.controller.AudioController;
 import org.fundacionjala.virtualassistant.redis.entity.Audio;
 import org.fundacionjala.virtualassistant.redis.exception.FileSaveException;
 import org.fundacionjala.virtualassistant.redis.exception.RedisDataNotFoundException;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 
 class RedisControllerTest {
 
@@ -48,7 +46,7 @@ class RedisControllerTest {
     @Test
     void givenValidAudioFile_whenAddingAudio_thenAudioIsAdded() throws Exception {
         Audio mockAudio = new Audio();
-        when(audioService.saveFile(any(MultipartFile.class))).thenReturn(mockAudio);
+        when(audioService.save(any(MultipartFile.class))).thenReturn(mockAudio);
         Audio response = audioController.addAudio(audioExample);
         assertEquals(mockAudio, response);
     }
@@ -56,20 +54,20 @@ class RedisControllerTest {
     @Test
     void givenValidId_whenGettingAudio_thenReturnsAudioBytes() throws Exception {
         byte[] mockAudioBytes = ORIGINAL_FILE_NAME.getBytes();
-        when(audioService.findFileById(MOCK_ID)).thenReturn(mockAudioBytes);
+        when(audioService.findById(MOCK_ID)).thenReturn(mockAudioBytes);
         byte[] response = audioController.getAudio(MOCK_ID);
         assertArrayEquals(mockAudioBytes, response);
     }
 
     @Test
     void givenValidAudioFile_whenErrorOccursAdding_thenThrowsFileSaveException() throws Exception {
-        when(audioService.saveFile(any(MultipartFile.class))).thenThrow(new FileSaveException("save file failed"));
+        when(audioService.save(any(MultipartFile.class))).thenThrow(new FileSaveException("save file failed"));
         assertThrows(FileSaveException.class, () -> audioController.addAudio(audioExample));
     }
 
     @Test
     void givenValidId_whenAudioNotFound_thenThrowsRedisDataNotFoundException() throws Exception {
-        when(audioService.findFileById(MOCK_ID)).thenThrow(new RedisDataNotFoundException("Audio not found"));
+        when(audioService.findById(MOCK_ID)).thenThrow(new RedisDataNotFoundException("Audio not found"));
         assertThrows(RedisDataNotFoundException.class, () -> audioController.getAudio(MOCK_ID));
     }
 }

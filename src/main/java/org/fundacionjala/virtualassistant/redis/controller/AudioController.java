@@ -22,11 +22,11 @@ public class AudioController {
 
     @PostMapping("add")
     public Audio addAudio(@RequestParam("file") MultipartFile file) throws FileSaveException {
-        return audioService.saveFile(file);
+        return audioService.save(file);
     }
 
     @GetMapping("get/{id}")
     public byte[] getAudio(@PathVariable String id) throws RedisDataNotFoundException {
-        return audioService.findFileById(id);
+        return audioService.findById(id);
     }
 }
