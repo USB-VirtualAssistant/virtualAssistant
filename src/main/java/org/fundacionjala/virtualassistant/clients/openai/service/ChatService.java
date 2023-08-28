@@ -33,7 +33,7 @@ public class ChatService {
                 .collect(Collectors.joining());
     }
 
-    private String removePatternFromStart(StringBuilder input, String toRemovePattern) {
+    private String removePatternFromStart(String input, String toRemovePattern) {
         int patternFinishIndex = toRemovePattern.length();
         return input.substring(patternFinishIndex).trim();
     }
