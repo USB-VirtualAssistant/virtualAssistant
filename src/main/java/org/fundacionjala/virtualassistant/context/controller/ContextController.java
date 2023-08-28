@@ -2,11 +2,11 @@ package org.fundacionjala.virtualassistant.context.controller;
 
 import lombok.NonNull;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.ContextEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -30,7 +30,8 @@ public class ContextController {
     }
 
     @PostMapping()
-    public ContextEntity getContextByUser(@NotEmpty @RequestBody ContextResponse request){
+    public ContextEntity getContextByUser(@NotEmpty @RequestBody ContextResponse request)
+            throws ContextException {
         ContextEntity context = contextService.saveContext(request);
         return new ResponseEntity<>(context, HttpStatus.OK).getBody();
     }
