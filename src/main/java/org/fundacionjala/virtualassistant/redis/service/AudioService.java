@@ -25,7 +25,7 @@ public class AudioService {
     private RedisTemplate<String, Object> redisTemplate;
     private static final int DELETION_TIME = 3600;
 
-    public Audio saveFile(MultipartFile file) throws FileSaveException {
+    public Audio save(MultipartFile file) throws FileSaveException {
         try {
             Audio audio = new Audio();
             audio.setId(UUID.randomUUID().toString());
@@ -39,7 +39,7 @@ public class AudioService {
         }
     }
 
-    public byte[] findFileById(String id) throws RedisDataNotFoundException {
+    public byte[] findById(String id) throws RedisDataNotFoundException {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         Object value = operations.get(id);
 
