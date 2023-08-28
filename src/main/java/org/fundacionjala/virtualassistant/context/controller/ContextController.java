@@ -23,7 +23,7 @@ public class ContextController {
     }
 
     @GetMapping("{idUser}")
-    public List<ContextResponse> getContextByUser(@NonNull @PathVariable("idUser") Long idUser){
+    public List<ContextResponse> getContextByUser(@NonNull @PathVariable("idUser") Long idUser) throws ContextException {
         System.out.println(idUser);
         List<ContextResponse> contexts = contextService.findContextByUserId(idUser);
         return new ResponseEntity<>(contexts, HttpStatus.OK).getBody();
