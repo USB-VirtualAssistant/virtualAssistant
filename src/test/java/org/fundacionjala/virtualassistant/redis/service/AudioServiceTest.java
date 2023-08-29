@@ -11,34 +11,29 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Base64;
-import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 
 class AudioServiceTest {
-
     @InjectMocks
     private AudioService audioService;
-
     @Mock
     private AudioRepository audioRepository;
-
     @Mock
-    private RedisTemplate<String, Object> redisTemplate;
-
-    @Mock
-    private ValueOperations<String, Object> valueOperations;
-
-    private static final int DELETION_TIME = 3600;
+    private RedisService redisService;
     private static final String FILE_NAME = "file";
     private static final String ORIGINAL_FILE_NAME = "Question.wav";
     private static final String CONTENT_TYPE = "audio/wav";
@@ -49,7 +44,6 @@ class AudioServiceTest {
     @BeforeEach
     void setUp() throws IOException {
         MockitoAnnotations.openMocks(this);
-        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         File audioFile = new ClassPathResource(ORIGINAL_FILE_NAME).getFile();
         mockAudio = new MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME, CONTENT_TYPE, Files.readAllBytes(audioFile.toPath()));
     }
@@ -65,38 +59,35 @@ class AudioServiceTest {
         Audio savedAudio = audioService.save(mockAudio);
 
         verify(audioRepository).save(any(Audio.class));
-        verify(valueOperations).set(MOCK_ID, mockAudio.getBytes(), DELETION_TIME, TimeUnit.SECONDS);
+        verify(redisService).saveToRedis(MOCK_ID, mockAudio.getBytes());
 
         assertEquals(audio.getId(), savedAudio.getId());
     }
 
     @Test
     void testFindById() throws RedisDataNotFoundException, IOException {
-        String base64EncodedContent = Base64.getEncoder().encodeToString(mockAudio.getBytes());
-
-        when(valueOperations.get(MOCK_ID)).thenReturn(base64EncodedContent);
+        when(redisService.getFromRedis(MOCK_ID)).thenReturn(mockAudio.getBytes());
 
         byte[] audioData = audioService.findById(MOCK_ID);
 
-        verify(valueOperations).get(MOCK_ID);
-
+        verify(redisService).getFromRedis(MOCK_ID);
         assertArrayEquals(mockAudio.getBytes(), audioData);
     }
 
     @Test
     void testSaveRedisDataNotFoundException() throws IOException {
         MultipartFile mockFile = mock(MultipartFile.class);
-        when(mockFile.getBytes()).thenThrow(new IOException("Simulated IOException"));
 
+        when(mockFile.getBytes()).thenThrow(new IOException("Simulated IOException"));
         verify(audioRepository, never()).save(any(Audio.class));
-        verify(redisTemplate, never()).opsForValue();
+        verify(redisService, never()).saveToRedis(anyString(), any());
 
         assertThrows(FileSaveException.class, () -> { audioService.save(mockFile); });
     }
 
     @Test
     void testFindByIdRedisDataNotFoundException() {
-        when(valueOperations.get(MOCK_NON_EXISTENT_ID)).thenReturn(null);
+        when(redisService.getFromRedis(MOCK_NON_EXISTENT_ID)).thenReturn(null);
         assertThrows(RedisDataNotFoundException.class, () -> audioService.findById(MOCK_NON_EXISTENT_ID));
     }
 }
