@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.user_intetions.client;
 
+import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentResponse;
 import org.fundacionjala.virtualassistant.user_intetions.repository.UserIntentsClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class RasaClient implements UserIntentsClient {
     }
 
     @Override
-    public ResponseEntity<String> processUserIntentsByMicroService(String input) {
+    public ResponseEntity<IntentResponse> processUserIntentsByMicroService(String input) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -34,7 +35,7 @@ public class RasaClient implements UserIntentsClient {
                 rasaUrl,
                 HttpMethod.POST,
                 requestEntity,
-                String.class
+                IntentResponse.class
         );
     }
 }
