@@ -30,7 +30,7 @@ class RasaRunner:
         except subprocess.CalledProcessError as e:
             print("An error occurred:", e)
 
-class RasaMicroservice:
+class RasaService:
     def __init__(self, rasa_port, microservice_port):
         self.rasa_port = rasa_port
         self.microservice_port = microservice_port
@@ -70,6 +70,6 @@ class RasaMicroservice:
             return jsonify({"error": "An error occurred.", "details": str(e)}), 500
 
 if __name__ == '__main__':
-    microservice = RasaMicroservice(rasa_port=RASA_PORT, microservice_port=MICROSERVICE_PORT)
+    microservice = RasaService(rasa_port=RASA_PORT, microservice_port=MICROSERVICE_PORT)
     microservice.initialize_flask_app()
     microservice.start_services()
