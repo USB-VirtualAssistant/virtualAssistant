@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.context.service;
 
 import lombok.AllArgsConstructor;
+import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
@@ -25,13 +26,13 @@ public class ContextService {
         return convertListContextToResponse(contextEntities);
     }
 
-    public ContextEntity saveContext(ContextResponse request) throws ContextException {
+    public ContextResponse saveContext(ContextRequest request) throws ContextException {
         if(isNull(request)){
             throw new ContextException(ContextException.MESSAGE_CONTEXT_REQUEST_NULL);
         }
 
         ContextEntity contextEntity = new ContextEntity(request.getTitle(), request.getIdUser());
-        return contextRepository.save(contextEntity);
+        return ContextResponse.fromEntity(contextRepository.save(contextEntity));
     }
 
     private List<ContextResponse> convertListContextToResponse(List<ContextEntity> entityList)

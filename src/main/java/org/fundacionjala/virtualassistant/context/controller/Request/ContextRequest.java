@@ -2,13 +2,12 @@ package org.fundacionjala.virtualassistant.context.controller.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-
-@Value
+@Data
 @Builder
-@AllArgsConstructor
-public class contextRequest {
-    private String title;
-    private Long idUser;
+@AllArgsConstructor()
+public class ContextRequest {
+    String title;
+    Long idUser;
 }
