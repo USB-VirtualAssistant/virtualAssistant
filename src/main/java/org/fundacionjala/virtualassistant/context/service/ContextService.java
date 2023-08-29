@@ -5,7 +5,7 @@ import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequ
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
-import org.fundacionjala.virtualassistant.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;

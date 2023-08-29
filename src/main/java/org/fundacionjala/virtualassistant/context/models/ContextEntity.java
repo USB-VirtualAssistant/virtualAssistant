@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.models;
+package org.fundacionjala.virtualassistant.context.models;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +9,6 @@ import javax.persistence.Column;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 @Entity
 @Table(name = "context")
