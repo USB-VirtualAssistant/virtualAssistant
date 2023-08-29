@@ -11,6 +11,24 @@ MODEL_PATH = "models/"
 TEXT_KEY = 'text'
 RASA_URL = f"http://localhost:{RASA_PORT}/model/parse"
 
+class RasaPayload:
+    def __init__(self, text):
+        self.text = text
+
+    def to_dict(self):
+        return {TEXT_KEY: self.text}
+
+class RasaResponse:
+    def __init__(self, data):
+        self.data = data
+
+    @classmethod
+    def from_response(cls, response):
+        return cls(response.json())
+
+    def to_dict(self):
+        return self.data
+
 class RasaRunner:
     def __init__(self, model_path, port=3333):
         self.model_path = model_path
@@ -46,14 +64,11 @@ class RestClient:
             if not input_text:
                 return jsonify({"error": "Text not provided."}), 400
 
-            payload = {
-                TEXT_KEY: input_text
-            }
-
-            response = requests.post(RASA_URL, json=payload)
+            payload = RasaPayload(text=input_text)
+            response = requests.post(RASA_URL, json=payload.to_dict())
 
             if response.status_code == 200:
-                parsed_data = response.json()
+                parsed_data = RasaResponse.from_response(response).to_dict()
                 return jsonify(parsed_data), 200
             else:
                 return jsonify({"error": "An error occurred while parsing the text."}), response.status_code
