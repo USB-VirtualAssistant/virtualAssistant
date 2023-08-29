@@ -2,6 +2,9 @@ package org.fundacionjala.virtualassistant.clients.openai.service;
 
 
 import com.theokanning.openai.service.OpenAiService;
+
+import lombok.NoArgsConstructor;
+
 import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -9,9 +12,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Service
+@NoArgsConstructor
 public class ChatService {
     private OpenAiClient openAiClient;
     private OpenAiService openAiService;
+
+    public ChatService(OpenAiClient openAiClient) {
+        this.openAiClient = openAiClient;
+        this.openAiService = new OpenAiService(openAiClient.getToken());
+    }
 
     public ChatService(OpenAiClient openAiClient, OpenAiService openAiService) {
         this.openAiClient = openAiClient;
