@@ -13,9 +13,9 @@ public class ChatService {
     private OpenAiClient openAiClient;
     private OpenAiService openAiService;
 
-    public ChatService(OpenAiClient openAiClient){
+    public ChatService(OpenAiClient openAiClient, OpenAiService openAiService) {
         this.openAiClient = openAiClient;
-        this.openAiService = new OpenAiService(openAiClient.getToken());
+        this.openAiService = openAiService;
     }
 
     @NotEmpty
