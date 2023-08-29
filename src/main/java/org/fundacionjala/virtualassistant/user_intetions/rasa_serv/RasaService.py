@@ -2,12 +2,16 @@ import subprocess
 import threading
 from flask import Flask, request, jsonify
 import requests
+import configparser
 
-MICROSERVICE_PORT = 8082
-RASA_PORT = 3333
-HOST_ADDRESS = '0.0.0.0'
-CONSUME_ROUTE = '/consume-rasa'
-MODEL_PATH = "models/"
+configs = configparser.ConfigParser()
+configs.read('service.properties')
+
+MICROSERVICE_PORT = configs.get('DEFAULT', 'MICROSERVICE_PORT')
+RASA_PORT = configs.get('DEFAULT', 'RASA_PORT')
+HOST_ADDRESS = configs.get('DEFAULT', 'HOST_ADDRESS')
+CONSUME_ROUTE = configs.get('DEFAULT', 'CONSUME_ROUTE')
+MODEL_PATH = configs.get('DEFAULT', 'MODEL_PATH')
 TEXT_KEY = 'text'
 RASA_URL = f"http://localhost:{RASA_PORT}/model/parse"
 
