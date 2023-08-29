@@ -37,11 +37,14 @@ public class RecordingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecordingResponse> getRecordingID(@NotEmpty @PathVariable("id") String id)
-            throws RecordingException {
-        Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
-        return recording.map(recordingResponse -> new ResponseEntity<>(recordingResponse, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<RecordingResponse> getRecordingID(@NotEmpty @PathVariable("id") String id) {
+        try {
+            Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
+            return recording.map(recordingResponse -> new ResponseEntity<>(recordingResponse, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (RecordingException recordingException) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/user/{idUser}/chat/{idChat}")
@@ -62,7 +65,7 @@ public class RecordingController {
     @GetMapping("/audio/download/{id}")
     public ResponseEntity<InputStreamResource> getRecordingByIdDownload(@NotEmpty @PathVariable("id") String id) throws RecordingException {
         Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
-        if (recording.isEmpty()){
+        if (recording.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return AudioConverter.convertRecordingToInputStreamResource(recording);
