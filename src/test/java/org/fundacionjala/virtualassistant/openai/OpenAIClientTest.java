@@ -12,11 +12,15 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 
 class ChatServiceTest {
 
-    private OpenAiService mockOpenAiService;
     private OpenAiClient mockOpenAiClient;
     private ChatService chatService;
     private static final String REQUEST = "hi how are you";
@@ -30,18 +34,18 @@ class ChatServiceTest {
 
     @BeforeEach
     void setUp() {
-        mockOpenAiService = mock(OpenAiService.class);
+        OpenAiService mockOpenAiService = mock(OpenAiService.class);
         mockOpenAiClient = mock(OpenAiClient.class);
-        chatService = new ChatService(mockOpenAiClient);
-        chatService.setOpenAiService(mockOpenAiService);
+        chatService = new ChatService(mockOpenAiClient, mockOpenAiService);
 
         when(mockOpenAiClient.getToken()).thenReturn(getToken());
         when(mockOpenAiClient.buildCompletionRequest(REQUEST)).thenCallRealMethod();
 
         CompletionChoice completionChoice = new CompletionChoice();
         completionChoice.setText(REQUEST);
-        CompletionResult completionResult = mock(CompletionResult.class);
-        when(completionResult.getChoices()).thenReturn(Collections.singletonList(completionChoice));
+
+        CompletionResult completionResult = new CompletionResult();
+        completionResult.setChoices(Collections.singletonList(completionChoice));
 
         when(mockOpenAiService.createCompletion(any(CompletionRequest.class)))
                 .thenReturn(completionResult);
@@ -51,7 +55,6 @@ class ChatServiceTest {
     void shouldReturnAStringAndCallOpenAiClientMethodsWhenARequestIsUsedInChatService() {
         String result = chatService.chat(REQUEST);
 
-        verify(mockOpenAiClient).getToken();
         verify(mockOpenAiClient, times(2)).buildCompletionRequest(REQUEST);
         assertNotNull(result, "result should not be null");
     }
