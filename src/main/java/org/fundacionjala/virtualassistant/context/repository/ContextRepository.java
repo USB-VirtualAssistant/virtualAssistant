@@ -1,6 +1,6 @@
 package org.fundacionjala.virtualassistant.context.repository;
 
-import org.fundacionjala.virtualassistant.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

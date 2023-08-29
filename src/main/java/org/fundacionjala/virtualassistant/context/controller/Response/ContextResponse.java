@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 
 import static java.util.Objects.isNull;
 
