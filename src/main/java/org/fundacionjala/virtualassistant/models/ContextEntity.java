@@ -6,13 +6,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.Column;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
 @Entity
 @Table(name = "context")
-@NoArgsConstructor(force = true)
-@Value
+@NoArgsConstructor()
+@Data
 public class ContextEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
