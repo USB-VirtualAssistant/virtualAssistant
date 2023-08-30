@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/audio/")
 public class AudioController {
-    private AudioService audioService;
+    AudioService audioService;
 
     public AudioController(AudioService audioService) {
         this.audioService = audioService;
