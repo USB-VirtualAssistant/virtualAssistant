@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/textResponse")
@@ -22,7 +22,7 @@ public class ResponseController {
     }
 
     @PostMapping
-    public ResponseEntity<TextResponse> createTextResponse(@NotNull @RequestBody ParameterResponse response) {
+    public ResponseEntity<TextResponse> createTextResponse(@Valid @RequestBody ParameterResponse response) {
         TextResponse textResponse = responseService.save(response.getIdRequest(), response.getText());
         return new ResponseEntity<>(textResponse, CREATED);
     }
