@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisService {
 
-    private RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
     private static final int DELETION_TIME = 3600;
 
     public RedisService(RedisTemplate<String, Object> redisTemplate) {

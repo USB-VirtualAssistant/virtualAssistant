@@ -13,8 +13,8 @@ import java.util.UUID;
 @Service
 public class AudioService {
 
-    private AudioRepository audioRepository;
-    private RedisService redisService;
+    AudioRepository audioRepository;
+    RedisService redisService;
     public AudioService(AudioRepository audioRepository, RedisService redisService){
         this.audioRepository = audioRepository;
         this.redisService = redisService;
