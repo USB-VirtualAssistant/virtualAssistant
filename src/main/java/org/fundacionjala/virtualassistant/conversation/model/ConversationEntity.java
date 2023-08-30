@@ -1,7 +1,7 @@
-package org.fundacionjala.virtualassistant.message.model;
+package org.fundacionjala.virtualassistant.conversation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,26 +10,27 @@ import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 @Entity
-@Value
-@AllArgsConstructor
-@Builder
 @Table(name = "view_request_with_response")
-public class MessageEntity {
+@NoArgsConstructor(force = true)
+@Value
+public class ConversationEntity {
     @Id
     @Column(name = "id_request")
     Long idRequest;
     @Column(name = "text_request")
     String textRequest;
     @Column(name = "date_request")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     ZonedDateTime dateRequest;
     @Column(name = "id_audio")
-    Long idAudio;
+    String idAudio;
     @Column(name = "id_user")
     Long idUser;
     @Column(name = "id_context")
     Long idContext;
     @Column(name = "text_response")
-    Long idResponse;
+    String textResponse;
     @Column(name = "date_response")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     ZonedDateTime dateResponse;
 }
