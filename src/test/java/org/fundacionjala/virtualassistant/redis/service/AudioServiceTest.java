@@ -49,7 +49,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void testSave() throws FileSaveException, IOException {
+    void givenValidAudioFile_WhenSavingAudio_ThenAudioSaved() throws FileSaveException, IOException {
         Audio audio = new Audio();
         audio.setId(MOCK_ID);
         audio.setAudioFile(mockAudio.getBytes());
@@ -65,7 +65,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void testFindById() throws RedisDataNotFoundException, IOException {
+    void givenValidAudioId_WhenGettingAudioById_ThenAudioReturnsBytes() throws RedisDataNotFoundException, IOException {
         when(redisService.getFromRedis(MOCK_ID)).thenReturn(mockAudio.getBytes());
 
         byte[] audioData = audioService.findById(MOCK_ID);
@@ -75,7 +75,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void testSaveRedisDataNotFoundException() throws IOException {
+    void givenInvalidAudioFile_WhenSavingAudio_ThenNottingSavedThrowsException() throws IOException {
         MultipartFile mockFile = mock(MultipartFile.class);
 
         when(mockFile.getBytes()).thenThrow(new IOException("Simulated IOException"));
@@ -86,7 +86,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void testFindByIdRedisDataNotFoundException() {
+    void givenInvalidAudioId_WhenGettingAudioById_ThenAudioThrowsException() {
         when(redisService.getFromRedis(MOCK_NON_EXISTENT_ID)).thenReturn(null);
         assertThrows(RedisDataNotFoundException.class, () -> audioService.findById(MOCK_NON_EXISTENT_ID));
     }
