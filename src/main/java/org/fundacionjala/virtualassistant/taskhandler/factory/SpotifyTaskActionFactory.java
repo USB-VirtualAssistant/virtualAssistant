@@ -3,7 +3,7 @@ package org.fundacionjala.virtualassistant.taskhandler.factory;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
-import org.fundacionjala.virtualassistant.taskhandler.SpotifyIntent;
+import org.fundacionjala.virtualassistant.taskhandler.intents.SpotifyIntent;
 import org.fundacionjala.virtualassistant.taskhandler.TaskAction;
 import org.fundacionjala.virtualassistant.taskhandler.actions.ContinueAction;
 import org.fundacionjala.virtualassistant.taskhandler.actions.GetAlbumsAction;
@@ -17,11 +17,12 @@ import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpotifyTaskActionFactory implements TaskActionFactory<SpotifyIntent> {
+public class SpotifyTaskActionFactory implements TaskActionFactory {
     private MusicService musicService;
 
     @Override
-    public TaskAction createTaskAction(SpotifyIntent spotifyIntent) throws IntentException {
+    public <T extends Enum<?>> TaskAction createTaskAction(T intent) throws IntentException {
+        SpotifyIntent spotifyIntent = (SpotifyIntent) intent;
         switch (spotifyIntent) {
             case GET_ALBUMS:
                 return new GetAlbumsAction(musicService);
@@ -43,4 +44,5 @@ public class SpotifyTaskActionFactory implements TaskActionFactory<SpotifyIntent
                 throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
     }
+
 }

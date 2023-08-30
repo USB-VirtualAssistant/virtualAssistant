@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.taskhandler;
+package org.fundacionjala.virtualassistant.taskhandler.intents;
 
 public enum SpotifyIntent{
     GET_ALBUMS,
