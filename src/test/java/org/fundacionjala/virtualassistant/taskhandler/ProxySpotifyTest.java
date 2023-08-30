@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProxyTest {
+class ProxySpotifyTest {
     private Proxy proxy;
     private MusicService musicService;
     private static final String TEXT = "text for tests";
