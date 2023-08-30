@@ -64,10 +64,14 @@ public class RecordingController {
 
     @GetMapping("/audio/download/{id}")
     public ResponseEntity<InputStreamResource> getRecordingByIdDownload(@NotEmpty @PathVariable("id") String id) throws RecordingException {
-        Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
-        if (recording.isEmpty()) {
+        try {
+            Optional<RecordingResponse> recording = Optional.ofNullable(recordingService.getRecording(id));
+            if (recording.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return AudioConverter.convertRecordingToInputStreamResource(recording);
+        } catch (RecordingException recordingException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return AudioConverter.convertRecordingToInputStreamResource(recording);
     }
 }
