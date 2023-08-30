@@ -71,7 +71,6 @@ public class ContextServiceTest {
         assertEquals(CONTEXT_TITLE, result.get(userIndex).getTitle());
     }
 
-
     @Test
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
         ContextRequest request = new ContextRequest(CONTEXT_TITLE, CONTEXT_USER_ID);
