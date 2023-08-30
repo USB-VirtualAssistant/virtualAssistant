@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textResponse.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -12,5 +13,6 @@ public class TextResponse {
     Long idResponse;
     Long idRequest;
     String text;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     ZonedDateTime date;
 }
