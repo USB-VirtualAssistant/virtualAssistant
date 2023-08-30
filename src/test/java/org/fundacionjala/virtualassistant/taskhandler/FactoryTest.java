@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.taskhandler.actions.GetAlbumsAction;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.taskhandler.factory.SpotifyTaskActionFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionFactory;
+import org.fundacionjala.virtualassistant.taskhandler.intents.SpotifyIntent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +14,7 @@ import static org.mockito.Mockito.mock;
 
 class FactoryTest {
 
-    private TaskActionFactory<SpotifyIntent> factory;
+    private TaskActionFactory factory;
 
     @BeforeEach
     void setUp() {
