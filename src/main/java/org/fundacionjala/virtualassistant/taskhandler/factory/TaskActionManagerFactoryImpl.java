@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.taskhandler.factory;
 
 import lombok.AllArgsConstructor;
+import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.intents.Intent;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
@@ -12,6 +13,18 @@ import java.util.Objects;
 public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
     private Map<String, Intent> intentMap;
     private MusicService musicService;
+
+    private ChatService chatService;
+
+    public TaskActionManagerFactoryImpl(Map<String, Intent> intentMap, MusicService musicService) {
+        this.intentMap = intentMap;
+        this.musicService = musicService;
+    }
+
+    public TaskActionManagerFactoryImpl(Map<String, Intent> intentMap, ChatService chatService) {
+        this.intentMap = intentMap;
+        this.chatService = chatService;
+    }
 
     public TaskActionManagerFactoryImpl() {
         intentMap = Map.of(
@@ -35,6 +48,8 @@ public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
         switch (intent) {
             case SPOTIFY:
                 return new SpotifyTaskActionFactory(musicService);
+            case CHAT_GPT:
+                return new OpenAITaskActionFactory(chatService);
             default:
                 throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
