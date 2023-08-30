@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
 public class ConversationController {
+    private static final String DEFAULT_NUMBER_PAGE = "0";
+    private static final String DEFAULT_NUMBER_SIZE = "10";
+
     private final ConversationService service;
 
     @Autowired
@@ -23,10 +28,10 @@ public class ConversationController {
 
     @GetMapping("users/{userId}/contexts/{contextId}")
     public ResponseEntity<List<ConversationResponse>> getAll(
-            @PathVariable Long userId,
-            @PathVariable Long contextId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @NotNull @PathVariable Long userId,
+            @NotNull @PathVariable Long contextId,
+            @RequestParam(defaultValue = DEFAULT_NUMBER_PAGE) int page,
+            @RequestParam(defaultValue = DEFAULT_NUMBER_SIZE) int size) {
         List<ConversationResponse> conversations = service.getAllByUserAndContext(userId, contextId, page, size);
         return ResponseEntity.ok(conversations);
     }

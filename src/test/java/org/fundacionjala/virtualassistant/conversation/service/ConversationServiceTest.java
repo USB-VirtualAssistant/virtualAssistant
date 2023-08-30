@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.conversation.service;
 import org.fundacionjala.virtualassistant.conversation.model.ConversationEntity;
 import org.fundacionjala.virtualassistant.conversation.model.ConversationResponse;
 import org.fundacionjala.virtualassistant.conversation.repository.ConversationEntityRepository;
-import org.fundacionjala.virtualassistant.textrequest.service.TextRequestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
