@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.conversation.controller.response;
+package org.fundacionjala.virtualassistant.conversation.model;
 
 import lombok.Builder;
 import lombok.Value;
@@ -10,9 +10,7 @@ public class ConversationResponse {
     Long idRequest;
     String textRequest;
     ZonedDateTime dateRequest;
-    Long idAudio;
-    Long idUser;
-    Long idContext;
-    Long textResponse;
+    String idAudio;
+    String textResponse;
     ZonedDateTime dateResponse;
 }
