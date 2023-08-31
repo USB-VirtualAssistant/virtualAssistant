@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class RasaClient implements UserIntentsClient {
 
     private static final String REQUEST_PAYLOAD_TEMPLATE = "{\"text\": \"%s\"}";
+
     private String rasaUrl;
     private RestTemplate restTemplate;
 
