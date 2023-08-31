@@ -28,12 +28,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 
 class AudioServiceTest {
+
     @InjectMocks
     private AudioService audioService;
+
     @Mock
     private AudioRepository audioRepository;
+
     @Mock
     private RedisService redisService;
+
     private static final String FILE_NAME = "file";
     private static final String ORIGINAL_FILE_NAME = "Question.wav";
     private static final String CONTENT_TYPE = "audio/wav";
@@ -49,7 +53,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void givenValidAudioFile_WhenSavingAudio_ThenAudioSaved() throws FileSaveException, IOException {
+    void GivenValidAudioFileWhenSavingAudioThenAudioSaved() throws FileSaveException, IOException {
         Audio audio = new Audio();
         audio.setId(MOCK_ID);
         audio.setAudioFile(mockAudio.getBytes());
@@ -65,7 +69,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void givenValidAudioId_WhenGettingAudioById_ThenAudioReturnsBytes() throws RedisDataNotFoundException, IOException {
+    void GivenValidAudioIdWhenGettingAudioByIdThenAudioReturnsBytes() throws RedisDataNotFoundException, IOException {
         when(redisService.getFromRedis(MOCK_ID)).thenReturn(mockAudio.getBytes());
 
         byte[] audioData = audioService.findById(MOCK_ID);
@@ -75,7 +79,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void givenInvalidAudioFile_WhenSavingAudio_ThenNottingSavedThrowsException() throws IOException {
+    void GivenInvalidAudioFileWhenSavingAudioThenNottingSavedThrowsException() throws IOException {
         MultipartFile mockFile = mock(MultipartFile.class);
 
         when(mockFile.getBytes()).thenThrow(new IOException("Simulated IOException"));
@@ -86,7 +90,7 @@ class AudioServiceTest {
     }
 
     @Test
-    void givenInvalidAudioId_WhenGettingAudioById_ThenAudioThrowsException() {
+    void GivenInvalidAudioIdWhenGettingAudioByIdThenAudioThrowsException() {
         when(redisService.getFromRedis(MOCK_NON_EXISTENT_ID)).thenReturn(null);
         assertThrows(RedisDataNotFoundException.class, () -> audioService.findById(MOCK_NON_EXISTENT_ID));
     }
