@@ -11,7 +11,7 @@ public class NextAction implements TaskAction {
     }
 
     @Override
-    public String handleAction() {
+    public String handleAction(String intent) {
         return musicService.playNextTrack().getBody();
     }
 }

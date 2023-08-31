@@ -17,6 +17,10 @@ public class Proxy {
     private IntentFactory intentFactory;
 
     public String handleIntent(String userIntent) throws IntentException {
+        return handleIntent(userIntent, "");
+    }
+
+    public String handleIntent(String userIntent, String intentEntity) throws IntentException {
         TaskActionFactory taskActionFactory = taskActionManagerFactory.getTaskActionFactory(userIntent);
 
         Intent intent = taskActionManagerFactory.getIntent(userIntent);
@@ -24,6 +28,6 @@ public class Proxy {
 
         return taskActionFactory
                 .createTaskAction(intentManager.processIntent(userIntent))
-                .handleAction();
+                .handleAction(intentEntity);
     }
 }

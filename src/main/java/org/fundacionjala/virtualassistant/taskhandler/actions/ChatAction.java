@@ -10,7 +10,7 @@ public class ChatAction implements TaskAction {
     private ChatService chatService;
 
     @Override
-    public String handleAction() {
-        return chatService.chat("text");
+    public String handleAction(String text) {
+        return chatService.chat(text);
     }
 }

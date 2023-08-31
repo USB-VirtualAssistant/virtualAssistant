@@ -21,7 +21,8 @@ class ProxyOpenAITest {
     private Proxy proxy;
     private ChatService chatService;
     private static final String TEXT = "text for tests";
-    private static final String CHAT = "chat";
+    private static final String INTENT = "chat";
+    private static final String ENTITY = "Who is Elon Musk?";
 
     @BeforeEach
     void setUp() {
@@ -40,7 +41,7 @@ class ProxyOpenAITest {
 
     @Test
     void givenChatEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        String handledIntent = proxy.handleIntent(CHAT);
+        String handledIntent = proxy.handleIntent(INTENT, ENTITY);
         assertNotNull(handledIntent);
         assertEquals(TEXT, handledIntent);
     }
