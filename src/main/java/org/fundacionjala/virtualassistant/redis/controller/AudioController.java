@@ -26,7 +26,7 @@ public class AudioController {
         return audioService.save(file);
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("/{id}")
     public byte[] getAudio(@PathVariable String id) throws RedisDataNotFoundException {
         return audioService.findById(id);
     }

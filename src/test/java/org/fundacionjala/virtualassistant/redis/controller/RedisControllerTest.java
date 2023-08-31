@@ -44,7 +44,7 @@ class RedisControllerTest {
     }
 
     @Test
-    void givenValidAudioFile_whenAddingAudio_thenAudioIsAdded() throws Exception {
+    void GivenValidAudioFileWhenAddingAudioThenAudioIsAdded() throws Exception {
         Audio mockAudio = new Audio();
         when(audioService.save(any(MultipartFile.class))).thenReturn(mockAudio);
         Audio response = audioController.addAudio(audioExample);
@@ -52,7 +52,7 @@ class RedisControllerTest {
     }
 
     @Test
-    void givenValidId_whenGettingAudio_thenReturnsAudioBytes() throws Exception {
+    void GivenValidIdWhenGettingAudioThenReturnsAudioBytes() throws Exception {
         byte[] mockAudioBytes = ORIGINAL_FILE_NAME.getBytes();
         when(audioService.findById(MOCK_ID)).thenReturn(mockAudioBytes);
         byte[] response = audioController.getAudio(MOCK_ID);
@@ -60,13 +60,13 @@ class RedisControllerTest {
     }
 
     @Test
-    void givenValidAudioFile_whenErrorOccursAdding_thenThrowsFileSaveException() throws Exception {
+    void GivenValidAudioFileWhenErrorOccursAddingThenThrowsFileSaveException() throws Exception {
         when(audioService.save(any(MultipartFile.class))).thenThrow(new FileSaveException("save file failed"));
         assertThrows(FileSaveException.class, () -> audioController.addAudio(audioExample));
     }
 
     @Test
-    void givenValidId_whenAudioNotFound_thenThrowsRedisDataNotFoundException() throws Exception {
+    void GivenValidIdWhenAudioNotFoundThenThrowsRedisDataNotFoundException() throws Exception {
         when(audioService.findById(MOCK_ID)).thenThrow(new RedisDataNotFoundException("Audio not found"));
         assertThrows(RedisDataNotFoundException.class, () -> audioController.getAudio(MOCK_ID));
     }
