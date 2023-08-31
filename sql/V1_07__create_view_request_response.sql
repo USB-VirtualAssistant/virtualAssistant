@@ -9,4 +9,5 @@ SELECT req.id_request,
 	res.date as date_response
 	FROM db_schema.request as req
 	LEFT JOIN db_schema.response as res
-	ON req.id_request = res.id_request;
+	ON req.id_request = res.id_request
+	ORDER BY date_request DESC;
