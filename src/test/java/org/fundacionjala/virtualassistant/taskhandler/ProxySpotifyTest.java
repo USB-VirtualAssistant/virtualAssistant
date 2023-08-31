@@ -16,6 +16,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +25,7 @@ class ProxySpotifyTest {
     private Proxy proxy;
     private MusicService musicService;
     private static final String TEXT = "text for tests";
-    private static final String MUSIC_PLAY = "music_play";
+    private static final String MUSIC_CONTINUE = "music_continue";
     private static final String MUSIC_PAUSE = "music_pause";
     private static final String MUSIC_NEXT = "music_next";
     private static final String MUSIC_ALBUMS = "music_albums";
@@ -31,20 +33,22 @@ class ProxySpotifyTest {
     private static final String MUSIC_PLAYER = "music_player";
     private static final String MUSIC_PREVIOUS = "music_previous";
     private static final String MUSIC_TRACKS = "music_tracks";
+    private static final String MUSIC_PLAY = "music_play";
 
     @BeforeEach
     void setUp() {
         musicService = mock(MusicService.class);
         TaskActionManagerFactory taskActionManagerFactory = new TaskActionManagerFactoryImpl(
                 Map.of(
-                        "music_play", Intent.SPOTIFY,
+                        "music_continue", Intent.SPOTIFY,
                         "music_pause", Intent.SPOTIFY,
                         "music_next", Intent.SPOTIFY,
                         "music_albums", Intent.SPOTIFY,
                         "music_following", Intent.SPOTIFY,
                         "music_player", Intent.SPOTIFY,
                         "music_previous", Intent.SPOTIFY,
-                        "music_tracks", Intent.SPOTIFY
+                        "music_tracks", Intent.SPOTIFY,
+                        "music_play", Intent.SPOTIFY
                 ),
 
                 musicService
@@ -59,6 +63,7 @@ class ProxySpotifyTest {
         when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(TEXT));
         when(musicService.playNextTrack()).thenReturn(ResponseEntity.ok(TEXT));
         when(musicService.playPreviousTrack()).thenReturn(ResponseEntity.ok(TEXT));
+        when(musicService.playSongByArtistAndTrack(any(), any())).thenReturn(ResponseEntity.ok(TEXT));
     }
 
     @Test
@@ -112,6 +117,13 @@ class ProxySpotifyTest {
 
     @Test
     void givenContinueEnumWhenHandleIntentThenHandleIntent() throws IntentException {
+        String handledIntent = proxy.handleIntent(MUSIC_CONTINUE);
+        assertNotNull(handledIntent);
+        assertEquals(TEXT, handledIntent);
+    }
+
+    @Test
+    void givenPlayEnumWhenHandleIntentThenHandleIntent() throws IntentException {
         String handledIntent = proxy.handleIntent(MUSIC_PLAY);
         assertNotNull(handledIntent);
         assertEquals(TEXT, handledIntent);
