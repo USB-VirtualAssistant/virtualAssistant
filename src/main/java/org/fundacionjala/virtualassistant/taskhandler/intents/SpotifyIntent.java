@@ -8,5 +8,6 @@ public enum SpotifyIntent{
     PAUSE,
     NEXT,
     PREVIOUS,
-    CONTINUE;
+    CONTINUE,
+    PLAY
 }
