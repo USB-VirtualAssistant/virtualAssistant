@@ -11,14 +11,18 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.io.IOException;
 
 @Data
 public class WhisperClient implements ASRClient {
+
     @Value("${asr.whisper.url}")
     private String url;
+
     @Value("${asr.whisper.post-endpoint}")
     private String postEndpoint;
+
     @Override
     public String convertToText(MultipartFile audioFile) throws IOException {
         byte[] audioData = audioFile.getBytes();
@@ -34,6 +38,7 @@ public class WhisperClient implements ASRClient {
                 .bodyToMono(String.class)
                 .block();
     }
+
     public MultiValueMap<String, Object> getBody(byte[] audioData, String filename) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("audio_file", new ByteArrayResource(audioData, filename));
