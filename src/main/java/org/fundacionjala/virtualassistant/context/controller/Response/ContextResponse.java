@@ -16,7 +16,6 @@ public class ContextResponse {
     String title;
     Long idUser;
 
-
     public static ContextResponse fromEntity(ContextEntity context)
             throws ContextException {
         if (isNull(context)){
