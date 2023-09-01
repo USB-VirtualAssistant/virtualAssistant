@@ -39,4 +39,7 @@ public class Proxy {
                 .handleAction(intentEntity.getIntentEntities());
     }
 
+    private IntentResponse doRasa(String text) {
+        return rasaClient.processUserIntentsByMicroService(text).getBody();
+    }
 }
