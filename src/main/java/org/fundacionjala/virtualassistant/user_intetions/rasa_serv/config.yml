@@ -11,8 +11,8 @@ assistant_id: 20230825-022738-naive-shark
 language: en
 
 pipeline:
-  - name: WhitespaceTokenizer
   - name: SpacyNLP
+    model: "en_core_web_md"
   - name: SpacyTokenizer
   - name: SpacyFeaturizer
   - name: RegexFeaturizer
