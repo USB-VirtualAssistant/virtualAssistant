@@ -13,4 +13,3 @@ public class ContextException extends Exception{
         super(message, cause);
     }
 }
-
