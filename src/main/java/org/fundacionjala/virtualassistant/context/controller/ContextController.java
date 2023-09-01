@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/context/")
 public class ContextController {
@@ -34,7 +33,7 @@ public class ContextController {
     }
 
     @PostMapping()
-    public ContextResponse getContextByUser(@NonNull @Valid @ModelAttribute ContextRequest request)
+    public ContextResponse getContextByUser(@Valid @ModelAttribute ContextRequest request)
             throws ContextException {
         ContextResponse context = contextService.saveContext(request);
         return new ResponseEntity<>(context, HttpStatus.OK).getBody();
