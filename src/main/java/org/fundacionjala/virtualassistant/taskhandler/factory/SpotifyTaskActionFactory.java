@@ -3,7 +3,16 @@ package org.fundacionjala.virtualassistant.taskhandler.factory;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
-import org.fundacionjala.virtualassistant.taskhandler.actions.*;
+
+import org.fundacionjala.virtualassistant.taskhandler.actions.GetAlbumsAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.GetFollowingAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.GetPlayerAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.GetTracksAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.PauseAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.NextAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.PreviousAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.ContinueAction;
+import org.fundacionjala.virtualassistant.taskhandler.actions.PlayAction;
 import org.fundacionjala.virtualassistant.taskhandler.intents.SpotifyIntent;
 import org.fundacionjala.virtualassistant.taskhandler.TaskAction;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
@@ -39,5 +48,4 @@ public class SpotifyTaskActionFactory implements TaskActionFactory {
                 throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
     }
-
 }
