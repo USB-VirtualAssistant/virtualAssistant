@@ -1,0 +1,6 @@
+FROM python:3.8.10-slim
+COPY ./src/main/java/org/fundacionjala/virtualassistant/user_intetions /app
+WORKDIR /app
+RUN pip install rasa
+RUN pip install flask
+RUN pip install tensorflow==2.12.0
