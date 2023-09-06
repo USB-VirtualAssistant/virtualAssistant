@@ -3,6 +3,10 @@ package org.fundacionjala.virtualassistant.taskhandler;
 import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
+import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactory;
+import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactoryImpl;
+import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionManagerFactory;
+import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionManagerFactoryImpl;
 import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.Intent;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentEntity;
@@ -35,8 +39,10 @@ class ProxyOpenAITest {
         rasaClient = mock(RasaClient.class);
         MusicService musicService = mock(MusicService.class);
         ChatService chatService = mock(ChatService.class);
+        TaskActionManagerFactory taskActionManagerFactory = new TaskActionManagerFactoryImpl(musicService, chatService);
+        IntentFactory intentFactory = new IntentFactoryImpl();
 
-        proxy = new Proxy(rasaClient, musicService, chatService);
+        proxy = new Proxy(rasaClient, intentFactory, taskActionManagerFactory);
 
         when(chatService.chat(any())).thenReturn(RESULT);
     }

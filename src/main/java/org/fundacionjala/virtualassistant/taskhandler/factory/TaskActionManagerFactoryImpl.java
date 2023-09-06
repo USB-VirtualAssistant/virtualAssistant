@@ -1,17 +1,22 @@
 package org.fundacionjala.virtualassistant.taskhandler.factory;
 
-import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.intents.Intent;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
+import org.springframework.stereotype.Component;
 import java.util.Objects;
 
-@AllArgsConstructor
+@Component
 public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
     private String intentType;
     private MusicService musicService;
     private ChatService chatService;
+
+    public TaskActionManagerFactoryImpl(MusicService musicService, ChatService chatService) {
+        this.musicService = musicService;
+        this.chatService = chatService;
+    }
 
     @Override
     public TaskActionFactory getTaskActionFactory(String type) throws IntentException {
@@ -39,5 +44,10 @@ public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
             default:
                 throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
+    }
+
+    @Override
+    public void setIntentType(String intentType) {
+        this.intentType = intentType.split("_")[0];
     }
 }
