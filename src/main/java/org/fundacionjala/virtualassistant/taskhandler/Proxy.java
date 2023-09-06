@@ -9,9 +9,9 @@ import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionManagerF
 import org.fundacionjala.virtualassistant.taskhandler.intents.Intent;
 import org.fundacionjala.virtualassistant.taskhandler.intents.IntentManager;
 import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
+import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentEntity;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentResponse;
-
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -24,12 +24,12 @@ public class Proxy {
     public String handleIntent(String text) throws IntentException {
         IntentResponse intentResponse = processIntent(text);
         String userIntent = intentResponse.getIntent().getName();
-        String intentEntity = intentResponse.getIntentEntities().get(0).getEntity();
+        List<IntentEntity> intentEntities = intentResponse.getIntentEntities();
 
-        return handleAction(userIntent, intentEntity);
+        return handleAction(userIntent, intentEntities);
     }
 
-    public String handleAction(String userIntent, String intentEntity) throws IntentException {
+    public String handleAction(String userIntent, List<IntentEntity> intentEntities) throws IntentException {
         taskActionManagerFactory.setIntentType(userIntent);
         TaskActionFactory taskActionFactory = taskActionManagerFactory.getTaskActionFactory(userIntent);
 
@@ -38,7 +38,7 @@ public class Proxy {
 
         return taskActionFactory
                 .createTaskAction(intentManager.processIntent(userIntent))
-                .handleAction(intentEntity);
+                .handleAction(intentEntities);
     }
 
     private IntentResponse processIntent(String text) throws IntentException {
