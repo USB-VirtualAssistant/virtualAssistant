@@ -11,11 +11,15 @@ intents:
   - question
   - weather_inquiry
   - location_inquiry
+  - music_request
+  - information_request_question
 
 entities:
   - location
-  - song
+  - weather
   - artist
+  - song
+  - content
 responses:
   utter_greet:
     - text: "Hey! How are you?"
