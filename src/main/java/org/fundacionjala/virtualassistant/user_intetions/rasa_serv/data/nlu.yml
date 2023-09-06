@@ -19,16 +19,1508 @@ nlu:
 
 - intent: weather_inquiry
   examples: |
+    - What's the weather forecast for [Miami](location) tomorrow?
+    - How's the weather in [San Francisco](location) looking this weekend?
+    - Tell me about the weather conditions in [Boston](location) for the next few days.
+    - Can you provide the weather update for [Dubai](location) for the upcoming week?
+    - I'm planning a trip to [Barcelona](location). What's the weather like there next month?
+    - Is it going to be sunny in [Las Vegas](location) this afternoon?
+    - Give me the weather report for [Toronto](location) in the evening.
+    - What's the temperature going to be in [Denver](location) this morning?
+    - I need to know the weather in [Seattle](location) for the next 48 hours.
+    - Will there be any snow in [Stockholm](location) next week?
+    - How's the weather expected to be in [Mumbai](location) during the monsoon season?
+    - Can you check if it's raining in [Cape Town](location) right now?
+    - What's the weather outlook for [Rio de Janeiro](location) this month?
+    - Tell me about the weather conditions in [Shanghai](location) for the coming days.
+    - Is there a chance of thunderstorms in [Houston](location) later this evening?
+    - Give me the weather update for [Dublin](location) this spring.
+    - I'm interested in the weather in [Rome](location) during the autumn season.
+    - Will it be windy in [Sydney](location) tomorrow morning?
+    - How's the weather expected to be in [Amsterdam](location) for the next few weeks?
+    - What's the weather forecast for [Mexico City](location) on my birthday?
+    - Can you provide the weather report for [Athens](location) in the coming months?
+    - Tell me if it's going to be a sunny day in [Copenhagen](location) this Saturday.
+    - I'm curious about the weather conditions in [Seoul](location) during the winter.
+    - Will there be any fog in [San Diego](location) this evening?
+    - Give me the weather update for [Prague](location) in the summer.
+    - What's the weather like in [Vienna](location) for the rest of the day?
+    - Can you check if it's snowing in [Oslo](location) right now?
+    - How's the weather expected to be in [Buenos Aires](location) this year?
+    - What's the weather forecast for [Beijing](location) next week?
+    - Tell me about the weather conditions in [Dubrovnik](location) for my vacation dates.
+    - Is it going to rain in [Edinburgh](location) during the festival?
+    - Give me the weather report for [Auckland](location) in the coming seasons.
+    - I'm planning an outdoor event in [Austin](location). What's the weather outlook for that day?
+    - Will there be any hail in [Helsinki](location) this spring?
+    - How's the weather expected to be in [Singapore](location) during the rainy season?
+    - Can you provide the weather update for [Madrid](location) in the fall?
+    - Tell me if it's going to be a windy day in [Dubai](location) next Wednesday.
+    - I'm interested in the weather conditions in [Hong Kong](location) during typhoon season.
+    - What's the weather forecast for [Montreal](location) in the coming months?
+    - Can you give me the weather report for [Bali](location) this holiday season?
+    - How's the weather expected to be in [Berlin](location) for the upcoming holiday?
     - What is the weather in [New York](location) today?
     - How is the weather in [London](location) today?
-
-- regex: location
+    - Tell me the weather forecast for [Los Angeles](location).
+    - What's the weather like in [Paris](location) right now?
+    - Can you give me the weather update for [Sydney](location)?
+    - I want to know the weather conditions in [Berlin](location).
+    - Is it going to rain in [Chicago](location) later today?
+    - Give me the weather report for [Tokyo](location) this week.
+    - What's the weather forecast for [Miami](location) tomorrow?
+    - How's the weather in [San Francisco](location) looking this weekend?
+    - Tell me about the weather conditions in [Boston](location) for the next few days.
+    - Can you provide the weather update for [Dubai](location) for the upcoming week?
+    - I'm planning a trip to [Barcelona](location). What's the weather like there next month?
+    - Is it going to be sunny in [Las Vegas](location) this afternoon?
+    - Give me the weather report for [Toronto](location) in the evening.
+    - What's the temperature going to be in [Denver](location) this morning?
+    - I need to know the weather in [Seattle](location) for the next 48 hours.
+    - Will there be any snow in [Stockholm](location) next week?
+    - How's the weather expected to be in [Mumbai](location) during the monsoon season?
+    - Can you check if it's raining in [Cape Town](location) right now?
+    - What's the weather outlook for [Rio de Janeiro](location) this month?
+    - Tell me about the weather conditions in [Shanghai](location) for the coming days.
+    - Is there a chance of thunderstorms in [Houston](location) later this evening?
+    - Give me the weather update for [Dublin](location) this spring.
+    - I'm interested in the weather in [Rome](location) during the autumn season.
+    - Will it be windy in [Sydney](location) tomorrow morning?
+    - How's the weather expected to be in [Amsterdam](location) for the next few weeks?
+    - What's the weather forecast for [Mexico City](location) on my birthday?
+    - Can you provide the weather report for [Athens](location) in the coming months?
+    - Tell me if it's going to be a sunny day in [Copenhagen](location) this Saturday.
+    - I'm curious about the weather conditions in [Seoul](location) during the winter.
+    - Will there be any fog in [San Diego](location) this evening?
+    - Give me the weather update for [Prague](location) in the summer.
+    - What's the weather like in [Vienna](location) for the rest of the day?
+    - Can you check if it's snowing in [Oslo](location) right now?
+    - How's the weather expected to be in [Buenos Aires](location) this year?
+    - What's the weather forecast for [Beijing](location) next week?
+    - Tell me about the weather conditions in [Dubrovnik](location) for my vacation dates.
+    - Is it going to rain in [Edinburgh](location) during the festival?
+    - Give me the weather report for [Auckland](location) in the coming seasons.
+    - I'm planning an outdoor event in [Austin](location). What's the weather outlook for that day?
+    - Will there be any hail in [Helsinki](location) this spring?
+    - How's the weather expected to be in [Singapore](location) during the rainy season?
+    - Can you provide the weather update for [Madrid](location) in the fall?
+    - Tell me if it's going to be a windy day in [Dubai](location) next Wednesday.
+    - I'm interested in the weather conditions in [Hong Kong](location) during typhoon season.
+    - What's the weather forecast for [Montreal](location) in the coming months?
+    - Can you give me the weather report for [Bali](location) this holiday season?
+    - How's the weather expected to be in [Berlin](location) for the upcoming holiday?
+    - Tell me about the weather conditions in [New Orleans](location) this Mardi Gras.
+    - Is it going to be cloudy in [Los Angeles](location) this evening?
+    - Give me the weather update for [Moscow](location) next weekend.
+    - I'm planning a hike in [Denver](location). What's the weather like on the trails?
+    - Will there be any showers in [Sydney](location) this afternoon?
+    - How's the weather expected to be in [Hawaii](location) during the surfing season?
+    - Can you provide the weather report for [Rio de Janeiro](location) for Carnival?
+    - What's the weather forecast for [Munich](location) during Oktoberfest?
+    - Tell me about the weather conditions in [Edinburgh](location) for the Fringe Festival.
+    - Is it going to be sunny in [Miami Beach](location) this spring break?
+    - Give me the weather update for [Aspen](location) during the ski season.
+    - I'm planning a wedding in [Tuscany](location). What's the weather like in June?
+    - Will there be any thunderstorms in [Florida](location) during hurricane season?
+    - How's the weather expected to be in [Alaska](location) for the Northern Lights viewing?
+    - Can you provide the weather report for [Napa Valley](location) during grape harvesting?
+    - What's the weather forecast for [New York City](location) on New Year's Eve?
+    - Tell me about the weather conditions in [San Diego](location) for Comic-Con.
+- intent: information_request_question
   examples: |
-    
+    - What can you tell me about [the World Wide Web](content)?
+    - intent: information_request_question
+    - What can you tell me about [the World Wide Web](content)?
+    - Tell me about [internet protocols](content).
+    - Explain [cloud computing](content) to me.
+    - What is [cyberbullying](content)?
+    - Provide information on [online marketplaces](content).
+    - Where can I find [reliable news sources](content)?
+    - Can you recommend [podcasts](content) on technology?
+    - Tell me about [online courses](content) for photography.
+    - Where can I watch [science documentaries](content) online?
+    - How can I access [open-source software](content)?
+    - What are some popular [web hosting services](content)?
+    - Can you recommend [collaboration tools](content) for remote teams?
+    - Where can I find [virtual event platforms](content)?
+    - What are the best [video conferencing apps](content)?
+    - Can you suggest [online design tools](content)?
+    - What's the latest trend in [social media](content)?
+    - Tell me about [viral internet challenges](content).
+    - Can you provide information on [upcoming tech conferences](content)?
+    - What are the current [cybersecurity threats](content)?
+    - Where can I find updates on [cryptocurrency trends](content)?
+    - Are there any active [fitness communities](content) online?
+    - Can you recommend [coding forums](content) to join?
+    - Tell me about popular [gaming communities](content).
+    - Where can I find [traveler forums](content)?
+    - Are there any [cooking communities](content) online?
+    - What time is it now?
+    - Could you please tell me the time?
+    - Do you have the current time?
+    - What's the time at the moment?
+    - Can you inform me about the current time?
+    - I'd like to know the time. What is it?
+    - Please provide me with the time right now.
+    - What is the time according to your clock?
+    - Tell me the time, if you don't mind.
+    - Could you give me the time, please?
+    - I'm curious about the time. Can you share it?
+    - What's the time of day?
+    - May I know the time right now?
+    - Inform me about the current time, please.
+    - I want to check the time. What is it?
+    - What is the present time?
+    - Tell me what time it is.
+    - Share the current time with me.
+    - Can you provide the time, please?
+    - I need to know the time. What time is it?
+    - Do you have the time available?
+    - What's the time on your clock?
+    - Please share the time with me now.
+    - Could you inform me about the time?
+    - What time are we at now?
+    - Let me know the time.
+    - I'm looking for the current time. What is it?
+    - What time is displayed?
+    - Tell me the time, please.
+    - Can you tell me the time of day?
+    - I'd like to know the time now. What is it?
+    - What time do you have there?
+    - Share the time with me.
+    - I'm interested in the time. What time is it?
+    - What time is it showing?
+    - Provide me with the time, please.
+    - Tell me the present time.
+    - Could you inform me of the time?
+    - What's the time at your location?
+    - What time do you see?
+    - I want to find out the time. What is it?
+    - Can you display the time?
+    - Please let me know the time.
+    - Could you tell me the time right now?
+    - What is the time currently?
+    - Share the current time with me, please.
+    - Inform me about the time, if you can.
+    - I'm inquiring about the time. What time is it?
+    - What time do you have on your clock?
+    - Can you provide the time?
+    - Tell me the time, please.
+    - May I know the time of day?
+    - I'd like to know the time now.
+    - What's the time according to your clock?
+    - Share the time with me, please.
+    - Can you tell me the time right now?
+    - I'm curious about the time. What time is it?
+    - What time is displayed?
+    - Please inform me about the time.
+    - What time are we at now?
+    - Let me know the time.
+    - I'm looking for the current time. What is it?
+    - What time do you have there?
+    - Provide me with the time, please.
+    - Tell me the present time.
+    - Could you inform me of the time?
+    - What's the time at your location?
+    - What time do you see?
+    - I want to find out the time. What is it?
+    - Can you display the time?
+    - Please let me know the time.
+    - Could you tell me the time right now?
+    - What is the time currently?
+    - Share the current time with me, please.
+    - Inform me about the time, if you can.
+    - I'm inquiring about the time. What time is it?
+    - What time do you have on your clock?
+    - Can you provide the time?
+    - Tell me the time, please.
+    - May I know the time of day?
+    - I'd like to know the time now.
+    - What's the time according to your clock?
+    - Share the time with me, please.
+- lookup: content
+  examples: |
+    - Articles on machine learning
+    - Technology news websites
+    - Educational videos on physics
+    - Blog posts about travel destinations
+    - DIY woodworking tutorials
+    - Scientific research papers
+    - Podcasts on self-improvement
+    - Cooking recipes and tutorials
+    - Online coding courses
+    - Reviews of the latest gadgets
+    - Fashion and style blogs
+    - Financial planning guides
+    - Online art galleries and exhibitions
+    - History documentaries
+    - Health and wellness forums
+    - Fantasy fiction novels
+    - Social media influencers' content
+    - Political analysis articles
+    - Sports highlights and analysis
+    - Music streaming platforms
+    - Gardening tips and advice
+    - Technology product reviews
+    - Online language learning courses
+    - Travel vlogs and documentaries
+    - Fitness and exercise routines
+    - Entertainment industry news
+    - Home improvement and renovation guides
+    - Online gaming communities
+    - Automotive repair tutorials
+    - Environmental sustainability blogs
+    - Photography tutorials and tips
+    - Business and entrepreneurship resources
+    - Web development tutorials and courses
+    - Health and nutrition articles
+    - Movie and TV show reviews
+    - Art and design inspiration
+    - Career advice and job search tips
+    - Parenting and child-rearing forums
+    - Science and space exploration articles
+    - Sustainable living practices
+    - Music production tutorials
+    - Travel planning and itinerary guides
+    - Historical documentaries and series
+    - Cooking and culinary blogs
+    - Gaming news and updates
+    - Home decor and interior design ideas
+    - Technology podcasts and interviews
+    - Language and culture immersion programs
+    - Adventure and outdoor exploration blogs
+    - DIY arts and crafts projects
+    - Political debates and discussions
+    - Sports statistics and analysis reports
+    - Music artist interviews and profiles
+    - Gardening and landscaping design tips
+    - Technology trends and innovations
+    - Virtual reality and augmented reality experiences
+    - Fitness challenges and workout plans
+    - Entertainment industry interviews
+    - Fashion and beauty product reviews
+    - Financial investment strategies and tips
+    - Literature and book reviews
+    - Art and photography exhibitions
+    - Professional development courses and workshops
+    - Coding challenges and competitions
+    - Health and wellness product recommendations
+    - Movie and TV show recommendations
+    - Online communities for creative writing
+    - Parenting advice and support groups
+    - Space exploration news and discoveries
+    - Environmental conservation initiatives
+    - Music concerts and live performances
+    - Travel photography galleries
+    - Historical reenactments and documentaries
+    - Gourmet cooking recipes and tutorials
+    - Gaming walkthroughs and strategy guides
+    - Automotive maintenance and repair tips
+    - Sustainable living lifestyle blogs
+    - Music composition and production software
+    - Travel destination reviews and recommendations
+    - Political opinion pieces and editorials
+    - Sports events and tournament coverage
+    - Music festival highlights and reviews
+    - Gardening and plant care guides
+    - Emerging technology news and updates
+
+- lookup: location
+  examples: |
+    - Bolivia
+    - London
+    - Argentina
+    - France
+    - New York
+    - Brazil
+    - Tokyo
+    - Canada
+    - Sydney
+    - Italy
+    - Los Angeles
+    - India
+    - Berlin
+    - Australia
+    - Mexico
+    - Beijing
+    - Spain
+    - Chicago
+    - South Africa
+    - Dubai
+    - Russia
+    - Singapore
+    - Greece
+    - San Francisco
+    - Egypt
+    - Amsterdam
+    - Switzerland
+    - Hong Kong
+    - Sweden
+    - Istanbul
+    - Norway
+    - Abu Dhabi
+    - Netherlands
+    - Thailand
+    - Seoul
+    - Denmark
+    - Vietnam
+    - Shanghai
+    - Portugal
+    - Houston
+    - Malaysia
+    - Riyadh
+    - Austria
+    - Toronto
+    - Finland
+    - Vancouver
+    - Belgium
+    - Budapest
+    - Czech Republic
+    - Poland
+    - Chile
+    - Peru
+    - Kenya
+    - Morocco
+    - Saudi Arabia
+    - Qatar
+    - Kuwait
+    - Oman
+    - Jordan
+    - Lebanon
+    - Greece
+    - Cyprus
+    - New Zealand
+    - Ireland
+    - Wales
+    - Scotland
+    - Northern Ireland
+    - Wales
+    - United Arab Emirates
+    - Ukraine
+    - Romania
+    - Bulgaria
+    - Croatia
+    - Serbia
+    - Bosnia and Herzegovina
+    - Montenegro
+    - Slovenia
+    - Slovakia
+    - Hungary
+    - Austria
+    - Switzerland
+    - Liechtenstein
+    - Luxembourg
+    - Monaco
+    - Andorra
+    - Vatican City
+    - Malta
+    - Gibraltar
+    - Iceland
+    - Faroe Islands
+    - Greenland
+    - Bermuda
+    - Bahamas
+    - Jamaica
+    - Cuba
+    - Puerto Rico
+    - Dominican Republic
+    - Haiti
+    - Barbados
+    - Trinidad and Tobago
+    - Grenada
+    - Saint Lucia
+    - Saint Vincent and the Grenadines
+    - Antigua and Barbuda
+    - Saint Kitts and Nevis
+    - Dominica
+    - Saint Martin
+    - Saint Barthelemy
+    - Aruba
+    - Curacao
+    - Bonaire
+    - Sint Maarten
+    - Suriname
+    - Guyana
+    - French Guiana
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+    - Venezuela
+    - Colombia
+    - Ecuador
+    - Peru
+    - Bolivia
+    - Paraguay
+    - Uruguay
+    - Chile
+    - Falkland Islands
+    - Costa Rica
+    - Nicaragua
+    - Honduras
+    - El Salvador
+    - Guatemala
+    - Belize
+    - Panama
+
+
 
 - intent: location_inquiry
   examples: |
-    - Where ?
+    - Where is [Bolivia](location)?
+    - Where is located [Bolivia](location)?
+    - Can you tell me the location of [London](location)?
+    - I'm curious about the whereabouts of [Paris](location).
+    - What's the geographical position of [New York](location)?
+    - Do you know where [Tokyo](location) is located?
+    - Please inform me about the location of [Sydney](location).
+    - Where can I find [Rome](location) on the map?
+    - What is the address of [Los Angeles](location)?
+    - Tell me the coordinates of [Berlin](location).
+    - Could you locate [Moscow](location) for me?
+    - Give me the whereabouts of [Beijing](location).
+    - What's the precise location of [Madrid](location)?
+    - I'd like to know the place of [Dubai](location).
+    - Where exactly is [Cairo](location) situated?
+    - Please provide the location of [Athens](location).
+    - What's the physical position of [Vienna](location)?
+    - Tell me where to find [Lisbon](location).
+    - Can you give me the location of [Stockholm](location)?
+    - Where on Earth is [Helsinki](location)?
+    - Inform me about the location of [Oslo](location).
+    - Where can I locate [Prague](location)?
+    - Please tell me the exact location of [Brussels](location).
+    - What are the coordinates of [Warsaw](location)?
+    - Give me the location details for [Amsterdam](location).
+    - I'd like to know where [Bern](location) is.
+    - Could you provide the location of [Luxembourg](location)?
+    - What's the geographic position of [Moscow](location)?
+    - Tell me the precise location of [Kiev](location).
+    - Where can I find [Minsk](location) on a map?
+    - What's the exact location of [Budapest](location)?
+    - Can you inform me about the whereabouts of [Belgrade](location)?
+    - Please provide the coordinates of [Sofia](location).
+    - What is the address of [Bucharest](location)?
+    - Tell me the location of [Zagreb](location).
+    - Where is [Vienna](location) situated on the globe?
+    - What's the exact geographical position of [Berlin](location)?
+    - Do you know where [Prague](location) is located?
+    - Please tell me the location of [Warsaw](location).
+    - Where can I find [Amsterdam](location) on a map?
+    - What's the geographic position of [Brussels](location)?
+    - Give me the location details for [Lisbon](location).
+    - I'd like to know where [Athens](location) is.
+    - Could you provide the location of [Stockholm](location)?
+    - What are the coordinates of [Helsinki](location)?
+    - Tell me the precise location of [Oslo](location).
+    - Where can I locate [Copenhagen](location)?
+    - Please tell me the exact location of [Dublin](location).
+    - What is the address of [London](location)?
+    - Tell me the location of [Edinburgh](location).
+    - Where is [Madrid](location) situated on the globe?
+    - What's the exact geographical position of [Paris](location)?
+    - Do you know where [Rome](location) is located?
+    - Please tell me the location of [Barcelona](location).
+    - Where can I find [Berlin](location) on a map?
+    - What's the geographic position of [Vienna](location)?
+    - Give me the location details for [Prague](location).
+    - I'd like to know where [Budapest](location) is.
+    - Could you provide the location of [Zurich](location)?
+    - What are the coordinates of [Warsaw](location)?
+    - Tell me the precise location of [Amsterdam](location).
+    - Where is [Brussels](location) situated on the globe?
+    - What's the exact geographical position of [Lisbon](location)?
+    - Do you know where [Athens](location) is located?
+    - Please tell me the location of [Stockholm](location).
+    - What is the address of [Helsinki](location)?
+    - Tell me the location of [Oslo](location).
+    - Where can I locate [Copenhagen](location)?
+    - Please tell me the exact location of [Dublin](location).
+    - What is the address of [London](location)?
+    - Tell me the location of [Edinburgh](location).
+    - Where is [Madrid](location) situated on the globe?
+    - What's the exact geographical position of [Paris](location)?
+    - Do you know where [Rome](location) is located?
+    - Please tell me the location of [Barcelona](location).
+    - Where can I find [Berlin](location) on a map?
+    - What's the geographic position of [Vienna](location)?
+    - Give me the location details for [Prague](location).
+    - I'd like to know where [Budapest](location) is.
+    - Could you provide the location of [Zurich](location)?
+    - What are the coordinates of [Warsaw](location)?
+    - Tell me the precise location of [Amsterdam](location).
+    - Where is [Brussels](location) situated on the globe?
+    - What's the exact geographical position of [Lisbon](location)?
+    - Do you know where [Athens](location) is located?
+    - Please tell me the location of [Stockholm](location).
+    - What is the address of [Helsinki](location)?
+    - Tell me the location of [Oslo](location).
+    - Where can I locate [Copenhagen](location)?
+    - Please tell me the exact location of [Dublin](location).
+    - What is the address of [London](location)?
+    - Tell me the location of [Edinburgh](location).
+    - Where is
+
+
+
+- intent: music_request
+  examples: |
+    - Play [${song}](song) by [${artist}](artist)
+    - I want to hear [${song}](song) by [${artist}](artist)
+    - Can you play [${song}](song) from [${artist}](artist)?
+    - How about [${song}](song) by [${artist}](artist)?
+    - Please play [${song}](song) from [${artist}](artist)
+    - I'm in the mood for [${song}](song) by [${artist}](artist)
+    - Could you put on [${song}](song) by [${artist}](artist)?
+    - Let's listen to [${song}](song) by [${artist}](artist)
+    - Play a track by [${artist}](artist) - [${song}](song)
+    - Could you start with [${song}](song) by [${artist}](artist)?
+    - Let's kick things off with [${song}](song) from [${artist}](artist)
+    - Begin the playlist with [${song}](song) by [${artist}](artist)
+    - Please play a song from [${artist}](artist) - [${song}](song)
+    - How about some [${song}](song) from [${artist}](artist)?
+    - Start the music with [${song}](song) by [${artist}](artist)
+    - I'd like to listen to [${song}](song) by [${artist}](artist)
+    - Begin the song selection with [${song}](song) by [${artist}](artist)
+    - Play [${song}](song) by [${artist}](artist) for me
+    - Can you put on [${song}](song) by [${artist}](artist)?
+    - How about we start with [${song}](song) from [${artist}](artist)?
+    - Begin the playlist with [${song}](song) by [${artist}](artist), please.
+    - Play a song by [${artist}](artist), starting with [${song}](song).
+    - Could you kick things off with [${song}](song) by [${artist}](artist)?
+    - I'd love to hear [${song}](song) by [${artist}](artist), please.
+    - Start the music with [${song}](song) by [${artist}](artist), if you can.
+    - Please begin with [${song}](song) from [${artist}](artist).
+    - Put on some music from [${artist}](artist), starting with [${song}](song).
+    - How about starting with [${song}](song) by [${artist}](artist)?
+    - Play a track by [${artist}](artist), and let's begin with [${song}](song).
+    - Play a [${song}](song) from [${artist}](artist), please.
+    - Can you start with [${song}](song) by [${artist}](artist)?
+    - How about [${song}](song) by [${artist}](artist) to start?
+    - Begin with [${song}](song) from [${artist}](artist), please.
+    - Play [${song}](song) by [${artist}](artist) as the first song.
+    - I'd like to begin with [${song}](song) by [${artist}](artist).
+    - Can we kick things off with [${song}](song) from [${artist}](artist)?
+    - Start with a song by [${artist}](artist), like [${song}](song).
+    - Play something from [${artist}](artist), starting with [${song}](song).
+    - Could you please start with [${song}](song) by [${artist}](artist)?
+    - I'm starting with [${song}](song) from [${artist}](artist).
+    - Let's begin with [${song}](song) by [${artist}](artist), shall we?
+    - Play a song by [${artist}](artist), and [${song}](song) will be great.
+    - Begin with [${song}](song) from [${artist}](artist) for me.
+    - How about we start the music with [${song}](song) by [${artist}](artist)?
+    - Play a track by [${artist}](artist), and we'll kick off with [${song}](song).
+    - Begin the playlist with [${song}](song) from [${artist}](artist), please.
+    - Play [${song}](song) by [${artist}](artist) as the first track.
+    - Could you put on [${song}](song) by [${artist}](artist) to start?
+    - I'd love to hear [${song}](song) by [${artist}](artist) first.
+    - Let's begin with [${song}](song) by [${artist}](artist), if you don't mind.
+    - Play [${song}](song) from [${artist}](artist) to kick things off.
+    - How about we start the music with [${song}](song) by [${artist}](artist)?
+    - Start with [${song}](song) by [${artist}](artist), please.
+    - I'd like to begin the playlist with [${song}](song) from [${artist}](artist).
+    - Can you put on [${song}](song) by [${artist}](artist) as the first song?
+    - Play a song from [${artist}](artist), and [${song}](song) is a great choice.
+    - Begin with [${song}](song) by [${artist}](artist) as the opening track.
+    - How about we start with [${song}](song) by [${artist}](artist) this time?
+    - Play [${song}](song) by [${artist}](artist) to begin the music.
+    - Could you please start with [${song}](song) by [${artist}](artist)?
+    - Let's kick things off with [${song}](song) from [${artist
+
+
+- lookup: song
+  examples: |
+    - Stan
+    - D4L
+    - Sicko Mode
+    - Imagine
+    - Hotel California
+    - Bohemian Rhapsody
+    - Shape of You
+    - Despacito
+    - Bad Guy
+    - Thriller
+    - Blackbird
+    - Billie Jean
+    - Sweet Child o' Mine
+    - All Star
+    - My Heart Will Go On
+    - Smells Like Teen Spirit
+    - Stairway to Heaven
+    - Hey Jude
+    - Hallelujah
+    - Superstition
+    - Rolling in the Deep
+    - Radioactive
+    - Take Me to Church
+    - Don't Stop Believin'
+    - Wonderwall
+    - Let It Be
+    - Lean on Me
+    - Thinking Out Loud
+    - Uptown Funk
+    - Livin' on a Prayer
+    - Sweet Home Alabama
+    - Stand by Me
+    - Radio Ga Ga
+    - Hello
+    - Purple Haze
+    - Smooth Criminal
+    - Yesterday
+    - Wrecking Ball
+    - What's Going On
+    - Crazy in Love
+    - Eye of the Tiger
+    - I Want to Hold Your Hand
+    - La Bamba
+    - I Will Always Love You
+    - Viva la Vida
+    - Counting Stars
+    - Lose Yourself
+    - Wake Me Up
+    - Hotline Bling
+    - Love Me Tender
+    - I Can't Help Falling in Love
+    - Gangsta's Paradise
+    - Jump
+    - Somebody to Love
+    - Black and Yellow
+    - No Scrubs
+    - Killing Me Softly
+    - Let's Get It On
+    - Under Pressure
+    - Purple Rain
+    - Sweet Child o' Mine
+    - Don't Stop Believin'
+    - I Don't Want to Miss a Thing
+    - With or Without You
+    - Livin' on a Prayer
+    - I Will Survive
+    - Dancing Queen
+    - I Wanna Dance with Somebody
+    - Sweet Caroline
+    - Piano Man
+    - Tiny Dancer
+    - Wannabe
+    - Rock Lobster
+    - Born to Be Wild
+    - Proud Mary
+    - I'm Yours
+    - Take Me Home, Country Roads
+    - Hotel California
+    - Smells Like Teen Spirit
+    - All Along the Watchtower
+    - Whole Lotta Love
+    - Purple Haze
+    - Bohemian Rhapsody
+    - Imagine
+    - Hey Jude
+    - Stairway to Heaven
+    - Hallelujah
+    - Superstition
+    - Rolling in the Deep
+    - Radioactive
+    - Take Me to Church
+    - Don't Stop Believin'
+    - Wonderwall
+    - Let It Be
+    - Lean on Me
+    - Thinking Out Loud
+    - Uptown Funk
+    - Livin' on a Prayer
+    - Sweet Home Alabama
+    - Stand by Me
+    - Radio Ga Ga
+    - Hello
+    - Smooth Criminal
+    - Yesterday
+    - Wrecking Ball
+    - What's Going On
+    - Crazy in Love
+    - Eye of the Tiger
+    - I Want to Hold Your Hand
+    - La Bamba
+    - I Will Always Love You
+    - Viva la Vida
+    - Counting Stars
+    - Lose Yourself
+    - Wake Me Up
+    - Hotline Bling
+    - Love Me Tender
+    - I Can't Help Falling in Love
+    - Gangsta's Paradise
+    - Jump
+    - Somebody to Love
+    - Black and Yellow
+    - No Scrubs
+    - Killing Me Softly
+    - Let's Get It On
+    - Under Pressure
+    - Purple Rain
+    - Sweet Child o' Mine
+    - Don't Stop Believin'
+    - I Don't Want to Miss a Thing
+    - With or Without You
+    - Livin' on a Prayer
+    - I Will Survive
+    - Dancing Queen
+    - I Wanna Dance with Somebody
+    - Sweet Caroline
+    - Piano Man
+    - Tiny Dancer
+    - Wannabe
+    - Rock Lobster
+    - Born to Be Wild
+    - Proud Mary
+    - I'm Yours
+    - Take Me Home, Country Roads
+    - Hotel California
+    - Smells Like Teen Spirit
+    - All Along the Watchtower
+    - Whole Lotta Love
+    - Purple Haze
+    - Bohemian Rhapsody
+    - Imagine
+    - Hey Jude
+    - Stairway to Heaven
+    - Hallelujah
+    - Superstition
+    - Rolling in the Deep
+    - Radioactive
+    - Take Me to Church
+    - Don't Stop Believin'
+    - Wonderwall
+    - Let It Be
+    - Lean on Me
+    - Thinking Out Loud
+    - Uptown Funk
+    - Livin' on a Prayer
+    - Sweet Home Alabama
+    - Stand by Me
+    - Radio Ga Ga
+    - Hello
+    - Smooth Criminal
+    - Yesterday
+    - Wrecking Ball
+    - What's Going On
+    - Crazy in Love
+    - Eye of the Tiger
+    - I Want to Hold Your Hand
+    - La Bamba
+    - I Will Always Love You
+    - Viva la Vida
+    - Counting Stars
+    - Lose Yourself
+    - Wake Me Up
+    - Hotline Bling
+    - Love Me Tender
+    - I Can't Help Falling in Love
+    - Gangsta's Paradise
+    - Jump
+    - Somebody to Love
+    - Black and Yellow
+    - No Scrubs
+    - Killing Me Softly
+    - Let's Get It On
+    - Under Pressure
+    - Purple Rain
+    - Sweet Child o' Mine
+    - Don't Stop Believin'
+    - I Don't Want to Miss a Thing
+    - With or Without You
+    - Livin' on a Prayer
+    - I Will Survive
+    - Dancing Queen
+    - I Wanna Dance with Somebody
+    - Sweet Caroline
+    - Piano Man
+    - Tiny Dancer
+    - Wannabe
+    - Rock Lobster
+    - Born to Be Wild
+    - Proud Mary
+    - I'm Yours
+    - Take Me Home, Country Roads
+    - Highway to Hell
+    - Bad Guy
+    - Shape of You
+    - Lose Yourself
+    - Uptown Funk
+    - Despacito
+    - Love Yourself
+    - Can't Stop the Feeling!
+    - Closer
+    - Hotline Bling
+    - Sorry
+    - Shape of You
+    - Believer
+    - Thunder
+    - Despacito
+    - Perfect
+    - Havana
+    - New Rules
+    - Gucci Gang
+    - Psycho
+    - Rockstar
+
+- lookup: artist
+  examples: |
+    - Kendrick Lamar
+    - Tyler the Creator
+    - Drake
+    - Gustavo Cerati
+    - Beyoncé
+    - The Weeknd
+    - Taylor Swift
+    - Ariana Grande
+    - Ed Sheeran
+    - Lady Gaga
+    - Justin Bieber
+    - Rihanna
+    - Kanye West
+    - Billie Eilish
+    - Coldplay
+    - Adele
+    - Eminem
+    - Maroon 5
+    - Katy Perry
+    - Bruno Mars
+    - Post Malone
+    - Shawn Mendes
+    - Lana Del Rey
+    - Sia
+    - Adele
+    - Halsey
+    - Khalid
+    - Sam Smith
+    - Demi Lovato
+    - Selena Gomez
+    - Taylor Swift
+    - Camila Cabello
+    - Shawn Mendes
+    - Zayn Malik
+    - Harry Styles
+    - BTS
+    - Blackpink
+    - EXO
+    - Red Velvet
+    - Twice
+    - The Beatles
+    - Queen
+    - Led Zeppelin
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - The Rolling Stones
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - Pink Floyd
+    - Queen
+    - Led Zeppelin
+    - The Rolling Stones
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Queen
+    - Led Zeppelin
+    - The Rolling Stones
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
+    - Oasis
+    - Arctic Monkeys
+    - David Bowie
+    - Prince
+    - Madonna
+    - Michael Jackson
+    - Whitney Houston
+    - Bob Marley
+    - Bob Dylan
+    - Johnny Cash
+    - Elvis Presley
+    - Frank Sinatra
+    - Louis Armstrong
+    - Miles Davis
+    - John Coltrane
+    - Billie Holiday
+    - Ella Fitzgerald
+    - Aretha Franklin
+    - Ray Charles
+    - Jimi Hendrix
+    - The Who
+    - The Doors
+    - The Clash
+    - The Ramones
+    - AC/DC
+    - Metallica
+    - Guns N' Roses
+    - Aerosmith
+    - Pink Floyd
+    - Nirvana
+    - Radiohead
+    - U2
+    - Pearl Jam
+    - Foo Fighters
 
 - intent: goodbye
   examples: |
