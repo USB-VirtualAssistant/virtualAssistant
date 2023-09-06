@@ -12,6 +12,7 @@ import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentResponse;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +43,7 @@ public class Proxy {
 
     private IntentResponse processIntent(String text) throws IntentException {
         IntentResponse response = rasaClient.processUserIntentsByMicroService(text).getBody();
-        if (Objects.isNull(response)) {
+        if (!Optional.ofNullable(response).isPresent()) {
             throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
         return response;
