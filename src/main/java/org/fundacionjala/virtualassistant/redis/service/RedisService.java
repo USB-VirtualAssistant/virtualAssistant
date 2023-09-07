@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.redis.service;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
