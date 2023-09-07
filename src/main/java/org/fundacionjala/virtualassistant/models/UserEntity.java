@@ -28,4 +28,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     List<ContextEntity> contextEntities;
+
+    @Column(name = "spotify_token")
+    String spotifyToken;
 }
