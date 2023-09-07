@@ -22,7 +22,7 @@ public class ContextResponse {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
         }
         return ContextResponse.builder()
-                .idUser(context.getIdUser())
+                .idUser(context.getUserEntity().getIdUser())
                 .title(context.getTitle())
                 .idContext(context.getIdContext())
                 .build();

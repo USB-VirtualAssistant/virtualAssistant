@@ -6,6 +6,8 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
+import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +31,9 @@ public class ContextServiceTest {
     private static final String CONTEXT_TITLE = "New Title";
     private static final long CONTEXT_USER_ID = 1L;
 
+    ContextRequest request;
+    UserEntity userEntity;
+
     @Mock
     private ContextRepository contextRepository;
 
@@ -40,17 +46,17 @@ public class ContextServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        request = new ContextRequest(CONTEXT_TITLE, new UserRequest(CONTEXT_USER_ID, "string"));
+        userEntity = new UserEntity(1L, "string", new ArrayList<>());
     }
 
     @Test
     public void givenUserId_whenFindContextByUserId_thenContextResponsesReturned() throws ContextException {
-        ContextRequest request = new ContextRequest(CONTEXT_TITLE, CONTEXT_USER_ID);
-
-        ContextEntity savedEntity = new ContextEntity(request.getTitle(), request.getIdUser());
+        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity);
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(savedEntity);
 
-        when(contextRepository.findByIdUser(CONTEXT_USER_ID))
+        when(contextRepository.findByUserEntity_IdUser(CONTEXT_USER_ID))
                 .thenReturn(Collections.singletonList(savedEntity));
 
         when(processorEither.lift(any()))
@@ -73,9 +79,8 @@ public class ContextServiceTest {
 
     @Test
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
-        ContextRequest request = new ContextRequest(CONTEXT_TITLE, CONTEXT_USER_ID);
         when(contextRepository.save(any(ContextEntity.class)))
-                .thenReturn(new ContextEntity(request.getTitle(), request.getIdUser()));
+                .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity));
 
         ContextResponse result = contextService.saveContext(request);
 
@@ -86,8 +91,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException {
-        ContextRequest request = new ContextRequest(CONTEXT_TITLE, CONTEXT_USER_ID);
-        ContextEntity savedEntity = new ContextEntity(request.getTitle(), request.getIdUser());
+        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity);
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);
 
@@ -95,7 +99,7 @@ public class ContextServiceTest {
 
         assertNotNull(contextResponse);
         assertEquals(request.getTitle(), contextResponse.getTitle());
-        assertEquals(request.getIdUser(), contextResponse.getIdUser());
+        assertEquals(request.getUserRequest().getIdUser(), contextResponse.getIdUser());
     }
 
     @Test

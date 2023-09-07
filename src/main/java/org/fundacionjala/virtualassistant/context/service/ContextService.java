@@ -6,13 +6,14 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.util.either.Either;
+import org.fundacionjala.virtualassistant.user.UserParser;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 import static java.util.Objects.isNull;
+import static org.fundacionjala.virtualassistant.user.UserParser.getContextResponses;
 
 @Service
 @AllArgsConstructor
@@ -22,34 +23,28 @@ public class ContextService {
     private ProcessorEither<Exception, ContextResponse> processorEither;
 
     public List<ContextResponse> findContextByUserId(Long idUser) throws ContextException {
-        List<ContextEntity> contextEntities = contextRepository.findByIdUser(idUser);
+        List<ContextEntity> contextEntities = contextRepository.findByUserEntity_IdUser(idUser);
         return convertListContextToResponse(contextEntities);
     }
 
     public ContextResponse saveContext(ContextRequest request) throws ContextException {
-        if(isNull(request)){
+        if (isNull(request)) {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_REQUEST_NULL);
         }
 
-        ContextEntity contextEntity = new ContextEntity(request.getTitle(), request.getIdUser());
+        ContextEntity contextEntity = ContextEntity.builder()
+                .title(request.getTitle())
+                .userEntity(UserParser.parseFrom(request.getUserRequest()))
+                .build();
         return ContextResponse.fromEntity(contextRepository.save(contextEntity));
     }
 
     private List<ContextResponse> convertListContextToResponse(List<ContextEntity> entityList)
             throws ContextException {
-        if (isNull(processorEither)){
+        if (isNull(processorEither)) {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
         }
 
-        return entityList.stream()
-                .map(processorEither.lift(context -> {
-                    try{
-                        return Either.right(ContextResponse.fromEntity(context));
-                    }catch (ContextException exception) {
-                        return Either.left(exception);
-                    }
-                })).filter(Either::isRight)
-                .map(Either::getRight)
-                .collect(Collectors.toList());
+        return getContextResponses(entityList);
     }
 }

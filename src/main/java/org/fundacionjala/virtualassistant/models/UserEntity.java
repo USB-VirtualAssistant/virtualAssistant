@@ -1,25 +1,31 @@
 package org.fundacionjala.virtualassistant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
 @Table(name = "user_info")
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Value
+@Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser = 0L;
+    Long idUser;
 
     @Column(name = "id_google")
-    private String idGoogle;
+    String idGoogle;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonIgnore
+    List<ContextEntity> contextEntities;
 }

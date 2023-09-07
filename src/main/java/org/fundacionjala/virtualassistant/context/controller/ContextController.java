@@ -7,18 +7,13 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/context/")
+@RequestMapping("/context")
 public class ContextController {
     private ContextService contextService;
 
@@ -26,14 +21,14 @@ public class ContextController {
         this.contextService =  contextService;
     }
 
-    @GetMapping("{idUser}")
+    @GetMapping("/{idUser}")
     public List<ContextResponse> getContextByUser(@NonNull @PathVariable("idUser") Long idUser) throws ContextException {
         List<ContextResponse> contexts = contextService.findContextByUserId(idUser);
         return new ResponseEntity<>(contexts, HttpStatus.OK).getBody();
     }
 
     @PostMapping()
-    public ContextResponse getContextByUser(@Valid @ModelAttribute ContextRequest request)
+    public ContextResponse getContextByUser(@Valid @RequestBody ContextRequest request)
             throws ContextException {
         ContextResponse context = contextService.saveContext(request);
         return new ResponseEntity<>(context, HttpStatus.OK).getBody();
