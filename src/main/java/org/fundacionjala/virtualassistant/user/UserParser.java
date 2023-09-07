@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
+import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
@@ -22,9 +23,14 @@ public class UserParser {
         return UserResponse.builder()
                 .idUser(userEntity.getIdUser())
                 .idGoogle(userEntity.getIdGoogle())
-                .contextResponses(
-                        parseFrom(userEntity.getContextEntities())
-                )
+                .build();
+    }
+
+    public static UserContextResponse parseFromWithContext(UserEntity userEntity) {
+        return UserContextResponse.builder()
+                .idUser(userEntity.getIdUser())
+                .idGoogle(userEntity.getIdGoogle())
+                .contextResponses(parseFrom(userEntity.getContextEntities()))
                 .build();
     }
 

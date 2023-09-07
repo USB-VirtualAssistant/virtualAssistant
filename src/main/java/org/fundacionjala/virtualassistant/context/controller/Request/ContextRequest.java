@@ -17,5 +17,6 @@ import javax.validation.constraints.NotNull;
 public class ContextRequest {
     @NotEmpty(message = "title file must not be empty")
     String title;
+    @Valid
     UserRequest userRequest;
 }

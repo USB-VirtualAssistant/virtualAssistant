@@ -5,14 +5,14 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Value
 @Jacksonized
 @Builder
 @AllArgsConstructor
 public class UserRequest {
-    @NotEmpty
+    @NotNull
     Long idUser;
     String idGoogle;
 }
