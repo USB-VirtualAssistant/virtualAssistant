@@ -1,9 +1,13 @@
 package org.fundacionjala.virtualassistant.whisper.client;
 
 import lombok.Data;
+
+import java.io.IOException;
+
 import org.fundacionjala.virtualassistant.whisper.repository.ASRClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
-
-@Component
 @Data
+@Component
 public class WhisperClient implements ASRClient {
 
     @Value("${asr.whisper.url}")
@@ -28,10 +30,12 @@ public class WhisperClient implements ASRClient {
     @Override
     public String convertToText(MultipartFile audioFile) throws IOException {
         byte[] audioData = audioFile.getBytes();
+
         WebClient webClient = WebClient.builder()
                 .baseUrl(url)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
                 .build();
+
         return webClient.post()
                 .uri(postEndpoint)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -41,9 +45,15 @@ public class WhisperClient implements ASRClient {
                 .block();
     }
 
-    public MultiValueMap<String, Object> getBody(byte[] audioData, String filename) {
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("audio_file", new ByteArrayResource(audioData, filename));
+    public MultiValueMap<String, HttpEntity<?>> getBody(byte[] audioData, String filename) {
+        MultiValueMap<String, HttpEntity<?>> body = new LinkedMultiValueMap<>();
+        ByteArrayResource resource = new ByteArrayResource(audioData) {
+            @Override
+            public String getFilename() {
+                return filename;
+            }
+        };
+        body.add("audio_file", new HttpEntity<>(resource));
         return body;
     }
 }
