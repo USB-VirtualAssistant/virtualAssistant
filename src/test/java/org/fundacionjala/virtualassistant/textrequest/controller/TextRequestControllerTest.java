@@ -1,6 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
-import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
+import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
@@ -27,9 +27,9 @@ public class TextRequestControllerTest {
     private RequestEntityController requestEntityController;
 
     @Mock
-    private OpenAIComponent component;
-    @Mock
     private TextResponseService responseService;
+    @Mock
+    private RequestComponent component;
 
     TextRequestService textRequestService;
 

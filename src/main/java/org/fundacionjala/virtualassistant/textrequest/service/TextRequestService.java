@@ -5,8 +5,7 @@ import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 
 import javax.validation.constraints.NotNull;
-
-import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
+import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
@@ -28,7 +27,7 @@ import static java.util.Objects.isNull;
 public class TextRequestService {
     private static final String TEXT_REQUEST_USER_ID_NULL = "User id should not be null";
     private RequestEntityRepository requestEntityRepository;
-    private OpenAIComponent openAi;
+    private RequestComponent requestComponent;
     private TextResponseService responseService;
 
     public TextRequestResponse createTextRequest(@NotNull TextRequest textRequest) throws TextRequestException {
@@ -39,7 +38,7 @@ public class TextRequestService {
         RequestEntity requestEntity = TextRequestParser.parseFrom(textRequest);
         RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
         TextResponse textResponse = responseService.save(ParameterResponse.builder()
-                .text(openAi.getResponse(savedRequestEntity.getText()))
+                .text(requestComponent.getResponse(savedRequestEntity.getText()))
                 .request(TextRequestResponse.builder()
                         .idRequest(savedRequestEntity.getIdRequest())
                         .build())
