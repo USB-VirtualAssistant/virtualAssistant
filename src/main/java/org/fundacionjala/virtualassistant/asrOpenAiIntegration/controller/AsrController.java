@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.asrOpenAiIntegration.service.AsrOperat
 import org.fundacionjala.virtualassistant.asrOpenAiIntegration.service.BASE64DecodedMultipartFile;
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.redis.service.RedisService;
+import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.whisper.client.WhisperClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +20,18 @@ public class AsrController {
     @Autowired
     RedisService redisService;
     AsrOpenAiImplementation asrOpenAiImplementation;
-    WhisperClient whisperClient;
 
     public AsrController(AsrOperations asrOperations,AsrOpenAiImplementation asrOpenAiImplementation, WhisperClient whisperClient) {
         this.asrOperations = asrOperations;
         this.asrOpenAiImplementation = asrOpenAiImplementation;
-        this.whisperClient = whisperClient;
     }
 
     @GetMapping("/{id}")
-    public String uploadAudio(@PathVariable String id) throws RecordingException, IOException {
+    public String uploadAudio(@PathVariable String id) throws RecordingException, IOException, IntentException {
         asrOperations.uploadTemporalAudio(id);
         byte[] byteArray = redisService.getFromRedis(id);
         MultipartFile multipartFile = new BASE64DecodedMultipartFile(byteArray, "audio.wav");
 
-        return whisperClient.convertToText(multipartFile);
+        return asrOpenAiImplementation.asrOpenAIResponse(multipartFile);
     }
 }
