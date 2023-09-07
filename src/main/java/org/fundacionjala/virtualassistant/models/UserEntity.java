@@ -25,7 +25,7 @@ public class UserEntity {
     @Column(name = "id_google")
     String idGoogle;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     List<ContextEntity> contextEntities;
 }
