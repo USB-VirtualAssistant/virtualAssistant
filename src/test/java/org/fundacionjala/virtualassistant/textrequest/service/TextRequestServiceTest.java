@@ -1,9 +1,9 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
-import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
@@ -37,7 +37,7 @@ public class TextRequestServiceTest {
     private RequestEntityRepository requestEntityRepository;
 
     @Mock
-    private OpenAIComponent component;
+    private RequestComponent component;
 
     @Mock
     private TextResponseService responseService;
