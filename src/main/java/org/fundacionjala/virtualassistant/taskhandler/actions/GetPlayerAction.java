@@ -11,7 +11,7 @@ public class GetPlayerAction implements TaskAction {
     }
 
     @Override
-    public String handleAction() {
+    public String handleAction(String intent) {
         return musicService.getUserPlayerInformation().getBody();
     }
 }
