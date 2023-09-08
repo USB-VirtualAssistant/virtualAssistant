@@ -70,4 +70,18 @@ public class ContextController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/{idContext}")
+    public ContextResponse putContext(@NonNull @PathVariable("idContext") Long idContext,
+                                      @Valid @RequestBody ContextRequest request) throws ContextException {
+        ContextResponse context = contextService.editContext(idContext, request);
+        return new ResponseEntity<>(context, HttpStatus.OK).getBody();
+    }
+
+    @DeleteMapping("/{idContext}")
+    public ResponseEntity<Boolean> deleteContextById(@NonNull @PathVariable("idContext") Long idContext)
+            throws ContextException{
+        boolean isDelete = contextService.deleteContext(idContext);
+        return ResponseEntity.status(HttpStatus.OK).body(isDelete);
+    }
 }
