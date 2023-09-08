@@ -3,6 +3,7 @@ package org.fundacionjala.virtualassistant.context.controller.Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 
@@ -13,6 +14,7 @@ import static java.util.Objects.isNull;
 @Value
 @Builder
 @AllArgsConstructor
+@Jacksonized
 public class ContextResponse {
     @NotNull
     Long idContext;

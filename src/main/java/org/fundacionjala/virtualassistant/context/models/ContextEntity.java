@@ -21,7 +21,7 @@ import java.util.List;
 public class ContextEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idContext = 0L;
+    private Long idContext;
 
     @Column(name = "title")
     private String title;

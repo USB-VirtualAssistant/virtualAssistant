@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Jacksonized
 public class ParameterResponse {
     @Valid
-    TextRequestResponse textRequest;
+    TextRequestResponse request;
 
     @NotEmpty
     String text;

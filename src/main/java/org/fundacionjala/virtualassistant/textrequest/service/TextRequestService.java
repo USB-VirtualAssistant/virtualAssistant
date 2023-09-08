@@ -8,6 +8,10 @@ import javax.validation.constraints.NotNull;
 
 import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
+import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
+import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
+import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
@@ -24,8 +28,9 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 public class TextRequestService {
     private static final String TEXT_REQUEST_USER_ID_NULL = "User id should not be null";
-    RequestEntityRepository requestEntityRepository;
-    OpenAIComponent openAi;
+    private RequestEntityRepository requestEntityRepository;
+    private OpenAIComponent openAi;
+    private TextResponseService responseService;
 
     public TextRequestResponse createTextRequest(@NotNull TextRequest textRequest) throws TextRequestException {
         if (isNull(textRequest)) {
@@ -34,8 +39,14 @@ public class TextRequestService {
 
         RequestEntity requestEntity = TextRequestParser.parseFrom(textRequest);
         RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
+        TextResponse textResponse = responseService.save(ParameterResponse.builder()
+                .text(openAi.getResponse(savedRequestEntity.getText()))
+                .request(TextRequestResponse.builder()
+                        .idRequest(savedRequestEntity.getIdRequest())
+                        .build())
+                .build());
 
-        return TextRequestParser.parseFrom(savedRequestEntity);
+        return TextRequestParser.parseFrom(savedRequestEntity, textResponse);
     }
 
     public TextRequest save(long idRequest, String text, Long idAudio, Long idUser) {
@@ -50,7 +61,7 @@ public class TextRequestService {
         return TextRequest.builder()
                 .idUser(requestEntitySaved.getIdUser())
                 .idAudioMongo(requestEntitySaved.getIdAudioMongo())
-                .contextResponse(ContextParser.parseFrom(requestEntitySaved.getContextEntity()))
+                .context(ContextParser.parseFrom(requestEntitySaved.getContextEntity()))
                 .text(requestEntitySaved.getText()).build();
     }
 
