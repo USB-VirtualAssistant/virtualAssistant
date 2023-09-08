@@ -75,10 +75,9 @@ public class TextRequestServiceTest {
         when(requestEntityRepository.save(any(RequestEntity.class)))
                 .thenReturn(requestEntity);
 
-        when(textRequestService.createTextRequest(textRequest).getText()).thenReturn(textResponse);
-        verify(requestEntityRepository).save(requestEntity);
         TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
 
+        verify(requestEntityRepository).save(requestEntity);
         assertNotNull(actualTextRequestResponse);
 
         assertEquals(actualTextRequestResponse.getIdUser(), idUser);
@@ -96,7 +95,7 @@ public class TextRequestServiceTest {
 
         requestEntityRepository.save(requestEntity);
 
-        assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(textRequest));
+        assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(null));
     }
 
     @Test
@@ -109,7 +108,7 @@ public class TextRequestServiceTest {
 
         requestEntityRepository.save(requestEntity);
 
-        Exception exceptionExpected = assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(textRequest));
+        Exception exceptionExpected = assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(null));
 
         String expected = "User id should not be null";
         String actual = exceptionExpected.getMessage();

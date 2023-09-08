@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.user;
+package org.fundacionjala.virtualassistant.user.controller.parser;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;

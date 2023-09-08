@@ -3,7 +3,7 @@ package org.fundacionjala.virtualassistant.textResponse.service;
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
-import org.fundacionjala.virtualassistant.textResponse.ResponseParser;
+import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
