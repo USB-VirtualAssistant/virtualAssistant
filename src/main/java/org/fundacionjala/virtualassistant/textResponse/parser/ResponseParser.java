@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.textResponse;
+package org.fundacionjala.virtualassistant.textResponse.parser;
 
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
@@ -31,17 +31,9 @@ public class ResponseParser {
                 .idRequest(textRequestResponse.getIdRequest())
                 .idUser(textRequestResponse.getIdUser())
                 .idContext(textRequestResponse.getIdContext())
-                .idUser(textRequestResponse.getIdUser())
+                .text(textRequestResponse.getText())
+                .date(textRequestResponse.getDate())
                 .build();
     }
 
-    public static TextRequestResponse parseFrom(RequestEntity requestEntity) {
-        return TextRequestResponse.builder()
-                .idRequest(requestEntity.getIdRequest())
-                .idUser(requestEntity.getIdUser())
-                .idContext(requestEntity.getIdContext())
-                .text(requestEntity.getText())
-                .date(requestEntity.getDate())
-                .build();
-    }
 }

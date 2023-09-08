@@ -6,14 +6,14 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.user.UserParser;
+import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static org.fundacionjala.virtualassistant.user.UserParser.getContextResponses;
+import static org.fundacionjala.virtualassistant.user.controller.parser.UserParser.getContextResponses;
 
 @Service
 @AllArgsConstructor

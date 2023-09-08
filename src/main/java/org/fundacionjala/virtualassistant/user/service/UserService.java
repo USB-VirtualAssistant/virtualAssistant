@@ -2,7 +2,7 @@ package org.fundacionjala.virtualassistant.user.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.UserEntity;
-import org.fundacionjala.virtualassistant.user.UserParser;
+import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;

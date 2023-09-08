@@ -1,9 +1,10 @@
 package org.fundacionjala.virtualassistant.request.controller;
 
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-import org.fundacionjala.virtualassistant.textResponse.ResponseParser;
+import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textrequest.controller.RequestEntityController;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
+import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class TextRequestControllerTest {
 
         List<TextRequestResponse> requestResponses =
                 requests.stream()
-                        .map(ResponseParser::parseFrom)
+                        .map(TextRequestParser::parseFrom)
                         .collect(Collectors.toList());
 
         when(textRequestController.getTextRequests(USER_ID_1, CONTEXT_ID_1))
@@ -57,7 +58,7 @@ public class TextRequestControllerTest {
         requests.add(requestA);
         List<TextRequestResponse> requestResponses =
                 requests.stream()
-                        .map(ResponseParser::parseFrom)
+                        .map(TextRequestParser::parseFrom)
                         .collect(Collectors.toList());
 
         when(textRequestController.getTextRequests(USER_ID_2, CONTEXT_ID_2))
