@@ -2,15 +2,20 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
+
 import javax.validation.constraints.NotNull;
+
 import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.ResponseParser;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.springframework.stereotype.Service;
+
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +33,7 @@ public class TextRequestService {
         RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
 
         return TextRequestResponse.builder()
+                .idRequest(savedRequestEntity.getIdRequest())
                 .idUser(savedRequestEntity.getIdUser())
                 .text(openAi.getResponse(savedRequestEntity.getText()))
                 .idContext(savedRequestEntity.getIdContext())
@@ -60,7 +66,9 @@ public class TextRequestService {
                 .build();
     }
 
-    public List<RequestEntity> getTextRequestByUserAndContext(Long id, Long contextId) {
-        return requestEntityRepository.findAllByIdUserAndIdContext(id, contextId);
+    public List<TextRequestResponse> getTextRequestByUserAndContext(Long id, Long contextId) {
+        return requestEntityRepository.findAllByIdUserAndIdContext(id, contextId).stream()
+                .map(ResponseParser::parseFrom)
+                .collect(Collectors.toList());
     }
 }

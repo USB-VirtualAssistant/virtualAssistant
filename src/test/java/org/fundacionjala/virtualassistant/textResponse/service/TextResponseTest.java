@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textResponse.service;
 
+import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.textResponse.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
@@ -23,7 +24,9 @@ public class TextResponseTest {
         long idRequest = 123L;
 
         ResponseEntity responseEntity = ResponseEntity.builder()
-                .idRequest(idRequest)
+                .requestEntity(RequestEntity.builder()
+                        .idRequest(idRequest)
+                        .build())
                 .text(text)
                 .date(ZonedDateTime.now())
                 .build();
@@ -35,6 +38,6 @@ public class TextResponseTest {
         assertNotNull(result);
         assertSame(result.getText(), responseEntity.getText());
         assertSame(result.getIdResponse(),responseEntity.getIdResponse());
-        assertSame(result.getIdRequest(),responseEntity.getIdRequest());
+        assertSame(result.getIdRequest(),responseEntity.getRequestEntity().getIdRequest());
     }
 }
