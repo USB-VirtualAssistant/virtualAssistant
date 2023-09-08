@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+
+import java.util.List;
 
 @Entity
 @Table(name = "context")
@@ -28,4 +31,7 @@ public class ContextEntity {
     @JsonIgnore
     private UserEntity userEntity;
 
+    @OneToMany(mappedBy = "contextEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private List<RequestEntity> requestEntities;
 }

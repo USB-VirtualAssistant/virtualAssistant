@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
+import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 
 import javax.validation.constraints.NotNull;
@@ -49,12 +50,12 @@ public class TextRequestService {
         return TextRequest.builder()
                 .idUser(requestEntitySaved.getIdUser())
                 .idAudioMongo(requestEntitySaved.getIdAudioMongo())
-                .idContext(requestEntitySaved.getIdContext())
+                .contextResponse(ContextParser.parseFrom(requestEntitySaved.getContextEntity()))
                 .text(requestEntitySaved.getText()).build();
     }
 
     public List<TextRequestResponse> getTextRequestByUserAndContext(Long id, Long contextId) {
-        return requestEntityRepository.findAllByIdUserAndIdContext(id, contextId).stream()
+        return requestEntityRepository.findAllByIdUserAndContextEntity_IdContext(id, contextId).stream()
                 .map(TextRequestParser::parseFrom)
                 .collect(Collectors.toList());
     }

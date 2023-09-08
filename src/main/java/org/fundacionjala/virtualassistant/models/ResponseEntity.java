@@ -29,12 +29,15 @@ public class ResponseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idResponse;
+
     @OneToOne
-    @JoinColumn(name = "id_request", nullable = false)
+    @JoinColumn(name = "id_request", nullable = false, unique = true)
     @JsonIgnore
     RequestEntity requestEntity;
+
     @Column(name = "text")
     String text;
+
     @Column(name = "date")
     ZonedDateTime date;
 }

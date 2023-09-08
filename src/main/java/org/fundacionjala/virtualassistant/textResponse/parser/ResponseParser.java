@@ -18,6 +18,14 @@ public class ResponseParser {
                 .build();
     }
 
+    public static TextResponse parseWithOutIdFrom(ResponseEntity responseEntity) {
+        return TextResponse.builder()
+                .idResponse(responseEntity.getIdResponse())
+                .text(responseEntity.getText())
+                .date(responseEntity.getDate())
+                .build();
+    }
+
     public static ResponseEntity parseFrom(ParameterResponse parameterResponse) {
         return ResponseEntity.builder()
                 .text(parameterResponse.getText())
@@ -29,10 +37,6 @@ public class ResponseParser {
     public static RequestEntity parseFrom(TextRequestResponse textRequestResponse) {
         return RequestEntity.builder()
                 .idRequest(textRequestResponse.getIdRequest())
-                .idUser(textRequestResponse.getIdUser())
-                .idContext(textRequestResponse.getIdContext())
-                .text(textRequestResponse.getText())
-                .date(textRequestResponse.getDate())
                 .build();
     }
 

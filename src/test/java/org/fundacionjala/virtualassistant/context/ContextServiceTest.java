@@ -52,7 +52,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenUserId_whenFindContextByUserId_thenContextResponsesReturned() throws ContextException {
-        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity);
+        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(savedEntity);
 
@@ -80,7 +80,7 @@ public class ContextServiceTest {
     @Test
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
         when(contextRepository.save(any(ContextEntity.class)))
-                .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity));
+                .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
 
         ContextResponse result = contextService.saveContext(request);
 
@@ -91,7 +91,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException {
-        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity);
+        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);
 

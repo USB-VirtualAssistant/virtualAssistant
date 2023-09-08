@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static org.fundacionjala.virtualassistant.user.controller.parser.UserParser.getContextResponses;
@@ -32,11 +33,13 @@ public class ContextService {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_REQUEST_NULL);
         }
 
-        ContextEntity contextEntity = ContextEntity.builder()
-                .title(request.getTitle())
-                .userEntity(UserParser.parseFrom(request.getUserRequest()))
-                .build();
-        return ContextResponse.fromEntity(contextRepository.save(contextEntity));
+        ContextEntity contextEntity = ContextParser.parseFrom(request);
+        return ContextParser.parseFrom(contextRepository.save(contextEntity));
+    }
+
+    public Optional<ContextResponse> findById(Long idContext) {
+        Optional<ContextEntity> optionalContext = contextRepository.findById(idContext);
+        return optionalContext.map(ContextParser::parseFrom);
     }
 
     private List<ContextResponse> convertListContextToResponse(List<ContextEntity> entityList)

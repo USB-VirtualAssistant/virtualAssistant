@@ -11,20 +11,28 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/context")
 public class ContextController {
     private ContextService contextService;
 
-    public ContextController(ContextService contextService){
-        this.contextService =  contextService;
+    public ContextController(ContextService contextService) {
+        this.contextService = contextService;
     }
 
-    @GetMapping("/{idUser}")
+    @GetMapping("/user/{idUser}")
     public List<ContextResponse> getContextByUser(@NonNull @PathVariable("idUser") Long idUser) throws ContextException {
         List<ContextResponse> contexts = contextService.findContextByUserId(idUser);
         return new ResponseEntity<>(contexts, HttpStatus.OK).getBody();
+    }
+
+    @GetMapping("/{idContext}")
+    public ResponseEntity<ContextResponse> findById(@PathVariable Long idContext) {
+        Optional<ContextResponse> contextResponse = contextService.findById(idContext);
+        return contextResponse.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping()

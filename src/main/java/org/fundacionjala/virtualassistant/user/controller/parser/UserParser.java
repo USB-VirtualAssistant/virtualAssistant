@@ -1,8 +1,8 @@
 package org.fundacionjala.virtualassistant.user.controller.parser;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
@@ -42,13 +42,7 @@ public class UserParser {
     public static List<ContextResponse> getContextResponses(List<ContextEntity> contextEntities) {
         return contextEntities.stream()
                 .map(
-                        either.lift(contextEntity -> {
-                            try {
-                                return Either.right(ContextResponse.fromEntity(contextEntity));
-                            } catch (ContextException e) {
-                                return Either.left(e);
-                            }
-                        })
+                        either.lift(contextEntity -> Either.right(ContextParser.parseFrom(contextEntity)))
                 )
                 .filter(Either::isRight)
                 .map(Either::getRight)
