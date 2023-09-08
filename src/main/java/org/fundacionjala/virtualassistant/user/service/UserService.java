@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private final String INVALID_USER_MESSAGE = "Invalid user";
     private UserRepo userRepo;
 
     public List<UserResponse> findAll() {
@@ -45,10 +44,6 @@ public class UserService {
     }
 
     public UserResponse save(@NotNull UserRequest userRequest) throws UserRequestException {
-        if (null == userRequest || userRequest.getIdUser() < 0) {
-            throw new UserRequestException(INVALID_USER_MESSAGE);
-        }
-
         UserEntity userEntity = userRepo.save(
                 UserEntity.builder()
                         .idGoogle(userRequest.getIdGoogle())
