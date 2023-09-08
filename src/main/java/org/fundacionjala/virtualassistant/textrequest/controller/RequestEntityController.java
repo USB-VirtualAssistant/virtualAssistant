@@ -1,6 +1,5 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
-import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
@@ -32,10 +31,10 @@ public class RequestEntityController {
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public List<RequestEntity> getTextRequests(@NotNull @PathVariable Long userId,
-                                               @NotNull @RequestParam(name = "id_context") Long contextID) {
-        List<RequestEntity> textRequests = requestEntityService.getTextRequestByUserAndContext(userId, contextID);
-        return new ResponseEntity<>(textRequests, OK).getBody();
+    @GetMapping("/{userId}/context/{contextId}")
+    public ResponseEntity<List<TextRequestResponse>> getTextRequests(@NotNull @PathVariable Long userId,
+                                               @NotNull @PathVariable Long contextId) {
+        List<TextRequestResponse> textRequests = requestEntityService.getTextRequestByUserAndContext(userId, contextId);
+        return new ResponseEntity<>(textRequests, OK);
     }
 }

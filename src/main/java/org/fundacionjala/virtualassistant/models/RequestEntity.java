@@ -1,14 +1,19 @@
 package org.fundacionjala.virtualassistant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
@@ -32,12 +37,7 @@ public class RequestEntity {
     private ZonedDateTime date;
     @Column(name = "id_audio_mongo")
     private String idAudioMongo;
-
-    public RequestEntity(String text, ZonedDateTime date, String idAudioMongo, Long idContext, Long idUser) {
-        this.text = text;
-        this.date = date;
-        this.idAudioMongo = idAudioMongo;
-        this.idContext = idContext;
-        this.idUser = idUser;
-    }
+    @OneToOne(mappedBy = "requestEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private ResponseEntity responseEntity;
 }
