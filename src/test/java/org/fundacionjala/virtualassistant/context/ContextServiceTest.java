@@ -47,7 +47,7 @@ public class ContextServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         request = new ContextRequest(CONTEXT_TITLE, new UserRequest(CONTEXT_USER_ID, "string"));
-        userEntity = new UserEntity(1L, "string", new ArrayList<>());
+        userEntity = new UserEntity(1L, "string", new ArrayList<>(), "");
     }
 
     @Test
