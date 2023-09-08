@@ -15,4 +15,5 @@ public class UserRequest {
     @NotNull
     Long idUser;
     String idGoogle;
+    String spotifyToken; 
 }

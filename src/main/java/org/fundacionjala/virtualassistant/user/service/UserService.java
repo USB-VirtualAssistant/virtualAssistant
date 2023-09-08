@@ -53,8 +53,8 @@ public class UserService {
                 UserEntity.builder()
                         .idGoogle(userRequest.getIdGoogle())
                         .contextEntities(new ArrayList<>())
-                        .build()
-        );
+                        .spotifyToken(userRequest.getSpotifyToken())
+                        .build());
         return UserParser.parseFrom(userEntity);
     }
 
