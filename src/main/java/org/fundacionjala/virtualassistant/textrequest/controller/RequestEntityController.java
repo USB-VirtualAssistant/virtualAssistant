@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class RequestEntityController {
     TextRequestService requestEntityService;
 
     @PostMapping
-    public ResponseEntity<TextRequestResponse> createTextRequest(@RequestBody TextRequest textRequest) throws TextRequestException {
+    public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest) throws TextRequestException {
         TextRequestResponse textRequestResponse = requestEntityService.createTextRequest(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }

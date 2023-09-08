@@ -32,7 +32,7 @@ public class ResponseControllerTest {
         long idRequest = 123L;
 
         ParameterResponse parameter = ParameterResponse.builder()
-                .textRequest(TextRequestResponse.builder().idRequest(idRequest).build())
+                .request(TextRequestResponse.builder().idRequest(idRequest).build())
                 .text(text)
                 .build();
 

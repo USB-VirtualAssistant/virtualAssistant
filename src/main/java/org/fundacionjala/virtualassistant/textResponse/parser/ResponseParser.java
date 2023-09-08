@@ -30,7 +30,7 @@ public class ResponseParser {
         return ResponseEntity.builder()
                 .text(parameterResponse.getText())
                 .date(ZonedDateTime.now())
-                .requestEntity(parseFrom(parameterResponse.getTextRequest()))
+                .requestEntity(parseFrom(parameterResponse.getRequest()))
                 .build();
     }
 

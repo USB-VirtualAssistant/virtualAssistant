@@ -7,6 +7,9 @@ import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
+import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
+import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
@@ -36,12 +39,15 @@ public class TextRequestServiceTest {
     @Mock
     private OpenAIComponent component;
 
+    @Mock
+    private TextResponseService responseService;
+
     private TextRequestService textRequestService;
 
     @BeforeEach
     public void setup() {
         requestEntityRepository = mock(RequestEntityRepository.class);
-        textRequestService = new TextRequestService(requestEntityRepository, component);
+        textRequestService = new TextRequestService(requestEntityRepository, component, responseService);
     }
 
     @Test
@@ -58,9 +64,13 @@ public class TextRequestServiceTest {
                     .thenReturn(requestEntity);
             mockedStatic.when(() -> TextRequestParser.parseFrom(any(RequestEntity.class)))
                     .thenReturn(TextRequestResponse.builder().build());
+            mockedStatic.when(() -> TextRequestParser.parseFrom(any(RequestEntity.class), any(TextResponse.class)))
+                    .thenReturn(TextRequestResponse.builder().build());
 
             when(requestEntityRepository.save(any(RequestEntity.class)))
                     .thenReturn(requestEntity);
+            when(responseService.save(any(ParameterResponse.class)))
+                    .thenReturn(TextResponse.builder().build());
 
             TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
             verify(requestEntityRepository).save(requestEntity);
@@ -78,7 +88,7 @@ public class TextRequestServiceTest {
         TextRequest textRequest = TextRequest.builder()
                 .idUser(idUser)
                 .text(text)
-                .contextResponse(ContextResponse.builder().idContext(idContext).build())
+                .context(ContextResponse.builder().idContext(idContext).build())
                 .build();
 
         RequestEntity requestEntity = RequestEntity.builder()
@@ -96,8 +106,16 @@ public class TextRequestServiceTest {
                             .text(textResponse)
                             .idContext(idContext)
                             .build());
+            mockedStatic.when(() -> TextRequestParser.parseFrom(any(RequestEntity.class), any(TextResponse.class)))
+                    .thenReturn(TextRequestResponse.builder()
+                            .idUser(idUser)
+                            .text(textResponse)
+                            .idContext(idContext)
+                            .build());
             when(requestEntityRepository.save(any(RequestEntity.class)))
                     .thenReturn(requestEntity);
+            when(responseService.save(any(ParameterResponse.class)))
+                    .thenReturn(TextResponse.builder().build());
 
             TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
 
