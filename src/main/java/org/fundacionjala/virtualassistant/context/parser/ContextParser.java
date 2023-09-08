@@ -41,4 +41,12 @@ public class ContextParser {
                 .idContext(contextResponse.getIdContext())
                 .build();
     }
+
+    public static ContextEntity parseFrom(Long idContext, ContextRequest contextRequest){
+        return ContextEntity.builder()
+                .title(contextRequest.getTitle())
+                .idContext(idContext)
+                .userEntity(UserParser.parseFrom(contextRequest.getUserRequest()))
+                .build();
+    }
 }

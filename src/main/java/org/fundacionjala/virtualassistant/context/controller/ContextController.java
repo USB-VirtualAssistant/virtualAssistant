@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ContextController {
     }
 
     @GetMapping("/{idContext}")
-    public ResponseEntity<ContextResponse> findById(@PathVariable Long idContext) {
+    public ResponseEntity<ContextResponse> findById(@PathVariable Long idContext) throws ContextRequestException {
         Optional<ContextResponse> contextResponse = contextService.findById(idContext);
         return contextResponse.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -45,5 +46,19 @@ public class ContextController {
             throws ContextException {
         ContextResponse context = contextService.saveContext(request);
         return new ResponseEntity<>(context, HttpStatus.OK).getBody();
+    }
+
+    @PutMapping("/{idContext}")
+    public ContextResponse putContext(@NonNull @PathVariable("idContext") Long idContext,
+                                      @Valid @RequestBody ContextRequest request) throws ContextException {
+        ContextResponse context = contextService.editContext(idContext, request);
+        return new ResponseEntity<>(context, HttpStatus.OK).getBody();
+    }
+
+    @DeleteMapping("/{idContext}")
+    public ResponseEntity<Boolean> deleteContextById(@NonNull @PathVariable("idContext") Long idContext)
+            throws ContextException{
+        boolean isDelete = contextService.deleteContext(idContext);
+        return ResponseEntity.status(HttpStatus.OK).body(isDelete);
     }
 }

@@ -8,7 +8,7 @@ import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Value
 @Builder
@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Jacksonized
 public class ContextRequest {
     @NotEmpty(message = "title file must not be empty")
+    @Pattern(regexp = ".*[a-zA-Z0-9].*")
     String title;
     @Valid
     UserRequest userRequest;
