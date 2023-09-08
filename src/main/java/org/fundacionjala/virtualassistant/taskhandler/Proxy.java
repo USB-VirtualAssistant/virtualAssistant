@@ -6,6 +6,8 @@ import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionManagerFactory;
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityArgs;
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityConverter;
 import org.fundacionjala.virtualassistant.taskhandler.intents.Intent;
 import org.fundacionjala.virtualassistant.taskhandler.intents.IntentManager;
 import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
@@ -25,11 +27,12 @@ public class Proxy {
         IntentResponse intentResponse = processIntent(text);
         String userIntent = intentResponse.getIntent().getName();
         List<IntentEntity> intentEntities = intentResponse.getIntentEntities();
+        EntityArgs entityArgs = EntityConverter.convert(intentEntities);
 
-        return handleAction(userIntent, intentEntities);
+        return handleAction(userIntent, entityArgs);
     }
 
-    public String handleAction(String userIntent, List<IntentEntity> intentEntities) throws IntentException {
+    public String handleAction(String userIntent, EntityArgs intentEntities) throws IntentException {
         taskActionManagerFactory.setIntentType(userIntent);
         TaskActionFactory taskActionFactory = taskActionManagerFactory.getTaskActionFactory(userIntent);
 
