@@ -6,19 +6,22 @@ import lombok.Value;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 
+import javax.validation.constraints.NotNull;
+
 import static java.util.Objects.isNull;
 
 @Value
 @Builder
 @AllArgsConstructor
 public class ContextResponse {
+    @NotNull
     Long idContext;
     String title;
     Long idUser;
 
     public static ContextResponse fromEntity(ContextEntity context)
             throws ContextException {
-        if (isNull(context)){
+        if (isNull(context)) {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
         }
         return ContextResponse.builder()

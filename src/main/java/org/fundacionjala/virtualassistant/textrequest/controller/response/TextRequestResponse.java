@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
+import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
@@ -21,4 +22,5 @@ public class TextRequestResponse {
   String text;
   @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
   ZonedDateTime date;
+  TextResponse textResponse;
 }

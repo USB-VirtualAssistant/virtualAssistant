@@ -1,7 +1,7 @@
 package org.fundacionjala.virtualassistant.request.controller;
 
+import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textrequest.controller.RequestEntityController;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
@@ -36,8 +36,22 @@ public class TextRequestControllerTest {
     @Test
     void getTextRequestsById() {
         List<RequestEntity> requests = new ArrayList<>();
-        requests.add(requestB);
-        requests.add(requestA);
+        requests.add(RequestEntity.builder()
+                .idRequest(2L)
+                .contextEntity(ContextEntity.builder().idContext(CONTEXT_ID_1).build())
+                .responseEntity(
+                        org.fundacionjala.virtualassistant.models.ResponseEntity.builder()
+                                .build()
+                )
+                .idUser(USER_ID_1)
+                .build());
+        requests.add(RequestEntity.builder()
+                .idRequest(2L)
+                .contextEntity(ContextEntity.builder().idContext(CONTEXT_ID_2).build())
+                .responseEntity(org.fundacionjala.virtualassistant.models.ResponseEntity.builder()
+                        .build())
+                .idUser(USER_ID_2)
+                .build());
 
         List<TextRequestResponse> requestResponses =
                 requests.stream()
@@ -52,10 +66,26 @@ public class TextRequestControllerTest {
 
     @Test
     void getTextRequestsByIdWithAnotherValuesOfId() {
-
         List<RequestEntity> requests = new ArrayList<>();
-        requests.add(requestB);
-        requests.add(requestA);
+        requests.add(RequestEntity.builder()
+                .idRequest(2L)
+                .contextEntity(ContextEntity.builder().idContext(CONTEXT_ID_1).build())
+                .responseEntity(
+                        org.fundacionjala.virtualassistant.models.ResponseEntity.builder()
+                                .build()
+                )
+                .idUser(USER_ID_1)
+                .build());
+        requests.add(RequestEntity.builder()
+                .idRequest(2L)
+                .contextEntity(ContextEntity.builder().idContext(CONTEXT_ID_2).build())
+                .responseEntity(
+                        org.fundacionjala.virtualassistant.models.ResponseEntity.builder()
+                                .build()
+                )
+                .idUser(USER_ID_2)
+                .build());
+
         List<TextRequestResponse> requestResponses =
                 requests.stream()
                         .map(TextRequestParser::parseFrom)
