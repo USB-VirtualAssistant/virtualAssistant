@@ -30,9 +30,13 @@ class ProxyOpenAITest {
 
     private static final String CHAT = "chat";
     private static final String RESULT = "result";
-    private static final List<IntentEntity> ENTITIES = List.of(new IntentEntity("entity", "value"));
-    private static final IntentResponse INTENT_RESPONSE = new IntentResponse(ENTITIES, new Intent(0, CHAT));
-    private static final IntentResponse EMPTY_INTENT_RESPONSE = new IntentResponse(ENTITIES, new Intent(0, ""));
+    private static final String ENTITY = "entity";
+    private static final String VALUE = "value";
+    private static final String EMPTY = "";
+    private static final int ZERO = 0;
+    private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE));
+    private IntentResponse intentResponse = new IntentResponse(entities, new Intent(ZERO, CHAT));
+    private IntentResponse emptyIntentResponse = new IntentResponse(entities, new Intent(ZERO, EMPTY));
 
     @BeforeEach
     void setUp() {
@@ -49,7 +53,7 @@ class ProxyOpenAITest {
 
     @Test
     void givenChatEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(INTENT_RESPONSE, HttpStatus.OK));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(CHAT);
         assertNotNull(handledIntent);
@@ -58,7 +62,7 @@ class ProxyOpenAITest {
 
     @Test
     void givenEmptyEnumWhenHandleIntentThenHandleException() {
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(EMPTY_INTENT_RESPONSE, HttpStatus.OK));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(emptyIntentResponse, HttpStatus.OK));
 
         IntentException exception = assertThrows(IntentException.class, () -> proxy.handleIntent(""));
         assertEquals(IntentException.INTENT_NOT_FOUND, exception.getMessage());
