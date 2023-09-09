@@ -3,8 +3,8 @@ package org.fundacionjala.virtualassistant.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "user_info")
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Value
+@Data
 @Builder
 public class UserEntity {
     @Id

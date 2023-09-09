@@ -8,6 +8,7 @@ import org.fundacionjala.virtualassistant.user.controller.response.UserContextRe
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserRepo userRepo;
+    private final String NOT_FOUND_USER = "Not found user";
 
     public List<UserResponse> findAll() {
         return userRepo.findAll().stream()
@@ -43,7 +45,7 @@ public class UserService {
         return optionalUserEntity.map(UserParser::parseFromWithContext);
     }
 
-    public UserResponse save(@NotNull UserRequest userRequest) throws UserRequestException {
+    public UserResponse save(@NotNull UserRequest userRequest) {
         UserEntity userEntity = userRepo.save(
                 UserEntity.builder()
                         .idGoogle(userRequest.getIdGoogle())
@@ -55,5 +57,16 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
+    }
+
+    public UserResponse updateSpotifyToken(@PathVariable Long id, @NotNull UserRequest userRequest) throws UserRequestException {
+        Optional<UserEntity> userEntity = userRepo.findById(id);
+        if (!userEntity.isPresent()) {
+            throw new UserRequestException(NOT_FOUND_USER);
+        }
+        UserEntity getUserEntity = userEntity.get();
+        getUserEntity.setSpotifyToken(userRequest.getSpotifyToken());
+        userRepo.save(getUserEntity);
+        return UserParser.parseFrom(getUserEntity);
     }
 }
