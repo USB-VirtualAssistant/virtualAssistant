@@ -9,7 +9,4 @@ import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentE
 public class EntityArgs {
     private IntentEntity primaryArg;
     private IntentEntity secondaryArg;
-
-    private EntityArgs() {
-    }
 }
