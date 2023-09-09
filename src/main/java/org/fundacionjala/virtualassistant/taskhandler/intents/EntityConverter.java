@@ -10,13 +10,13 @@ public class EntityConverter {
     }
 
     public static EntityArgs convert(List<IntentEntity> list) {
-        EntityArgs.Builder entityBuilder = new EntityArgs.Builder();
+        EntityArgs.EntityArgsBuilder entityBuilder = EntityArgs.builder();
 
         if (!list.isEmpty()) {
-            entityBuilder.setPrimaryArg(list.get(0));
+            entityBuilder.primaryArg(list.get(0));
         }
         if (list.size() >= 2) {
-            entityBuilder.setSecondaryArg(list.get(1));
+            entityBuilder.secondaryArg(list.get(1));
         }
         return entityBuilder.build();
     }

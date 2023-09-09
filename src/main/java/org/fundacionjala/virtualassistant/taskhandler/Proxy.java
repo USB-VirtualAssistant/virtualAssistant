@@ -46,7 +46,7 @@ public class Proxy {
 
     private IntentResponse processIntent(String text) throws IntentException {
         IntentResponse response = rasaClient.processUserIntentsByMicroService(text).getBody();
-        if (!Optional.ofNullable(response).isPresent()) {
+        if (Optional.ofNullable(response).isEmpty()) {
             throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
         return response;
