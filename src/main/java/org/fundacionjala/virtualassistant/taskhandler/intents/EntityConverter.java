@@ -11,12 +11,15 @@ public class EntityConverter {
 
     public static EntityArgs convert(List<IntentEntity> list) {
         EntityArgs.EntityArgsBuilder entityBuilder = EntityArgs.builder();
-
-        if (!list.isEmpty()) {
-            entityBuilder.primaryArg(list.get(0));
-        }
-        if (list.size() >= 2) {
-            entityBuilder.secondaryArg(list.get(1));
+        int i = 0;
+        for (IntentEntity entity : list) {
+            if (i == 0) {
+                entityBuilder.primaryArg(entity);
+            } else if (i == 1) {
+                entityBuilder.secondaryArg(entity);
+                break;
+            }
+            i++;
         }
         return entityBuilder.build();
     }
