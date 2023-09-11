@@ -6,9 +6,11 @@ import org.fundacionjala.virtualassistant.asrOpenAiIntegration.service.BASE64Dec
 import org.fundacionjala.virtualassistant.mongo.exception.RecordingException;
 import org.fundacionjala.virtualassistant.redis.service.RedisService;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
-import org.fundacionjala.virtualassistant.whisper.client.WhisperClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,13 +18,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/asrOpenAi")
 public class AsrController {
-    AsrOperations asrOperations;
-    @Autowired
-    RedisService redisService;
-    AsrOpenAiImplementation asrOpenAiImplementation;
+    private AsrOperations asrOperations;
+    private RedisService redisService;
+    private AsrOpenAiImplementation asrOpenAiImplementation;
 
-    public AsrController(AsrOperations asrOperations,AsrOpenAiImplementation asrOpenAiImplementation, WhisperClient whisperClient) {
+    @Autowired
+    public AsrController(AsrOperations asrOperations, RedisService redisService, AsrOpenAiImplementation asrOpenAiImplementation) {
         this.asrOperations = asrOperations;
+        this.redisService = redisService;
         this.asrOpenAiImplementation = asrOpenAiImplementation;
     }
 
