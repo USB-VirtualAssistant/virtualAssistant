@@ -1,10 +1,10 @@
-package org.fundacionjala.virtualassistant.clients.openai.service;
+package org.fundacionjala.virtualassistant.openai.service;
 
 import com.theokanning.openai.OpenAiError;
 import com.theokanning.openai.OpenAiHttpException;
 import com.theokanning.openai.service.OpenAiService;
 
-import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
+import org.fundacionjala.virtualassistant.openai.client.OpenAiClient;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.clients.openai.client;
+package org.fundacionjala.virtualassistant.openai.client;
 
 import com.theokanning.openai.completion.CompletionRequest;
 import lombok.NoArgsConstructor;

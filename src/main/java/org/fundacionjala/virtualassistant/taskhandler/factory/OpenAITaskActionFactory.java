@@ -2,7 +2,7 @@ package org.fundacionjala.virtualassistant.taskhandler.factory;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
+import org.fundacionjala.virtualassistant.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.taskhandler.TaskAction;
 import org.fundacionjala.virtualassistant.taskhandler.actions.ChatAction;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;

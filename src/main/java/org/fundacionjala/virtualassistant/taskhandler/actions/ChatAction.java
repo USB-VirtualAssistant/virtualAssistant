@@ -1,7 +1,7 @@
 package org.fundacionjala.virtualassistant.taskhandler.actions;
 
 import lombok.AllArgsConstructor;
-import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
+import org.fundacionjala.virtualassistant.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.taskhandler.TaskAction;
 import org.fundacionjala.virtualassistant.taskhandler.intents.EntityArgs;
 import org.springframework.stereotype.Component;

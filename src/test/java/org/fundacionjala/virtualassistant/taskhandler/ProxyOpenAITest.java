@@ -1,6 +1,6 @@
 package org.fundacionjala.virtualassistant.taskhandler;
 
-import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
+import org.fundacionjala.virtualassistant.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactory;
