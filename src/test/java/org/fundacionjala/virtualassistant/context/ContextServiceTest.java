@@ -56,7 +56,7 @@ public class ContextServiceTest {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(savedEntity);
 
-        when(contextRepository.findByUserEntity_IdUser(CONTEXT_USER_ID))
+        when(contextRepository.findByUserEntityIdUser(CONTEXT_USER_ID))
                 .thenReturn(Collections.singletonList(savedEntity));
 
         when(processorEither.lift(any()))

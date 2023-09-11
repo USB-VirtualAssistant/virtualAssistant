@@ -24,7 +24,7 @@ public class ContextService {
     private ProcessorEither<Exception, ContextResponse> processorEither;
 
     public List<ContextResponse> findContextByUserId(Long idUser) throws ContextException {
-        List<ContextEntity> contextEntities = contextRepository.findByUserEntity_IdUser(idUser);
+        List<ContextEntity> contextEntities = contextRepository.findByUserEntityIdUser(idUser);
         return convertListContextToResponse(contextEntities);
     }
 
