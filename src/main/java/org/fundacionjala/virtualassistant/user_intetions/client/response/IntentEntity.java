@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.user_intetions.client.response;
 
+
+import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
