@@ -15,7 +15,7 @@ public class AsrOpenAiImplementation {
     TaskHandler taskHandler;
 
     @Autowired
-    public AsrOpenAiImplementation(WhisperClient whisperClient) {
+    public AsrOpenAiImplementation(WhisperClient whisperClient, TaskHandler taskHandler) {
         this.whisperClient = whisperClient;
         this.taskHandler = taskHandler;
     }

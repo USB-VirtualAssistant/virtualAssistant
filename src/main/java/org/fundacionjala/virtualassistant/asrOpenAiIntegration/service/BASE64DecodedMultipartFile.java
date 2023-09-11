@@ -13,6 +13,7 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
 
     private byte[] audio;
     private String fileName;
+    private static final String AUDIO_NAME = "audio";
 
     public BASE64DecodedMultipartFile (byte[] audio, String fileName) {
         this.audio = audio;
@@ -21,7 +22,7 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
 
     @Override
     public String getName() {
-        return "audio";
+        return AUDIO_NAME;
     }
 
     @Override
