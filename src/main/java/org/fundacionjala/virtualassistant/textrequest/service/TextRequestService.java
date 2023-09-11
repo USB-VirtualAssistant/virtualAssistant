@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.fundacionjala.virtualassistant.clients.openai.component.OpenAIComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
-import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
@@ -66,7 +65,7 @@ public class TextRequestService {
     }
 
     public List<TextRequestResponse> getTextRequestByUserAndContext(Long id, Long contextId) {
-        return requestEntityRepository.findAllByIdUserAndContextEntity_IdContext(id, contextId).stream()
+        return requestEntityRepository.findAllByIdUserAndContextEntityIdContext(id, contextId).stream()
                 .map(TextRequestParser::parseFrom)
                 .collect(Collectors.toList());
     }

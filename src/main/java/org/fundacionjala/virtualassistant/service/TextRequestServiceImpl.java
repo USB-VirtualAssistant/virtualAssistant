@@ -13,6 +13,6 @@ public class TextRequestServiceImpl implements TextRequestService{
 
     @Override
     public List<RequestEntity> getTextRequestByUserAndContext(Long id, Long contextId) {
-        return requestEntityRepository.findAllByIdUserAndContextEntity_IdContext(id, contextId);
+        return requestEntityRepository.findAllByIdUserAndContextEntityIdContext(id, contextId);
     }
 }

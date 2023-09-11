@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RequestEntityRepository extends JpaRepository<RequestEntity, Long> {
-    List<RequestEntity> findAllByIdUserAndContextEntity_IdContext(long idUser, long idContext);
+    List<RequestEntity> findAllByIdUserAndContextEntityIdContext(long idUser, long idContext);
 }
