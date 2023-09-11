@@ -29,8 +29,8 @@ public class ContextService {
     private UserRepo userRepo;
 
     public List<ContextResponse> findContextByUserId(Long idUser) throws ContextException {
-        if(validationIfUserExist(idUser)){
-            throw new ContextNotFoundException(ContextRequestException.MESSAGE_INVALID_TITLE);
+        if(isUserNull(idUser)){
+            throw new ContextNotFoundException(ContextRequestException.MESSAGE_INVALID_ID);
         }
 
         List<ContextEntity> contextEntities = contextRepository.findByUserEntityIdUser(idUser);
@@ -60,17 +60,14 @@ public class ContextService {
 
         ContextEntity contextEntity = ContextParser.parseFrom(idContext,request);
         return ContextResponse.fromEntity(contextRepository.save(contextEntity));
-    };
+    }
 
     public boolean deleteContext(Long idContext) throws ContextException {
         try {
-             ContextEntity context = contextRepository.findById(idContext)
-                    .orElseThrow(() -> new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID));
-
-            contextRepository.delete(context);
+            contextRepository.deleteById(idContext);
             return true;
-        } catch (ContextRequestException e) {
-            throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR,e);
+        }catch (Exception e){
+            throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR);
         }
     }
 
@@ -83,8 +80,8 @@ public class ContextService {
         return getContextResponses(entityList);
     }
 
-    private boolean validationIfUserExist(Long IdUser){
-        Optional<UserEntity> user = userRepo.findByIdUser(IdUser);
+    private boolean isUserNull(Long idUser){
+        Optional<UserEntity> user = userRepo.findByIdUser(idUser);
         return user.isEmpty();
     }
 
@@ -93,7 +90,7 @@ public class ContextService {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_REQUEST_NULL);
         }
 
-        if (validationIfUserExist(request.getUserRequest().getIdUser())){
+        if (isUserNull(request.getUserRequest().getIdUser())){
             throw new ContextRequestException(ContextRequestException.MESSAGE_CONTEXT_ID_USER_DONT_EXIST);
         }
     }

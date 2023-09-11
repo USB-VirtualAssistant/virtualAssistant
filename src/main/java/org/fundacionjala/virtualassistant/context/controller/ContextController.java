@@ -29,9 +29,11 @@ public class ContextController {
     }
 
     @GetMapping("/user/{idUser}")
-    public List<ContextResponse> getContextByUser(@NonNull @PathVariable("idUser") Long idUser) throws ContextException {
-        List<ContextResponse> contexts = contextService.findContextByUserId(idUser);
-        return new ResponseEntity<>(contexts, HttpStatus.OK).getBody();
+    public ResponseEntity<List<ContextResponse>> getContextByUser(@NonNull @PathVariable("idUser") Long idUser)
+            throws ContextException {
+        Optional<List<ContextResponse>> optionalContexts = Optional.ofNullable(contextService.findContextByUserId(idUser));
+        return optionalContexts.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/{idContext}")
@@ -42,23 +44,28 @@ public class ContextController {
     }
 
     @PostMapping()
-    public ContextResponse getContextByUser(@Valid @RequestBody ContextRequest request)
+    public ResponseEntity<ContextResponse> saveContextByUser(@Valid @RequestBody ContextRequest request)
             throws ContextException {
-        ContextResponse context = contextService.saveContext(request);
-        return new ResponseEntity<>(context, HttpStatus.OK).getBody();
+        Optional<ContextResponse> context = Optional.ofNullable(contextService.saveContext(request));
+        return context.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @PutMapping("/{idContext}")
-    public ContextResponse putContext(@NonNull @PathVariable("idContext") Long idContext,
-                                      @Valid @RequestBody ContextRequest request) throws ContextException {
-        ContextResponse context = contextService.editContext(idContext, request);
-        return new ResponseEntity<>(context, HttpStatus.OK).getBody();
+    public ResponseEntity<ContextResponse> putContext(@NonNull @PathVariable("idContext") Long idContext,
+                                                      @Valid @RequestBody ContextRequest request) throws ContextException {
+        Optional<ContextResponse> context = Optional.ofNullable(contextService.editContext(idContext, request));
+        return context.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElseGet(()-> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/{idContext}")
-    public ResponseEntity<Boolean> deleteContextById(@NonNull @PathVariable("idContext") Long idContext)
-            throws ContextException{
-        boolean isDelete = contextService.deleteContext(idContext);
-        return ResponseEntity.status(HttpStatus.OK).body(isDelete);
+    public ResponseEntity<Boolean> deleteContextById(@NonNull @PathVariable("idContext") Long idContext) {
+        try {
+            boolean isDelete = contextService.deleteContext(idContext);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(isDelete);
+        }catch (ContextException e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
