@@ -6,12 +6,14 @@ import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionManagerFactory;
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityArgs;
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityConverter;
 import org.fundacionjala.virtualassistant.taskhandler.intents.Intent;
 import org.fundacionjala.virtualassistant.taskhandler.intents.IntentManager;
 import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
+import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentEntity;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentResponse;
-
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -24,12 +26,13 @@ public class Proxy {
     public String handleIntent(String text) throws IntentException {
         IntentResponse intentResponse = processIntent(text);
         String userIntent = intentResponse.getIntent().getName();
-        String intentEntity = intentResponse.getIntentEntities().get(0).getEntity();
+        List<IntentEntity> intentEntities = intentResponse.getIntentEntities();
+        EntityArgs entityArgs = EntityConverter.convert(intentEntities);
 
-        return handleAction(userIntent, intentEntity);
+        return handleAction(userIntent, entityArgs);
     }
 
-    public String handleAction(String userIntent, String intentEntity) throws IntentException {
+    public String handleAction(String userIntent, EntityArgs intentEntities) throws IntentException {
         taskActionManagerFactory.setIntentType(userIntent);
         TaskActionFactory taskActionFactory = taskActionManagerFactory.getTaskActionFactory(userIntent);
 
@@ -38,12 +41,12 @@ public class Proxy {
 
         return taskActionFactory
                 .createTaskAction(intentManager.processIntent(userIntent))
-                .handleAction(intentEntity);
+                .handleAction(intentEntities);
     }
 
     private IntentResponse processIntent(String text) throws IntentException {
         IntentResponse response = rasaClient.processUserIntentsByMicroService(text).getBody();
-        if (!Optional.ofNullable(response).isPresent()) {
+        if (Optional.ofNullable(response).isEmpty()) {
             throw new IntentException(IntentException.INTENT_NOT_FOUND);
         }
         return response;

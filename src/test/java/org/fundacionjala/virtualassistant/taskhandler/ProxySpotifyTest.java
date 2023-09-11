@@ -38,8 +38,15 @@ class ProxySpotifyTest {
     private static final String MUSIC_PREVIOUS = "music_previous";
     private static final String MUSIC_TRACKS = "music_tracks";
     private static final String MUSIC_PLAY = "music_play";
-    private static final List<IntentEntity> ENTITIES = List.of(new IntentEntity("entity", "value"));
-    private static final IntentResponse EMPTY_INTENT_RESPONSE = new IntentResponse(ENTITIES, new Intent(0, ""));
+    private static final String ENTITY = "entity";
+    private static final String VALUE = "value";
+    private static final String EMPTY = "";
+    private static final int ZERO = 0;
+
+    private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE),
+            new IntentEntity(ENTITY, VALUE));
+    private IntentResponse emptyIntentResponse = new IntentResponse(entities,
+            new Intent(ZERO, EMPTY));
 
     @BeforeEach
     void setUp() {
@@ -65,8 +72,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenGetAlbumEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_ALBUMS));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_ALBUMS));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_ALBUMS);
         assertNotNull(handledIntent);
@@ -75,8 +83,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenGetTracksEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_TRACKS));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_TRACKS));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_TRACKS);
         assertNotNull(handledIntent);
@@ -85,8 +94,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenGetFollowingEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_FOLLOWING));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_FOLLOWING));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_FOLLOWING);
         assertNotNull(handledIntent);
@@ -95,8 +105,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenGetPlayerEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_PLAYER));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PLAYER));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_PLAYER);
         assertNotNull(handledIntent);
@@ -105,8 +116,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenPauseEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_PAUSE));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PAUSE));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_PAUSE);
         assertNotNull(handledIntent);
@@ -115,8 +127,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenNextEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_NEXT));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_NEXT));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_NEXT);
         assertNotNull(handledIntent);
@@ -125,8 +138,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenPreviousEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_PREVIOUS));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PREVIOUS));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_PREVIOUS);
         assertNotNull(handledIntent);
@@ -135,8 +149,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenContinueEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_CONTINUE));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_CONTINUE));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_CONTINUE);
         assertNotNull(handledIntent);
@@ -145,8 +160,9 @@ class ProxySpotifyTest {
 
     @Test
     void givenPlayEnumWhenHandleIntentThenHandleIntent() throws IntentException {
-        IntentResponse intentResponse = new IntentResponse(ENTITIES, new Intent(0, MUSIC_PLAY));
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse, HttpStatus.OK));
+        IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PLAY));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
+                HttpStatus.OK));
 
         String handledIntent = proxy.handleIntent(MUSIC_PLAY);
         assertNotNull(handledIntent);
@@ -155,7 +171,8 @@ class ProxySpotifyTest {
 
     @Test
     void givenEmptyEnumWhenHandleIntentThenHandleException() {
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(EMPTY_INTENT_RESPONSE, HttpStatus.OK));
+        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(emptyIntentResponse,
+                HttpStatus.OK));
 
         IntentException exception = assertThrows(IntentException.class, () -> proxy.handleIntent(""));
         assertEquals(IntentException.INTENT_NOT_FOUND, exception.getMessage());

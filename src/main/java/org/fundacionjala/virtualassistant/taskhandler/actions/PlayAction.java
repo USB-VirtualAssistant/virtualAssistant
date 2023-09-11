@@ -2,7 +2,10 @@ package org.fundacionjala.virtualassistant.taskhandler.actions;
 
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.TaskAction;
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityArgs;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlayAction implements TaskAction {
     private MusicService musicService;
 
@@ -11,7 +14,8 @@ public class PlayAction implements TaskAction {
     }
 
     @Override
-    public String handleAction(String intent) {
-        return musicService.playSongByArtistAndTrack(intent, intent).getBody();
+    public String handleAction(EntityArgs intentEntities) {
+        return musicService.playSongByArtistAndTrack(intentEntities.getPrimaryArg().getEntity(),
+                intentEntities.getSecondaryArg().getEntity()).getBody();
     }
 }

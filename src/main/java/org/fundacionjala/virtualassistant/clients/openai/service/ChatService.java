@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.clients.openai.service;
 
+import com.theokanning.openai.OpenAiError;
+import com.theokanning.openai.OpenAiHttpException;
 import com.theokanning.openai.service.OpenAiService;
 
 import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
@@ -13,6 +15,12 @@ import javax.validation.constraints.Pattern;
 public class ChatService {
     private OpenAiClient openAiClient;
     private OpenAiService openAiService;
+    private final String  INVALID_TOKEN_ERROR_MESSAGE = "Sorry, a response could not be generated at this time due to a problem with your access token. This may be due to an invalid or expired token. Please verify your token and make sure it is valid and has the necessary permissions to access the chat service. If you need help obtaining a valid token or have any questions you can access this link: https://platform.openai.com/docs/introduction";
+    private final String INVALID_TOKEN_ERROR_LINK = "https://beta.openai.com/docs/api-reference/errors/invalid-token";
+    private final String INVALID_TOKEN_ERROR_TYPE = "invalid_token";
+    private final String INVALID_TOKEN_ERROR_TITLE = "Invalid token";
+    private final String ERROR_REQUEST_MESSAGE = "The response could not be generated";
+    private final int INVALID_TOKEN_ERROR_CODE = 400;
 
     @Autowired
     public ChatService(OpenAiClient openAiClient) {
@@ -33,11 +41,30 @@ public class ChatService {
     }
 
     private String generateChatAnswer(OpenAiService service, String request) {
+        try {
+            return generateResponse(service, request);
+        } catch (OpenAiHttpException e) {
+            handleOpenAiHttpException(e);
+        }
+        return ERROR_REQUEST_MESSAGE;
+    }
+    
+    private String generateResponse(OpenAiService service, String request) throws OpenAiHttpException {
         return service.createCompletion(openAiClient.buildCompletionRequest(request))
                 .getChoices()
                 .stream()
                 .map(choice -> choice.getText())
                 .collect(Collectors.joining());
+    }
+    
+    private void handleOpenAiHttpException(OpenAiHttpException e) {
+        OpenAiError.OpenAiErrorDetails errorDetails = new OpenAiError.OpenAiErrorDetails(
+                INVALID_TOKEN_ERROR_MESSAGE,
+                INVALID_TOKEN_ERROR_LINK,
+                INVALID_TOKEN_ERROR_TYPE,
+                INVALID_TOKEN_ERROR_TITLE
+        );
+        throw new OpenAiHttpException(new OpenAiError(errorDetails), e, INVALID_TOKEN_ERROR_CODE);
     }
 
     private String removePatternFromStart(String input, String toRemovePattern) {

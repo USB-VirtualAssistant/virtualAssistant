@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.taskhandler;
 
+import org.fundacionjala.virtualassistant.taskhandler.intents.EntityArgs;
+
 public interface TaskAction {
-    String handleAction(String entity);
+    String handleAction(EntityArgs intentEntities);
 }
