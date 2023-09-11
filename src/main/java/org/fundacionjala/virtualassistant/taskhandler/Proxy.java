@@ -1,7 +1,5 @@
 package org.fundacionjala.virtualassistant.taskhandler;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
 import org.fundacionjala.virtualassistant.taskhandler.factory.IntentFactory;
 import org.fundacionjala.virtualassistant.taskhandler.factory.TaskActionFactory;
@@ -13,15 +11,25 @@ import org.fundacionjala.virtualassistant.taskhandler.intents.IntentManager;
 import org.fundacionjala.virtualassistant.user_intetions.client.RasaClient;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentEntity;
 import org.fundacionjala.virtualassistant.user_intetions.client.response.IntentResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
+@Component
 public class Proxy {
     private RasaClient rasaClient;
     private IntentFactory intentFactory;
     private TaskActionManagerFactory taskActionManagerFactory;
+
+    @Autowired
+    public Proxy (RasaClient rasaClient, IntentFactory intentFactory, TaskActionManagerFactory taskActionManagerFactory) {
+        this.rasaClient = rasaClient;
+        this.intentFactory = intentFactory;
+        this.taskActionManagerFactory = taskActionManagerFactory;
+    }
 
     public String handleIntent(String text) throws IntentException {
         IntentResponse intentResponse = processIntent(text);

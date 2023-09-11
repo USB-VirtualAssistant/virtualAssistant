@@ -3,8 +3,7 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
@@ -30,7 +29,7 @@ public class TextRequestService {
     private RequestComponent requestComponent;
     private TextResponseService responseService;
 
-    public TextRequestResponse createTextRequest(@NotNull TextRequest textRequest) throws TextRequestException {
+    public TextRequestResponse createTextRequest(@Valid TextRequest textRequest) throws TextRequestException {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
