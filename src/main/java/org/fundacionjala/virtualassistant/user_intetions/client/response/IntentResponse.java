@@ -10,6 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class IntentResponse {
-     List<IntentEntity> intentEntities;
+     List<IntentEntity> entities;
      Intent intent;
+
+     public List<IntentEntity> getIntentEntities() {
+          return entities;
+     }
 }

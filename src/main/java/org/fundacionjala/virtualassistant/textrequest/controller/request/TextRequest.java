@@ -7,6 +7,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
@@ -14,9 +15,11 @@ import java.time.ZonedDateTime;
 @Builder
 @Jacksonized
 public class TextRequest {
-    @NotNull
+    @NotEmpty
     Long idUser;
+    @NotNull
     String text;
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     ZonedDateTime date;
     @Valid
