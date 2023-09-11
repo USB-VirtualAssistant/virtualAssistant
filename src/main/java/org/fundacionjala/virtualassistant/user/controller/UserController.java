@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/user/")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -27,7 +27,7 @@ public class UserController {
         return new ResponseEntity<>(userResponse, CREATED);
     }
 
-    @PutMapping("updateUser/updateSpotifyToken/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateSpotifyToken(@PathVariable Long id, @RequestBody UserRequest userRequest) throws UserRequestException {
         UserResponse userResponse = userService.updateSpotifyToken(id, userRequest);
         return new ResponseEntity<>(userResponse, OK);
