@@ -10,9 +10,9 @@ import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
+
 import javax.validation.constraints.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserRepo userRepo;
-    private final String NOT_FOUND_USER = "Not found user";
+    private static final String NOT_FOUND_USER = "Not found user";
 
     public List<UserResponse> findAll() {
         return userRepo.findAll().stream()
@@ -46,12 +46,7 @@ public class UserService {
     }
 
     public UserResponse save(@NotNull UserRequest userRequest) {
-        UserEntity userEntity = userRepo.save(
-                UserEntity.builder()
-                        .idGoogle(userRequest.getIdGoogle())
-                        .contextEntities(new ArrayList<>())
-                        .spotifyToken(userRequest.getSpotifyToken())
-                        .build());
+        UserEntity userEntity = userRepo.save(UserParser.parseFrom(userRequest));
         return UserParser.parseFrom(userEntity);
     }
 
@@ -59,14 +54,15 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public UserResponse updateSpotifyToken(@PathVariable Long id, @NotNull UserRequest userRequest) throws UserRequestException {
-        Optional<UserEntity> userEntity = userRepo.findById(id);
-        if (!userEntity.isPresent()) {
+    public UserResponse updateSpotifyToken(@PathVariable Long id, @NotNull UserRequest userRequest)
+            throws UserRequestException {
+        Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
+        if (optionalUserEntity.isEmpty()) {
             throw new UserRequestException(NOT_FOUND_USER);
         }
-        UserEntity getUserEntity = userEntity.get();
-        getUserEntity.setSpotifyToken(userRequest.getSpotifyToken());
-        userRepo.save(getUserEntity);
-        return UserParser.parseFrom(getUserEntity);
+        UserEntity userEntity = optionalUserEntity.get();
+        userEntity.setSpotifyToken(userRequest.getSpotifyToken());
+        UserEntity userSaved = userRepo.save(userEntity);
+        return UserParser.parseFrom(userSaved);
     }
 }
