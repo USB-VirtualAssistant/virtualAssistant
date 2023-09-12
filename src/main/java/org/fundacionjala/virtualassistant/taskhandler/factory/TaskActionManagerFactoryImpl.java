@@ -35,19 +35,24 @@ public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
     }
 
     @Override
-    public Intent getIntent(String type) throws IntentException {
+    public Intent getIntent(String type) {
         switch (intentType) {
-            case "music":
+            case "CONTINUE":
+            case "PAUSE":
+            case "NEXT":
+            case "GET_ALBUMS":
+            case "GET_FOLLOWING":
+            case "PLAYER":
+            case "PREVIOUS":
+            case "GET_TRACKS":
                 return Intent.SPOTIFY;
-            case "chat":
-                return Intent.CHAT_GPT;
             default:
-                throw new IntentException(IntentException.INTENT_NOT_FOUND);
+                return Intent.CHAT_GPT;
         }
     }
 
     @Override
     public void setIntentType(String intentType) {
-        this.intentType = intentType.split("_")[0];
+        this.intentType = intentType;
     }
 }

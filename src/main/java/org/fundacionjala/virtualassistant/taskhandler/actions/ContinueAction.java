@@ -15,6 +15,6 @@ public class ContinueAction implements TaskAction {
 
     @Override
     public String handleAction(EntityArgs intentEntities) {
-        return musicService.getUserFollowingArtists().getBody();
+        return musicService.playCurrentTrack().getBody();
     }
 }
