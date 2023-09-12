@@ -58,4 +58,23 @@ class AudioControllerTest {
                 )
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnABadRequestForProcessAnEmptyIdUser() throws Exception {
+        mockMvc.perform(multipart("/audio")
+                        .file(audioFile)
+                        .param("idChat", Long.toString(ID_CHAT))
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnABadRequestForProcessAnEmptyIdChat() throws Exception {
+        mockMvc.perform(multipart("/audio")
+                        .file(audioFile)
+                        .param("idUser", Long.toString(ID_USER))
+                )
+                .andExpect(status().isBadRequest());
+    }
+
 }
