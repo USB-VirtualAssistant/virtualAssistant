@@ -54,6 +54,7 @@ public class UserParser {
                 .idUser(userRequest.getIdUser())
                 .idGoogle(userRequest.getIdGoogle())
                 .contextEntities(new ArrayList<>())
+                .spotifyToken(userRequest.getSpotifyToken())
                 .build();
     }
 }
