@@ -16,4 +16,5 @@ public class UserContextResponse {
     Long idUser;
     String idGoogle;
     List<ContextResponse> contextResponses;
+    String spotifyToken;
 }
