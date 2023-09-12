@@ -35,13 +35,19 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserResponse> findById(@NotNull Long id) {
+    public Optional<UserResponse> findById(@NotNull Long id) throws UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
+        if (!optionalUserEntity.isPresent()) {
+            throw new UserRequestException(NOT_FOUND_USER + id);
+        }
         return optionalUserEntity.map(UserParser::parseFrom);
     }
 
-    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id) {
+    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id) throws UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
+        if (!optionalUserEntity.isPresent()) {
+            throw new UserRequestException(NOT_FOUND_USER + id);
+        }
         return optionalUserEntity.map(UserParser::parseFromWithContext);
     }
 
@@ -58,7 +64,7 @@ public class UserService {
             throws UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new UserRequestException(NOT_FOUND_USER);
+            throw new UserRequestException(NOT_FOUND_USER + id);
         }
         UserEntity userEntity = optionalUserEntity.get();
         userEntity.setSpotifyToken(userRequest.getSpotifyToken());
