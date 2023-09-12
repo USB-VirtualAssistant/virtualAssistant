@@ -7,7 +7,6 @@ import lombok.extern.jackson.Jacksonized;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
@@ -15,7 +14,7 @@ import java.time.ZonedDateTime;
 @Builder
 @Jacksonized
 public class TextRequest {
-    @NotEmpty
+    @NotNull
     Long idUser;
     @NotNull
     String text;
