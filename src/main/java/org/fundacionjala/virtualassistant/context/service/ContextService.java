@@ -13,6 +13,7 @@ import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ public class ContextService {
             contextRepository.deleteById(idContext);
             return true;
         }catch (Exception e){
-            throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR);
+            throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR, e);
         }
     }
 
