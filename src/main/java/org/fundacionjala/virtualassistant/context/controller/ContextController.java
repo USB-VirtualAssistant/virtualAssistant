@@ -67,7 +67,7 @@ public class ContextController {
             boolean isDelete = contextService.deleteContext(idContext);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(isDelete);
         }catch (ContextException e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 }
