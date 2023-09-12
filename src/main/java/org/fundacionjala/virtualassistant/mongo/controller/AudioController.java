@@ -25,6 +25,7 @@ public class AudioController {
     public ResponseEntity<?> processAudio(@Valid @ModelAttribute RecordingRequest recordingRequest) {
         try {
             audioService.save(recordingRequest.getAudioFile());
+            recordingService.saveRecording(recordingRequest);
             return ResponseEntity.ok(asrOpenAiImplementation.asrOpenAIResponse(recordingRequest.getAudioFile()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
