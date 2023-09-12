@@ -16,7 +16,7 @@ import org.springframework.util.MimeTypeUtils;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AudioController.class)
+@WebMvcTest(AudioProcessingController.class)
 @AutoConfigureMockMvc
 class AudioControllerTest {
     @Autowired

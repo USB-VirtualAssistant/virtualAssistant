@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/audio")
 @AllArgsConstructor
-public class AudioController {
+public class AudioProcessingController {
     private RecordingService recordingService;
     private AsrOpenAiImplementation asrOpenAiImplementation;
     private AudioService audioService;
