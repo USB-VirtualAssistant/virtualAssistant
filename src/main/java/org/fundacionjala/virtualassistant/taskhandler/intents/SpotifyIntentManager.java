@@ -11,15 +11,15 @@ public class SpotifyIntentManager implements IntentManager {
 
     public SpotifyIntentManager() {
         spotifyIntentMap = Map.of(
-                "music_continue", SpotifyIntent.CONTINUE,
-                "music_pause", SpotifyIntent.PAUSE,
-                "music_next", SpotifyIntent.NEXT,
-                "music_albums", SpotifyIntent.GET_ALBUMS,
-                "music_following", SpotifyIntent.GET_FOLLOWING,
-                "music_player", SpotifyIntent.GET_PLAYER,
-                "music_previous", SpotifyIntent.PREVIOUS,
-                "music_tracks", SpotifyIntent.GET_TRACKS,
-                "music_play", SpotifyIntent.PLAY
+                "CONTINUE", SpotifyIntent.CONTINUE,
+                "PAUSE", SpotifyIntent.PAUSE,
+                "NEXT", SpotifyIntent.NEXT,
+                "GET_ALBUMS", SpotifyIntent.GET_ALBUMS,
+                "GET_FOLLOWING", SpotifyIntent.GET_FOLLOWING,
+                "GET_PLAYER", SpotifyIntent.GET_PLAYER,
+                "PREVIOUS", SpotifyIntent.PREVIOUS,
+                "GET_TRACKS", SpotifyIntent.GET_TRACKS,
+                "PLAY", SpotifyIntent.PLAY
         );
     }
 
