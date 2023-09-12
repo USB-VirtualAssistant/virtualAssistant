@@ -12,4 +12,5 @@ import lombok.extern.jackson.Jacksonized;
 public class UserResponse {
     Long idUser;
     String idGoogle;
+    String spotifyToken;
 }
