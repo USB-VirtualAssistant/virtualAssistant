@@ -11,11 +11,23 @@ intents:
   - question
   - weather_inquiry
   - location_inquiry
+  - music_request
+  - information_request_question
+  - GET_ALBUMS
+  - GET_TRACKS
+  - GET_FOLLOWING
+  - GET_PLAYER
+  - PAUSE
+  - NEXT
+  - PREVIOUS
+  - CONTINUE
 
 entities:
   - location
-  - song
+  - weather
   - artist
+  - song
+  - content
 responses:
   utter_greet:
     - text: "Hey! How are you?"
