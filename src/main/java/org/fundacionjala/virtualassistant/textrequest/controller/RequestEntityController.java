@@ -1,9 +1,11 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
+import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.service.TextRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +31,14 @@ public class RequestEntityController {
 
     @PostMapping
     public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest)
-            throws TextRequestException, ContextParserException {
-        TextRequestResponse textRequestResponse = requestEntityService.createTextRequest(textRequest);
+            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException {
+        TextRequestResponse textRequestResponse = requestEntityService.save(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }
 
     @GetMapping("/{userId}/context/{contextId}")
     public ResponseEntity<List<TextRequestResponse>> getTextRequests(@NotNull @PathVariable Long userId,
-                                               @NotNull @PathVariable Long contextId) {
+                                                                     @NotNull @PathVariable Long contextId) {
         List<TextRequestResponse> textRequests = requestEntityService.getTextRequestByUserAndContext(userId, contextId);
         return new ResponseEntity<>(textRequests, OK);
     }

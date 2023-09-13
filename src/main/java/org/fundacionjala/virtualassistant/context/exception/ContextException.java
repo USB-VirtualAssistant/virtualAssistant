@@ -1,8 +1,5 @@
 package org.fundacionjala.virtualassistant.context.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 public class ContextException extends Exception{
 
     public static final String MESSAGE_CONTEXT_NULL = "The object Context is null";

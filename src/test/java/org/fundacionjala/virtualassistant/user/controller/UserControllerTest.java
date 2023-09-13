@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
@@ -112,7 +113,7 @@ public class UserControllerTest {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
-        
+
         when(userService.findById(ID_USER)).thenReturn(Optional.of(userResponse));
         ResponseEntity<UserResponse> resultUserEntity2 = userController.findById(ID_USER);
 
@@ -143,7 +144,7 @@ public class UserControllerTest {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
-        
+
         when(userService.findByIdWithContext(ID_USER)).thenReturn(Optional.of(userContextResponse));
         ResponseEntity<UserContextResponse> resultUserEntity2 = userController.findByIdWithContext(ID_USER);
 

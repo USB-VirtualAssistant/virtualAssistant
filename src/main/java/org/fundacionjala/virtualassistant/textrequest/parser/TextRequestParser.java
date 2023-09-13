@@ -1,15 +1,23 @@
 package org.fundacionjala.virtualassistant.textrequest.parser;
 
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
+import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
+
+import static java.util.Objects.isNull;
 
 public class TextRequestParser {
-    public static RequestEntity parseFrom(TextRequest textRequest) throws ContextParserException {
+    public static RequestEntity parseFrom(TextRequest textRequest)
+            throws ContextParserException, TextRequestParserException {
+        if (isNull(textRequest)) {
+            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST);
+        }
         return RequestEntity.builder()
                 .idUser(textRequest.getIdUser())
                 .text(textRequest.getText())
@@ -19,7 +27,10 @@ public class TextRequestParser {
                 .build();
     }
 
-    public static TextRequestResponse parseFrom(RequestEntity requestEntity) {
+    public static TextRequestResponse parseFrom(RequestEntity requestEntity) throws TextRequestParserException {
+        if (isNull(requestEntity)) {
+            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST_ENTITY);
+        }
         return TextRequestResponse.builder()
                 .idRequest(requestEntity.getIdRequest())
                 .idUser(requestEntity.getIdUser())
@@ -30,7 +41,14 @@ public class TextRequestParser {
                 .build();
     }
 
-    public static TextRequestResponse parseFrom(RequestEntity requestEntity, TextResponse textResponse) {
+    public static TextRequestResponse parseFrom(RequestEntity requestEntity, TextResponse textResponse)
+            throws TextRequestParserException, ContextException {
+        if (isNull(requestEntity)) {
+            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST_ENTITY);
+        }
+        if (isNull(requestEntity.getContextEntity())) {
+            throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
+        }
         return TextRequestResponse.builder()
                 .idRequest(requestEntity.getIdRequest())
                 .idUser(requestEntity.getIdUser())

@@ -1,7 +1,8 @@
 package org.fundacionjala.virtualassistant.user.service;
 
 import lombok.AllArgsConstructor;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
