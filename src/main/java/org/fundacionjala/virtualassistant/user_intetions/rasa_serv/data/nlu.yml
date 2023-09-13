@@ -1305,6 +1305,56 @@ nlu:
     - I'd like to know the time now.
     - What's the time according to your clock?
     - Share the time with me, please.
+    -  Who is Albert Einstein?
+    - Who is Queen Elizabeth II?
+    - Who is Leonardo da Vinci?
+    - Who is Elon Musk?
+    - Who is Nelson Mandela?
+    - Who is Oprah Winfrey?
+    - Who is Martin Luther King Jr.?
+    - Who is Bill Gates?
+    - Who is Marie Curie?
+    - Who is Mahatma Gandhi?
+    - Who is Steve Jobs?
+    - Who is Vladimir Putin?
+    - Who is Mother Teresa?
+    - Who is George Washington?
+    - Who is Winston Churchill?
+    - Who is Mark Zuckerberg?
+    - Who is Pablo Picasso?
+    - Who is Amelia Earhart?
+    - Who is Charles Darwin?
+    - Who is Frida Kahlo?
+    - Who is Stephen Hawking?
+    - Who is Neil Armstrong?
+    - Who is Coco Chanel?
+    - Who is Che Guevara?
+    - Who is Malala Yousafzai?
+    - Who is Sigmund Freud?
+    - Who is Rosa Parks?
+    - Who is William Shakespeare?
+    - Who is Cristiano Ronaldo?
+    - Who is Barack Obama?
+    - Who is Thomas Edison?
+    - Who is Cleopatra?
+    - Who is Julius Caesar?
+    - Who is Anne Frank?
+    - Who is Henry Ford?
+    - Who is Alexander the Great?
+    - Who is Beethoven?
+    - Who is Amelia Earhart?
+    - Who is Amelia Earhart?
+    - Who is Marie Antoinette?
+    - Who is Amelia Earhart?
+    - Who is Queen Victoria?
+    - Who is Amelia Earhart?
+    - Who is Christopher Columbus?
+    - Who is Albert Camus?
+    - Who is Jeff Bezos?
+    - Who is Julius Caesar?
+    - Who is Harriet Tubman?
+    - Who is Amelia Earhart?
+    - Who is Isaac Newton?
 - lookup: content
   examples: |
     - Articles on machine learning
@@ -1994,6 +2044,375 @@ nlu:
     - I Don't Want to Miss a Thing
     - With or Without You
     - Livin' on a Prayer
+    - 0 to 100/ The Catch Up 
+    - 10 Bands
+    - 305 to My City
+    - 5AM In Toronto
+    - 6 God
+    - 6 Man
+    - 6PM in New York
+    - 7AM On Bridle Path
+    - 8 out of 10
+    - 9
+    - All Me
+    - Back to Back
+    - BackOutsideBoyz
+    - Behind Barz
+    - Best I Ever Had
+    - Blem
+    - Blue Tint
+    - Buried Alive Interlude
+    - Cameras/Good Ones Go
+    - Can I
+    - Can't Take a Joke
+    - Cece's Interlude
+    - Champagne Poetry
+    - Charged Up
+    - Chicago Freestyle
+    - Child's Play
+    - Club Paradise
+    - Connect
+    - Controlla
+    - Crew Love
+    - D4L Freestyle
+    - Days in the East
+    - Deep Pockets
+    - Demons
+    - Diplomatic Immunity
+    - Do Not Disturb
+    - Doing It Wrong
+    - Don't Matter to Me
+    - Draft Day
+    - Dreams Money Can Buy
+    - Duppy Freestyle
+    - Elevate
+    - Emotionless
+    - Energy
+    - Fair Trade
+    - Faithful
+    - Fake Love
+    - Falling Back
+    - Fancy
+    - Fear
+    - Feel No Ways
+    - Final Fantasy
+    - Find Your Love
+    - Finesse
+    - Fire & Desire
+    - Fireworks
+    - Forever
+    - Fountains
+    - Free Smoke
+    - Free Spirit
+    - From Florida with Love
+    - From Time
+    - Furthest Thing
+    - Get It Together
+    - Girls Love Beyoncé
+    - Girls Want Girls
+    - God's Plan
+    - Grammys
+    - Gyalchester
+    - Headlines
+    - Heat of the Moment
+    - Hold On We're Going Home
+    - Hotline Bling
+    - Houstatlantavegas
+    - How About Now
+    - HYFR
+    - Hype
+    - I Get Lonely
+    - I'm Upset
+    - In My Feelings
+    - In The Bible
+    - Is There More
+    - Jaded
+    - Jimmy Cooks
+    - Jodeci Freestyle
+    - Jorja Interlude
+    - Karaoke
+    - Keep the Family Close
+    - KMT
+    - Knife Talk
+    - Know Yourself
+    - Laugh Now Cry Later
+    - Lemon Pepper Freestyle
+    - Light Up
+    - Look What You've Done
+    - Lord Knows
+    - Losses
+    - Love All
+    - Madonna
+    - Make Me Proud
+    - March 14
+    - Marvin's Room
+    - Massive
+    - Middle Of The Ocean
+    - Miss Me
+    - Mob Ties
+    - Money in the Grave
+    - N 2 Deep
+    - Nice For What
+    - No Friends In The Industry
+    - No Long Talk
+    - Nonstop
+    - Not You Too
+    - November 18th
+    - Omertá
+    - On The Radar Freestyle
+    - One Dance
+    - Over
+    - Over My Dead Body
+    - Pain 1993
+    - Papi's Home
+    - Paris Morton Music
+    - Passionfruit
+    - Peak
+    - Pipe Down
+    - Pop Style
+    - Portland
+    - Pound Cake/Paris Morton Music 2
+    - Practice
+    - Race My Mind
+    - Redemption
+    - Right Hand
+    - Sacrifices
+    - Sandra's Rose
+    - Search & Rescue
+    - Shot For Me
+    - Show Me a Good Time
+    - Shut It Down
+    - Signs
+    - Sneakin
+    - Star67
+    - Started From The Bottom
+    - Sticky
+    - Still Here
+    - Successful
+    - Summer Games
+    - Summer Sixteen
+    - Summers Over Interlude
+    - Survival
+    - Take Care
+    - Talk Up
+    - Teenage Fever
+    - Texts Go Green
+    - Thank Me Now
+    - That's How You Feel
+    - The Language
+    - The Motion
+    - The Motto
+    - The Real Her
+    - The Ride
+    - Time Flies
+    - Too Good
+    - Too Much
+    - Toosie Slide
+    - Trophies
+    - TSU
+    - Tuscan Leather
+    - Two Birds, One Stone
+    - U with Me?
+    - Under Ground Kings
+    - Unforgettable
+    - Uptown
+    - Used To
+    - Views
+    - Wants And Needs
+    - War
+    - Way 2 Sexy
+    - We Made It
+    - We'll Be Fine
+    - All The Stars 
+    - Alright
+    - Auntie Diaries
+    - Backseat Freestyle
+    - Big Shot
+    - Bitch, Don't Kill My Vibe
+    - Black Panther
+    - BLOOD.
+    - Complexion (A Zulu Love)
+    - Compton
+    - Count Me Out
+    - Die Hard
+    - DNA.
+    - DUCKWORTH.
+    - ELEMENT.
+    - Father Time
+    - FEAR.
+    - FEEL.
+    - For Free? (Interlude)
+    - For Sale? (Interlude)
+    - GOD.
+    - Good Kid
+    - Hood Politics
+    - How Much A Dollar Cost
+    - HUMBLE.
+    - I
+    - Institutionalized
+    - Keisha's Song (Her Pain)
+    - King Kunta
+    - LOVE.
+    - LOYALTY.
+    - LUST.
+    - m.A.A.d city
+    - Money Trees
+    - Mortal Man
+    - Mother I Sober
+    - N95
+    - Poetic Justice
+    - Pray For Me
+    - PRIDE.
+    - Real
+    - Rich Spirit
+    - Savior
+    - Sherane a.k.a Master Splinter's Daughter
+    - Silent Hill
+    - Sing About Me, I'm Dying of Thirst
+    - Swimming Pools (Drank)
+    - The Art of Peer Pressure
+    - The Blacker the Berry
+    - The Heart Part 4
+    - The Heart Part 5
+    - The Heart Pt. 2
+    - The Recipe
+    - These Walls
+    - U
+    - United In Grief
+    - untitled 01 | 08.19.2014
+    - untitled 02 | 06.23.2014
+    - untitled 03 | 05.28.2013
+    - untitled 04 | 08.14.2014
+    - untitled 05 l 09.21.2014
+    - untitled 06 | 06.30.2014
+    - untitled 07 | 2014-2016
+    - untitled 08 | 09.06.2014.
+    - We Cry Together
+    - Wesley's Theory
+    - Worldwide Steppers
+    - XXX.
+    - YAH.
+    - Aeroplane 
+    - American Ghost Dance
+    - Animal Bar
+    - Around The World
+    - Behind The Sun
+    - Black Summer
+    - Blood Sugar Sex Magik
+    - Breaking the Girl
+    - Brendan's Death Song
+    - By The Way
+    - C'mon Girl
+    - Cabron
+    - Californication
+    - Can't Stop
+    - Charlie
+    - Coffee Shop
+    - Dani California
+    - Dark Necessities
+    - Death Of A Martian
+    - Desecration Smile
+    - Detroit
+    - Did I Let You Know
+    - Don't Forget Me
+    - Dosed
+    - Dreams Of A Samurai
+    - Eddie
+    - Emit Remmus
+    - Encore
+    - Especially In Michigan
+    - Ethiopia
+    - Even You Brutus?
+    - Factory of Faith
+    - Feasting On The Flowers
+    - Fight Like A Brave
+    - Fortune Faded
+    - Funky Crime
+    - Funny Face
+    - Get On Top
+    - Get Up And Jump
+    - Give It Away
+    - Go Robot
+    - Good Time Boys
+    - Goodbye Angels
+    - Grand Pappy Du Plenty
+    - Green Heaven
+    - Happiness Loves Company
+    - Hard To Concentrate
+    - Hey
+    - Higher Ground
+    - Hump De Bump
+    - I Could Die For You
+    - I Could Have Lied
+    - If You Have To Ask
+    - Johnny, Kick A Hole In The Sky
+    - Knock Me Down
+    - Long Progression
+    - Look Around
+    - Magic Johnson
+    - Make You Feel Better
+    - Mellowship Slinky In B Major
+    - Monarchy of Roses
+    - My Lovely Man
+    - No Chump Love Sucker
+    - Not The One
+    - One Big Mob
+    - One Hot Minute
+    - One Note Symphony
+    - Organic Anti-Beat Box Band
+    - Otherside
+    - Out In L.A.
+    - Party On Your Pussy
+    - Pea
+    - Porcelain
+    - Poster Child
+    - Punk Rock Classic
+    - Purple Stain
+    - Road Trippin'
+    - Save the Population
+    - Savior
+    - Scar Tissue
+    - Shallow Be Thy Game
+    - She Looks To Me
+    - She's Only 18
+    - Sick Love
+    - Sir Psycho Sexy
+    - Skinny Sweaty Man
+    - Slow Cheetah
+    - Snow (Hey Oh)
+    - So Much I
+    - Soul to Squeeze
+    - Stadium Arcadium
+    - Storm In A Teacup
+    - Suck My Kiss
+    - Taste The Pain
+    - Tearjerker
+    - Tell Me Baby
+    - The Adventures of Rain Dance Maggie
+    - The Getaway
+    - The Greeting Song
+    - The Hunter
+    - The Longest Wave
+    - The Power Of Equality
+    - The Righteous & The Wicked
+    - The Zephyr Song
+    - These Are The Ways
+    - This Is The Place
+    - This Ticonderoga
+    - This Velvet Glove
+    - Tippa My Tongue
+    - Transcending
+    - True Men Don't Kill Coyotes
+    - Turn It Again
+    - Under The Bridge
+    - Universally Speaking
+    - Venice Queen
+    - Warlocks
+    - Warped
+    - We Believe
+    - We Turn Red
+    - Wet Sand
+    - Yertle The Turtle
     - I Will Survive
     - Dancing Queen
     - I Wanna Dance with Somebody
