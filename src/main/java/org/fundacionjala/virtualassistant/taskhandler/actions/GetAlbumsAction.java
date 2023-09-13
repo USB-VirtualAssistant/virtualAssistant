@@ -14,7 +14,7 @@ public class GetAlbumsAction implements TaskAction {
     }
 
     @Override
-    public String handleAction(EntityArgs intentEntities) {
+    public String handleAction(EntityArgs intentEntities, String text) {
         return musicService.getUserSavedAlbums().getBody();
     }
 }
