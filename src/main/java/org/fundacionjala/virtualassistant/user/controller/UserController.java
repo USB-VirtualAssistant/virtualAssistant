@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.user.controller;
 
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,19 +27,19 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) throws UserParserException {
         UserResponse userResponse = userService.save(userRequest);
         return new ResponseEntity<>(userResponse, CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateSpotifyToken(@PathVariable Long id, @RequestBody UserRequest userRequest) throws UserRequestException {
+    public ResponseEntity<UserResponse> updateSpotifyToken(@PathVariable Long id, @RequestBody UserRequest userRequest) throws UserRequestException, UserParserException {
         UserResponse userResponse = userService.updateSpotifyToken(id, userRequest);
         return new ResponseEntity<>(userResponse, OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id) throws UserRequestException {
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) throws UserRequestException, UserParserException {
         return new ResponseEntity<UserResponse>(userService.findById(id).get(), OK);
     }
 
