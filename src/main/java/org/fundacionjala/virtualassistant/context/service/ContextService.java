@@ -7,9 +7,11 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextNotFoundException;
 import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
@@ -38,22 +40,27 @@ public class ContextService {
         return convertListContextToResponse(contextEntities);
     }
 
-    public ContextResponse saveContext(ContextRequest request) throws ContextException {
+    public ContextResponse saveContext(ContextRequest request) throws ContextException, ContextParserException, UserParserException {
         verifyContextRequest(request);
         ContextEntity contextEntity = ContextParser.parseFrom(request);
         return ContextParser.parseFrom(contextRepository.save(contextEntity));
     }
 
-    public Optional<ContextResponse> findById(Long idContext) throws ContextRequestException {
+    public Optional<ContextResponse> findById(Long idContext) throws ContextRequestException, ContextParserException {
         if(contextRepository.findById(idContext).isEmpty()){
             throw new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID);
         }
 
         Optional<ContextEntity> optionalContext = contextRepository.findById(idContext);
-        return optionalContext.map(ContextParser::parseFrom);
+        if (optionalContext.isEmpty()) {
+            return Optional.empty();
+        }
+        ContextResponse contextResponse = ContextParser.parseFrom(optionalContext.get());
+        return Optional.of(contextResponse);
     }
 
-    public ContextResponse editContext(Long idContext, ContextRequest request) throws ContextException {
+    public ContextResponse editContext(Long idContext, ContextRequest request)
+            throws ContextException, UserParserException, ContextParserException {
         verifyContextRequest(request);
         if (contextRepository.findById(idContext).isEmpty()) {
             throw new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID);

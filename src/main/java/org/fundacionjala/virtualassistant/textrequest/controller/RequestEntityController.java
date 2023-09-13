@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
@@ -27,7 +28,8 @@ public class RequestEntityController {
     TextRequestService requestEntityService;
 
     @PostMapping
-    public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest) throws TextRequestException {
+    public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest)
+            throws TextRequestException, ContextParserException {
         TextRequestResponse textRequestResponse = requestEntityService.createTextRequest(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }

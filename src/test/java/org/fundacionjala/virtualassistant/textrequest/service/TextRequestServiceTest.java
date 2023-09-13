@@ -4,6 +4,7 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
@@ -51,7 +52,7 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void shouldCreateATextRequest() throws TextRequestException {
+    public void shouldCreateATextRequest() throws TextRequestException, ContextParserException {
         long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().build();
         RequestEntity requestEntity = RequestEntity.builder()
@@ -79,7 +80,7 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void shouldCreateATextRequestWithCorrectValues() throws TextRequestException {
+    public void shouldCreateATextRequestWithCorrectValues() throws TextRequestException, ContextParserException {
         final long idUser = 12343L;
         final String text = "How many months does a year have?";
         final String textResponse = "How many months does a year have?";
@@ -158,7 +159,7 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void givenRequestEntity_whenSaveTextRequestService_thenSaveTextRequest() {
+    public void givenRequestEntity_whenSaveTextRequestService_thenSaveTextRequest() throws ContextParserException {
         String text = "Test Text";
         long idRequest = 123L;
         long idAudio = 456L;

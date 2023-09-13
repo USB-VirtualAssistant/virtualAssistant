@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
@@ -39,7 +40,7 @@ public class TextRequestControllerTest {
     }
 
     @Test
-    public void statusShouldBeCreated() throws TextRequestException {
+    public void statusShouldBeCreated() throws TextRequestException, ContextParserException {
         TextRequest textRequest = TextRequest.builder()
                 .idUser(1234L)
                 .text("How many months does a year have?")

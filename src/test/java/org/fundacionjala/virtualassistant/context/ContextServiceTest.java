@@ -4,23 +4,22 @@ import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequ
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
-import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +74,8 @@ public class ContextServiceTest {
     }
 
     @Test
-    public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
+    public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned()
+            throws ContextException, ContextParserException, UserParserException {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
@@ -88,7 +88,7 @@ public class ContextServiceTest {
     }
 
     @Test
-    public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException {
+    public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException, ContextParserException, UserParserException {
         ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);

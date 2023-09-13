@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.user.controller;
 
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,8 +50,9 @@ public class UserController {
     }
 
     @GetMapping("/context/{id}")
-    public ResponseEntity<UserContextResponse> findByIdWithContext(@PathVariable Long id) throws UserRequestException {
-        return new ResponseEntity<UserContextResponse>(userService.findByIdWithContext(id).get(), OK);
+    public ResponseEntity<UserContextResponse> findByIdWithContext(@PathVariable Long id)
+            throws UserParserException, ContextParserException {
+        return new ResponseEntity<>(userService.findByIdWithContext(id).get(), OK);
     }
 
     @GetMapping("/context/list")
