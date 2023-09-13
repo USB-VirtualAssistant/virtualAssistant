@@ -18,12 +18,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/asrOpenAi")
 public class AsrController {
-    private AsrOperations asrOperations;
-    private RedisService redisService;
-    private AsrOpenAiImplementation asrOpenAiImplementation;
+    AsrOperations asrOperations;
+    RedisService redisService;
+    AsrOpenAiImplementation asrOpenAiImplementation;
+    private static final String FILE_NAME = "audio.wav";
 
     @Autowired
-    public AsrController(AsrOperations asrOperations, RedisService redisService, AsrOpenAiImplementation asrOpenAiImplementation) {
+    public AsrController(AsrOperations asrOperations, RedisService redisService,
+                         AsrOpenAiImplementation asrOpenAiImplementation) {
         this.asrOperations = asrOperations;
         this.redisService = redisService;
         this.asrOpenAiImplementation = asrOpenAiImplementation;
@@ -33,7 +35,7 @@ public class AsrController {
     public String uploadAudio(@PathVariable String id) throws RecordingException, IOException, IntentException {
         asrOperations.uploadTemporalAudio(id);
         byte[] byteArray = redisService.getFromRedis(id);
-        MultipartFile multipartFile = new BASE64DecodedMultipartFile(byteArray, "audio.wav");
+        MultipartFile multipartFile = new BASE64DecodedMultipartFile(byteArray, FILE_NAME);
 
         return asrOpenAiImplementation.asrOpenAIResponse(multipartFile);
     }
