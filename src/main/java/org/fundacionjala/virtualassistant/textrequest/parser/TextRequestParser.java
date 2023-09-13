@@ -4,6 +4,7 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
@@ -15,9 +16,7 @@ import static java.util.Objects.isNull;
 public class TextRequestParser {
     public static RequestEntity parseFrom(TextRequest textRequest)
             throws ContextParserException, TextRequestParserException {
-        if (isNull(textRequest)) {
-            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST);
-        }
+        verifyTextRequest(textRequest);
         return RequestEntity.builder()
                 .idUser(textRequest.getIdUser())
                 .text(textRequest.getText())
@@ -27,10 +26,9 @@ public class TextRequestParser {
                 .build();
     }
 
-    public static TextRequestResponse parseFrom(RequestEntity requestEntity) throws TextRequestParserException {
-        if (isNull(requestEntity)) {
-            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST_ENTITY);
-        }
+    public static TextRequestResponse parseFrom(RequestEntity requestEntity)
+            throws TextRequestParserException, TextResponseParserException {
+        verifyRequestEntity(requestEntity);
         return TextRequestResponse.builder()
                 .idRequest(requestEntity.getIdRequest())
                 .idUser(requestEntity.getIdUser())
@@ -43,9 +41,7 @@ public class TextRequestParser {
 
     public static TextRequestResponse parseFrom(RequestEntity requestEntity, TextResponse textResponse)
             throws TextRequestParserException, ContextException {
-        if (isNull(requestEntity)) {
-            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST_ENTITY);
-        }
+        verifyRequestEntity(requestEntity);
         if (isNull(requestEntity.getContextEntity())) {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
         }
@@ -59,4 +55,15 @@ public class TextRequestParser {
                 .build();
     }
 
+    private static void verifyTextRequest(TextRequest textRequest) throws TextRequestParserException {
+        if (isNull(textRequest)) {
+            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST);
+        }
+    }
+
+    private static void verifyRequestEntity(RequestEntity requestEntity) throws TextRequestParserException {
+        if (isNull(requestEntity)) {
+            throw new TextRequestParserException(TextRequestParserException.MESSAGE_TEXT_REQUEST_ENTITY);
+        }
+    }
 }

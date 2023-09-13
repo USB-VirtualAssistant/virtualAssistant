@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.textResponse.service;
 
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,8 @@ import static org.mockito.Mockito.when;
 
 public class TextResponseTest {
     @Test
-    public void givenResponseEntity_whenSaveTextResponseService_thenSaveTextResponse(){
+    public void givenResponseEntity_whenSaveTextResponseService_thenSaveTextResponse()
+            throws TextResponseParserException {
         ResponseEntityRepository mockRepository = mock(ResponseEntityRepository.class);
 
         TextResponseService textResponseService = new TextResponseService(mockRepository);

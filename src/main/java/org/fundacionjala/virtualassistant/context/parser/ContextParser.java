@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
@@ -39,7 +40,7 @@ public class ContextParser {
                 .map(either.lift(requestEntity -> {
                     try {
                         return Either.right(TextRequestParser.parseFrom(requestEntity));
-                    } catch (TextRequestParserException e) {
+                    } catch (TextRequestParserException | TextResponseParserException e) {
                         return Either.left(e);
                     }
                 }))
@@ -50,9 +51,7 @@ public class ContextParser {
 
     public static ContextEntity parseFrom(ContextRequest contextRequest)
             throws ContextParserException, UserParserException {
-        if (isNull(contextRequest)) {
-            throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_REQUEST);
-        }
+        verifyContextRequest(contextRequest);
         return ContextEntity.builder()
                 .title(contextRequest.getTitle())
                 .userEntity(UserParser.parseFrom(contextRequest.getUserRequest()))
@@ -71,13 +70,17 @@ public class ContextParser {
 
     public static ContextEntity parseFrom(Long idContext, ContextRequest contextRequest)
             throws UserParserException, ContextParserException {
-        if (isNull(contextRequest)) {
-            throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_REQUEST);
-        }
+        verifyContextRequest(contextRequest);
         return ContextEntity.builder()
                 .title(contextRequest.getTitle())
                 .idContext(idContext)
                 .userEntity(UserParser.parseFrom(contextRequest.getUserRequest()))
                 .build();
+    }
+
+    private static void verifyContextRequest(ContextRequest contextRequest) throws ContextParserException {
+        if (isNull(contextRequest)) {
+            throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_REQUEST);
+        }
     }
 }
