@@ -9,5 +9,5 @@ public enum SpotifyIntent{
     NEXT,
     PREVIOUS,
     CONTINUE,
-    PLAY
+    music_request
 }
