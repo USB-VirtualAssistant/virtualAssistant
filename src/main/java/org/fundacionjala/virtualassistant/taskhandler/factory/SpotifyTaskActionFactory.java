@@ -42,7 +42,7 @@ public class SpotifyTaskActionFactory implements TaskActionFactory {
                 return new PreviousAction(musicService);
             case CONTINUE:
                 return new ContinueAction(musicService);
-            case PLAY:
+            case music_request:
                 return new PlayAction(musicService);
             default:
                 throw new IntentException(IntentException.INTENT_NOT_FOUND);

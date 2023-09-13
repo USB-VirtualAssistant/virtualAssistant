@@ -45,6 +45,7 @@ public class TaskActionManagerFactoryImpl implements TaskActionManagerFactory {
             case "PLAYER":
             case "PREVIOUS":
             case "GET_TRACKS":
+            case "music_request":
                 return Intent.SPOTIFY;
             default:
                 return Intent.CHAT_GPT;
