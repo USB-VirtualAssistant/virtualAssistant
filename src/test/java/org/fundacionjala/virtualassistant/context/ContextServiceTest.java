@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;

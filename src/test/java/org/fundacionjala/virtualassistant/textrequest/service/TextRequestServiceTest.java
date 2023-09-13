@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;

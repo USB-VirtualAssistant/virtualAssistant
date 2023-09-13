@@ -8,6 +8,7 @@ import org.fundacionjala.virtualassistant.context.exception.ContextNotFoundExcep
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
