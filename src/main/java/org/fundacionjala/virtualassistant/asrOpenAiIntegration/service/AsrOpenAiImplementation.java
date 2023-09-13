@@ -21,8 +21,10 @@ public class AsrOpenAiImplementation {
     }
 
     public String asrOpenAIResponse(MultipartFile multipartFile) throws IOException, IntentException {
-        String request = whisperClient.convertToText(multipartFile);
-        String response = taskHandler.handleIntent(request);
-        return response;
+        String request = cleanText(whisperClient.convertToText(multipartFile));
+        return taskHandler.handleIntent(request);
+    }
+    private String cleanText(String text) {
+        return text.replaceAll("\"", "");
     }
 }
