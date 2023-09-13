@@ -1,7 +1,5 @@
 package org.fundacionjala.virtualassistant.taskhandler;
 
-import com.theokanning.openai.service.OpenAiService;
-import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
 import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
@@ -22,7 +20,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
