@@ -37,10 +37,10 @@ public class Proxy {
         List<IntentEntity> intentEntities = intentResponse.getIntentEntities();
         EntityArgs entityArgs = EntityConverter.convert(intentEntities);
 
-        return handleAction(userIntent, entityArgs);
+        return handleAction(userIntent, entityArgs, text);
     }
 
-    public String handleAction(String userIntent, EntityArgs intentEntities) throws IntentException {
+    public String handleAction(String userIntent, EntityArgs intentEntities, String text) throws IntentException {
         taskActionManagerFactory.setIntentType(userIntent);
         TaskActionFactory taskActionFactory = taskActionManagerFactory.getTaskActionFactory(userIntent);
 
@@ -49,7 +49,7 @@ public class Proxy {
 
         return taskActionFactory
                 .createTaskAction(intentManager.processIntent(userIntent))
-                .handleAction(intentEntities);
+                .handleAction(intentEntities, text);
     }
 
     private IntentResponse processIntent(String text) throws IntentException {
