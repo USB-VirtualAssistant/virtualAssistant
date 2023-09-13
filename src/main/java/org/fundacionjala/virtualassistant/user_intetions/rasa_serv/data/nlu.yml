@@ -982,126 +982,21 @@ nlu:
 - intent: GET_PLAYER
   examples: |
     - What song is currently on?
-    - Could you tell me the title of the song that's playing?
-    - I want to know the name of the song that's currently playing.
-    - Identify the song playing right now.
-    - Inform me about the currently playing track.
     - Please let me know the current song.
     - Share the details of the song that's on.
     - Give me information about the music that's currently playing.
     - What's the title of the current track?
     - What's the artist of the song that's currently playing?
     - Who's the artist of the current song?
-    - I'm curious about the song that's playing.
-    - What's the name of the music currently playing?
-    - Can you provide details about the song that's on?
-    - What's the name of the track that's currently playing?
-    - Who's the singer of the current song?
-    - What's playing in the background?
-    - Identify the current music track.
-    - Give me details about the song playing now.
-    - Share information about the currently playing song.
-    - Tell me about the song that's currently on.
-    - What's the song title of the current track?
-    - Who's the singer of the song that's currently playing?
     - What's the current song title?
-    - Give me the name of the song that's on.
-    - Provide information about the currently playing track.
-    - I want to know what song is currently playing.
-    - What's the title of the current music?
-    - Identify the track that's currently playing.
-    - What's the title of the song playing right now?
-    - Who's the artist of the song currently on?
-    - What's the song that's currently playing?
-    - Share details about the currently playing music.
-    - Give me the song title that's currently on.
-    - Who's singing the current song?
-    - What's the title of the current song on the playlist?
-    - Identify the music track that's playing.
-    - Can you tell me the name of the song that's playing?
-    - What's the title of the song currently on air?
-    - Share the title of the currently playing track.
-    - Who's the artist of the music currently playing?
-    - What's the name of the song that's currently on?
-    - Tell me the title of the current song.
-    - Provide information about the music that's currently on.
-    - What's the current track's title?
-    - Who's the singer of the current music?
-    - What's the title of the music playing right now?
-    - Give me details about the current song.
-    - What's the song currently in the queue?
-    - Identify the current track on the playlist.
-    - What's the title of the song that's currently playing in the background?
-    - Share information about the song that's playing right now.
+    - INFO ABOUT THE SONG
+    - Give me info
     - Tell me about the music currently on air.
-    - What's the song title of the currently playing track?
-    - Who's the artist of the song currently in progress?
-    - What's the song that's currently on shuffle?
-    - Provide details about the current music track.
-    - What's the title of the song that's currently on repeat?
-    - Share the name of the song that's playing right now.
-    - Who's the artist of the current music selection?
-    - What's the title of the song currently in rotation?
-    - Give me information about the song currently playing in the playlist.
-    - Tell me the title of the song that's currently on loop.
-    - What's the name of the song that's currently on your playlist?
-    - Identify the track that's currently on the radio.
-    - What's the title of the song that's currently playing on the computer?
-    - Who's the artist of the song currently streaming?
-    - What's the song that's currently on the stereo?
-    - Provide details about the song that's currently playing on the speakers.
-    - What's the title of the song that's currently playing through the headphones?
-    - Share information about the song that's currently on the sound system.
-    - Tell me about the music that's currently playing through the speakers.
-    - What's the song title of the music that's currently on the laptop?
-    - Who's the artist of the music that's currently on the desktop?
-    - What's the song that's currently on the PC?
     - Give me information about the song that's currently playing on the computer screen.
     - What's the title of the song that's currently playing on the laptop speakers?
     - Share details about the song that's currently playing on the desktop monitor.
-    - Identify the track that's currently on the PC speakers.
-    - What's the name of the song that's currently on your device?
-    - Tell me the title of the song that's currently on your system.
-    - Who's the artist of the song that's currently on your computer?
-    - What's the song that's currently on your machine?
-    - Provide information about the song that's currently playing on your device.
-    - What's the title of the song that's currently on your player?
-    - Share information about the music that's currently playing on your system.
-    - Tell me about the song that's currently on your player.
-    - What's the song title of the music that's currently on your device?
-    - Who's the artist of the music that's currently on your system?
-    - What's the song that's currently on your player?
-    - Give me details about the song that's currently playing on your machine.
-    - What's the title of the song that's currently on your PC?
-    - Identify the track that's currently on your computer.
-    - What's the name of the song that's currently on your laptop?
-    - Tell me the title of the song that's currently on your desktop.
-    - Who's the artist of the song that's currently on your device?
-    - What's the song that's currently on your system?
-    - Provide information about the song that's currently playing on your PC.
-    - What's the title of the song that's currently on your laptop speakers?
-    - Share details about the song that's currently playing on your desktop monitor.
-    - Identify the track that's currently on your PC speakers.
-    - What's the song title of the song that's currently on your machine?
-    - Who's the artist of the song that's currently on your player?
-    - What's the song that's currently on your device?
-    - Give me information about the song that's currently playing on your system.
-    - What's the title of the song that's currently on your player?
-    - Share information about the music that's currently playing on your system.
-    - Tell me about the song that's currently on your player.
-    - What's the song title of the music that's currently on your device?
-    - Who's the artist of the music that's currently on your system?
-    - What's the song that's currently on your player?
-    - Give me details about the song that's currently playing on your machine.
-    - What's the title of the song that's currently on your PC?
-    - Identify the track that's currently on your computer.
-    - What's the name of the song that's currently on your laptop?
-    - Tell me the title of the song that's currently on your desktop.
-    - Who's the artist of the song that's currently on your device?
-    - What's the song that's currently on your system?
-    - Provide information about the song that's currently playing on your PC.
-    - What's the title of the song that's currently on your laptop speakers?
-    - Share details about the song that's currently playing on your desktop monitor.
+    - What's the song title of the song that's currently on this machine?
+    - What's the name of the song that's currently playing?
     - Identify the track that's currently on your
 
 - intent: PAUSE
@@ -1890,6 +1785,146 @@ nlu:
     - Play [${song}](song) by [${artist}](artist) to begin the music.
     - Could you please start with [${song}](song) by [${artist}](artist)?
     - Let's kick things off with [${song}](song) from [${artist
+    - Play [${song}](song) by [${artist}](artist) for me
+    - Can you put on [${song}](song) by [${artist}](artist)?
+    - How about we start with [${song}](song) from [${artist}](artist)?
+    - Begin the playlist with [${song}](song) by [${artist}](artist), please.
+    - Play a song by [${artist}](artist), starting with [${song}](song).
+    - Could you please start with [${song}](song) by [${artist}](artist)?
+    - I'm starting with [${song}](song) from [${artist}](artist).
+    - Let's begin with [${song}](song) by [${artist}](artist), shall we?
+    - Play a song by [${artist}](artist), and [${song}](song) will be great.
+    - Begin with [${song}](song) from [${artist}](artist) for me.
+    - How about we start the music with [${song}](song) by [${artist}](artist)?
+    - Play a track by [${artist}](artist), and we'll kick off with [${song}](song).
+    - Begin the playlist with [${song}](song) from [${artist}](artist), please.
+    - Play [${song}](song) by [${artist}](artist) as the first track.
+    - Could you put on [${song}](song) by [${artist}](artist) to start?
+    - I'd love to hear [${song}](song) by [${artist}](artist) first.
+    - Let's begin with [${song}](song) by [${artist}](artist), if you don't mind.
+    - Play [${song}](song) from [${artist}](artist) to kick things off.
+    - How about we start the music with [${song}](song) by [${artist}](artist)?
+    - Start with [${song}](song) by [${artist}](artist), please.
+    - I'd like to begin the playlist with [${song}](song) from [${artist}](artist).
+    - Can you put on [${song}](song) by [${artist}](artist) as the first song?
+    - Play a song from [${artist}](artist), and [${song}](song) is a great choice.
+    - Begin with [${song}](song) by [${artist}](artist) as the opening track.
+    - How about we start with [${song}](song) by [${artist}](artist) this time?
+    - Play [${song}](song) by [${artist}](artist) to begin the music.
+    - Could you please start with [${song}](song) by [${artist}](artist)?
+    - Let's kick things off with [${song}](song) from [${artist}](artist).
+    - Start with a song by [${artist}](artist), like [${song}](song).
+    - Play something from [${artist}](artist), starting with [${song}](song).
+    - Please start with [${song}](song) by [${artist}](artist).
+    - Put on [${song}](song) by [${artist}](artist) to start, please.
+    - How about [${song}](song) by [${artist}](artist) to start the music?
+    - Begin the playlist with [${song}](song) by [${artist}](artist), if you can.
+    - Please begin with [${song}](song) from [${artist}](artist).
+    - Put on some music from [${artist}](artist), starting with [${song}](song).
+    - How about starting with [${song}](song) by [${artist}](artist)?
+    - Play a track by [${artist}](artist), and let's begin with [${song}](song).
+    - Begin the playlist with [${song}](song) from [${artist}](artist), please.
+    - Play [${song}](song) by [${artist}](artist) as the first song.
+    - Could you start the music with [${song}](song) by [${artist}](artist)?
+    - I'd love to kick things off with [${song}](song) by [${artist}](artist).
+    - Let's start the playlist with [${song}](song) from [${artist}](artist).
+    - Play [${song}](song) by [${artist}](artist) to set the mood.
+    - Begin with [${song}](song) by [${artist}](artist) for a great start.
+    - How about we begin with [${song}](song) by [${artist}](artist)?
+    - Start the music with [${song}](song) by [${artist}](artist), please.
+    - I'd like to begin the playlist with [${song}](song) by [${artist}](artist).
+    - Can you start with [${song}](song) by [${artist}](artist) this time?
+    - Play a track by [${artist}](artist), and let's start with [${song}](song).
+    - Begin the playlist with [${song}](song) by [${artist}](artist) to get us going.
+    - Please initiate the music with [${song}](song) by [${artist}](artist).
+    - Put on [${song}](song) by [${artist}](artist) at the beginning, if you can.
+    - How about we open with [${song}](song) by [${artist}](artist)?
+    - Play [${song}](song) by [${artist}](artist) to begin the session.
+    - Could you start with [${song}](song) by [${artist}](artist) for me?
+    - I'd like to start the music with [${song}](song) from [${artist}](artist).
+    - Begin with [${song}](song) by [${artist}](artist) to set the tone.
+    - Play [${song}](song) by [${artist}](artist) as our starting point.
+    - How about we start with [${song}](song) from [${artist}](artist) today?
+    - Play "[Bohemian Rhapsody](song)" by "[Queen](artist)"
+    - Play "[Imagine](song)" by "[John Lennon](artist)"
+    - Play "[Hotel California](song)" by "[Eagles](artist)"
+    - Play "[Stairway to Heaven](song)" by "[Led Zeppelin](artist)"
+    - Play "[Like a Rolling Stone](song)" by "[Bob Dylan](artist)"
+    - Play "[Purple Haze](song)" by "[Jimi Hendrix](artist)"
+    - Play "[Billie Jean](song)" by "[Michael Jackson](artist)"
+    - Play "[Smells Like Teen Spirit](song)" by "[Nirvana](artist)"
+    - Play "[Let It Be](song)" by "[The Beatles](artist)"
+    - Play "[Thriller](song)" by "[Michael Jackson](artist)"
+    - Play "[Sweet Child o' Mine](song)" by "[Guns N' Roses](artist)"
+    - Play "[Wish You Were Here](song)" by "[Pink Floyd](artist)"
+    - Play "[My Generation](song)" by "[The Who](artist)"
+    - Play "[Bohemian Rhapsody](song)" by "[Queen](artist)"
+    - Play "[Hotel California](song)" by "[Eagles](artist)"
+    - Play "[Imagine](song)" by "[John Lennon](artist)"
+    - Play "[Like a Rolling Stone](song)" by "[Bob Dylan](artist)"
+    - Play "[Purple Haze](song)" by "[Jimi Hendrix](artist)"
+    - Play "[Smells Like Teen Spirit](song)" by "[Nirvana](artist)"
+    - Play "[Wonderwall](song)" by "[Oasis](artist)"
+    - Play "[My Generation](song)" by "[The Who](artist)"
+    - Play "[Bohemian Rhapsody](song)" by "[Queen](artist)"
+    - Play "[Hotel California](song)" by "[Eagles](artist)"
+    - Play "[Imagine](song)" by "[John Lennon](artist)"
+    - Play "[Like a Rolling Stone](song)" by "[Bob Dylan](artist)"
+    - Play "[Purple Haze](song)" by "[Jimi Hendrix](artist)"
+    - Play "[Smells Like Teen Spirit](song)" by "[Nirvana](artist)"
+    - Play "[Wonderwall](song)" by "[Oasis](artist)"
+    - Play "[My Generation](song)" by "[The Who](artist)"
+    - Play "[Bohemian Rhapsody](song)" by "[Queen](artist)"
+    - Play "[Hotel California](song)" by "[Eagles](artist)"
+    - Play "[Imagine](song)" by "[John Lennon](artist)"
+    - Play "[Like a Rolling Stone](song)" by "[Bob Dylan](artist)"
+    - Play "[Purple Haze](song)" by "[Jimi Hendrix](artist)"
+    - Play "[Smells Like Teen Spirit](song)" by "[Nirvana](artist)"
+    - Play "[Wonderwall](song)" by "[Oasis](artist)"
+    - Play "[My Generation](song)" by "[The Who](artist)"
+    - Play "[Bohemian Rhapsody](song)" by "[Queen](artist)"
+    - Play "[Hotel California](song)" by "[Eagles](artist)"
+    - Play "[Imagine](song)" by "[John Lennon](artist)"
+    - Play "[Like a Rolling Stone](song)" by "[Bob Dylan](artist)"
+    - Play "[Purple Haze](song)" by "[Jimi Hendrix](artist)"
+    - Play "[Smells Like Teen Spirit](song)" by "[Nirvana](artist)"
+    - Play "[Wonderwall](song)" by "[Oasis](artist)"
+    - Play "[Under the Bridge](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Californication](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[By the Way](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Give It Away](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Scar Tissue](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Dani California](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Otherside](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Can't Stop](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Under the Bridge](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Californication](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[By the Way](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Give It Away](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Scar Tissue](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Dani California](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Otherside](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Can't Stop](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Under the Bridge](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Californication](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[By the Way](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Give It Away](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Scar Tissue](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Dani California](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Otherside](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Can't Stop](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Under the Bridge](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Californication](song)" by "[Red Hot Chili Peppers](artist)"
+      - Play "[By the Way](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Give It Away](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Scar Tissue](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Dani California](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Otherside](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Can't Stop](song)" by "[Red Hot Chili Peppers](artist)"
+    - Play "[Under the Bridge](song)" by "[Red Hot Chili Peppers](artist)
+    - Play "[Reptilia](song)" by "[The Strokes](artist)"
+    - Play "[Hey Jude](song)" by "[The Beatles](artist)"
+    - Play "[Secret Door](song)" by "[Arctic Monkeys](artist)"
 
 
 - lookup: song
