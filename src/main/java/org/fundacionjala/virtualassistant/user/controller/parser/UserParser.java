@@ -7,19 +7,24 @@ import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserParser {
 
     private static final ProcessorEither<Exception, ContextResponse> either = new Either<>();
 
-    public static UserResponse parseFrom(UserEntity userEntity) {
+    public static UserResponse parseFrom(UserEntity userEntity) throws UserParserException {
+        if (Objects.isNull(userEntity)) {
+            throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
+        }
         return UserResponse.builder()
                 .idUser(userEntity.getIdUser())
                 .idGoogle(userEntity.getIdGoogle())

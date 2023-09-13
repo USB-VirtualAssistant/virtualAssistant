@@ -16,6 +16,7 @@ import org.fundacionjala.virtualassistant.context.controller.Response.ContextRes
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import org.fundacionjala.virtualassistant.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +69,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldSaveAnUser() {
+    public void shouldSaveAnUser() throws UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
 
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
@@ -78,7 +79,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldUpdateSpoityToken() throws UserRequestException {
+    public void shouldUpdateSpoityToken() throws UserRequestException, UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -106,7 +107,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundUserById() throws UserRequestException {
+    public void shouldFoundUserById() throws UserRequestException, UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -122,7 +123,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void listGetHaveSizeOne() {
+    public void listGetHaveSizeOne() throws UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -137,7 +138,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundContextUserById() throws UserRequestException {
+    public void shouldFoundContextUserById() throws UserRequestException, UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -153,7 +154,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void listGetWithContextHaveSizeOne() {
+    public void listGetWithContextHaveSizeOne() throws UserParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);

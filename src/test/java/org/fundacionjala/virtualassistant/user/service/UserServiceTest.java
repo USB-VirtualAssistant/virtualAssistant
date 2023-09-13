@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -94,7 +95,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() {
+    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() throws UserParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE)
@@ -117,7 +118,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException {
+    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException, UserParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE + "-updated")
