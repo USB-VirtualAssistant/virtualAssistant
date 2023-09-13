@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.user.service;
 
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
@@ -67,7 +68,8 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws UserRequestException {
+    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext()
+            throws UserParserException, ContextParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .build();

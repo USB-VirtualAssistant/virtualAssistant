@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import javax.validation.Valid;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
@@ -29,7 +30,7 @@ public class TextRequestService {
     private RequestComponent requestComponent;
     private TextResponseService responseService;
 
-    public TextRequestResponse createTextRequest(@Valid TextRequest textRequest) throws TextRequestException {
+    public TextRequestResponse createTextRequest(@Valid TextRequest textRequest) throws TextRequestException, ContextParserException {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
@@ -46,7 +47,7 @@ public class TextRequestService {
         return TextRequestParser.parseFrom(savedRequestEntity, textResponse);
     }
 
-    public TextRequest save(long idRequest, String text, Long idAudio, Long idUser) {
+    public TextRequest save(long idRequest, String text, Long idAudio, Long idUser) throws ContextParserException {
         RequestEntity requestEntity = RequestEntity.builder()
                 .idRequest(idRequest)
                 .text(text)

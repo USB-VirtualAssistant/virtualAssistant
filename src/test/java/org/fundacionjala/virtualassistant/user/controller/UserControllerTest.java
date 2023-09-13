@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
@@ -138,7 +139,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundContextUserById() throws UserRequestException, UserParserException {
+    public void shouldFoundContextUserById() throws UserParserException, ContextParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);

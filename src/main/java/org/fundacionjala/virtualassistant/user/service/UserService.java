@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.user.service;
 
 import lombok.AllArgsConstructor;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
@@ -25,6 +26,7 @@ public class UserService {
     private UserRepo userRepo;
     private static final String NOT_FOUND_USER = "Not found user";
     private static final Either<Exception, UserResponse> either = new Either<>();
+    private static final Either<Exception, UserContextResponse> eitherContextResponse = new Either<>();
 
     public List<UserResponse> findAll() {
         return userRepo.findAll().stream()
@@ -32,7 +34,7 @@ public class UserService {
                     try {
                         return Either.right(UserParser.parseFrom(userEntity));
                     } catch (UserParserException e) {
-                        return Either.left(new UserParserException(UserParserException.MESSAGE_USER_ENTITY));
+                        return Either.left(e);
                     }
                 }))
                 .filter(Either::isRight)
@@ -42,25 +44,35 @@ public class UserService {
 
     public List<UserContextResponse> findAllWithContext() {
         return userRepo.findAllEager().stream()
-                .map(UserParser::parseFromWithContext)
+                .map(eitherContextResponse.lift(userEntity -> {
+                    try {
+                        return Either.right(UserParser.parseFromWithContext(userEntity));
+                    } catch (ContextParserException | UserParserException e) {
+                        return Either.left(e);
+                    }
+                }))
+                .filter(Either::isRight)
+                .map(Either::getRight)
                 .collect(Collectors.toList());
     }
 
     public Optional<UserResponse> findById(@NotNull Long id) throws UserRequestException, UserParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+            return Optional.empty();
         }
         var userResponse = UserParser.parseFrom(optionalUserEntity.get());
         return Optional.of(userResponse);
     }
 
-    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id) throws UserRequestException {
+    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id)
+            throws UserParserException, ContextParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
-        if (!optionalUserEntity.isPresent()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+        if (optionalUserEntity.isEmpty()) {
+            return Optional.empty();
         }
-        return optionalUserEntity.map(UserParser::parseFromWithContext);
+        UserContextResponse userContextResponse = UserParser.parseFromWithContext(optionalUserEntity.get());
+        return Optional.of(userContextResponse);
     }
 
     public UserResponse save(@NotNull UserRequest userRequest) throws UserParserException {

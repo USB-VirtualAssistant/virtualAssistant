@@ -1,6 +1,7 @@
 package org.fundacionjala.virtualassistant.textrequest.parser;
 
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
@@ -8,7 +9,7 @@ import org.fundacionjala.virtualassistant.textrequest.controller.request.TextReq
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 
 public class TextRequestParser {
-    public static RequestEntity parseFrom(TextRequest textRequest) {
+    public static RequestEntity parseFrom(TextRequest textRequest) throws ContextParserException {
         return RequestEntity.builder()
                 .idUser(textRequest.getIdUser())
                 .text(textRequest.getText())
