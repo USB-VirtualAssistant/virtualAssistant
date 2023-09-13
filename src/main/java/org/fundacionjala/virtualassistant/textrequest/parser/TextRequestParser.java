@@ -3,7 +3,6 @@ package org.fundacionjala.virtualassistant.textrequest.parser;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
