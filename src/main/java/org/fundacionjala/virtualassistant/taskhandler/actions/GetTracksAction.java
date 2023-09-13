@@ -14,7 +14,7 @@ public class GetTracksAction implements TaskAction {
     }
 
     @Override
-    public String handleAction(EntityArgs intentEntities) {
+    public String handleAction(EntityArgs intentEntities, String text) {
         return musicService.getUserSavedTracks().getBody();
     }
 }
