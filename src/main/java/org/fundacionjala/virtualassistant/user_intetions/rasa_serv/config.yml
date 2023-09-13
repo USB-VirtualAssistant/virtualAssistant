@@ -35,7 +35,6 @@ pipeline:
     constrain_similarities: true
   - name: EntitySynonymMapper
   - name: ResponseSelector
-<<<<<<< HEAD
     epochs: 100
     constrain_similarities: true
   - name: FallbackClassifier
@@ -43,8 +42,6 @@ pipeline:
     ambiguity_threshold: 0.1
 
 
-=======
->>>>>>> 1dc0c6d ([VA-057: @SebaRosalesZ] Improved  config.yml for new user intentions)
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
 policies: null
