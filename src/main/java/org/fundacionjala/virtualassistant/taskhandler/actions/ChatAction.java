@@ -13,7 +13,7 @@ public class ChatAction implements TaskAction {
     private ChatService chatService;
 
     @Override
-    public String handleAction(EntityArgs intentEntities) {
-        return chatService.chat(intentEntities.getPrimaryArg().getEntity());
+    public String handleAction(EntityArgs intentEntities, String text) {
+        return chatService.chat(text);
     }
 }
