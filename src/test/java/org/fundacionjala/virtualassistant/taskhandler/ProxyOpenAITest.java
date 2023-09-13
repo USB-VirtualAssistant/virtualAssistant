@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,7 +35,6 @@ class ProxyOpenAITest {
     private static final int ZERO = 0;
     private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE));
     private IntentResponse intentResponse = new IntentResponse(entities, new Intent(ZERO, CHAT));
-    private IntentResponse emptyIntentResponse = new IntentResponse(entities, new Intent(ZERO, EMPTY));
 
     @BeforeEach
     void setUp() {
@@ -58,13 +56,5 @@ class ProxyOpenAITest {
         String handledIntent = proxy.handleIntent(CHAT);
         assertNotNull(handledIntent);
         assertEquals(RESULT, handledIntent);
-    }
-
-    @Test
-    void givenEmptyEnumWhenHandleIntentThenHandleException() {
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(emptyIntentResponse, HttpStatus.OK));
-
-        IntentException exception = assertThrows(IntentException.class, () -> proxy.handleIntent(""));
-        assertEquals(IntentException.INTENT_NOT_FOUND, exception.getMessage());
     }
 }

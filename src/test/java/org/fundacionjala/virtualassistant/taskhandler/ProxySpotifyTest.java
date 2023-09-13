@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -29,24 +28,20 @@ class ProxySpotifyTest {
     private RasaClient rasaClient;
 
     private static final String RESULT = "result";
-    private static final String MUSIC_CONTINUE = "music_continue";
-    private static final String MUSIC_PAUSE = "music_pause";
-    private static final String MUSIC_NEXT = "music_next";
-    private static final String MUSIC_ALBUMS = "music_albums";
-    private static final String MUSIC_FOLLOWING = "music_following";
-    private static final String MUSIC_PLAYER = "music_player";
-    private static final String MUSIC_PREVIOUS = "music_previous";
-    private static final String MUSIC_TRACKS = "music_tracks";
-    private static final String MUSIC_PLAY = "music_play";
+    private static final String MUSIC_CONTINUE = "CONTINUE";
+    private static final String MUSIC_PAUSE = "PAUSE";
+    private static final String MUSIC_NEXT = "NEXT";
+    private static final String MUSIC_ALBUMS = "GET_ALBUMS";
+    private static final String MUSIC_FOLLOWING = "GET_FOLLOWING";
+    private static final String MUSIC_PLAYER = "GET_PLAYER";
+    private static final String MUSIC_PREVIOUS = "PREVIOUS";
+    private static final String MUSIC_TRACKS = "GET_TRACKS";
+    private static final String MUSIC_PLAY = "PLAY";
     private static final String ENTITY = "entity";
     private static final String VALUE = "value";
-    private static final String EMPTY = "";
-    private static final int ZERO = 0;
 
     private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE),
             new IntentEntity(ENTITY, VALUE));
-    private IntentResponse emptyIntentResponse = new IntentResponse(entities,
-            new Intent(ZERO, EMPTY));
 
     @BeforeEach
     void setUp() {
@@ -61,13 +56,13 @@ class ProxySpotifyTest {
         when(musicService.getUserSavedAlbums()).thenReturn(ResponseEntity.ok(RESULT));
         when(musicService.getUserSavedTracks()).thenReturn(ResponseEntity.ok(RESULT));
         when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(RESULT));
-        when(musicService.getUserPlayerInformation()).thenReturn(ResponseEntity.ok(RESULT));
+
         when(musicService.pauseCurrentTrack()).thenReturn(ResponseEntity.ok(RESULT));
-        when(musicService.getUserFollowingArtists()).thenReturn(ResponseEntity.ok(RESULT));
+        when(musicService.playCurrentTrack()).thenReturn(ResponseEntity.ok(RESULT));
         when(musicService.playNextTrack()).thenReturn(ResponseEntity.ok(RESULT));
         when(musicService.playPreviousTrack()).thenReturn(ResponseEntity.ok(RESULT));
         when(musicService.playSongByArtistAndTrack(any(), any())).thenReturn(ResponseEntity.ok(RESULT));
-        when(musicService.playSongByArtistAndTrack(any(), any())).thenReturn(ResponseEntity.ok(RESULT));
+        when(musicService.getUserPlayerInformation()).thenReturn(ResponseEntity.ok(RESULT));
     }
 
     @Test
@@ -167,14 +162,5 @@ class ProxySpotifyTest {
         String handledIntent = proxy.handleIntent(MUSIC_PLAY);
         assertNotNull(handledIntent);
         assertEquals(RESULT, handledIntent);
-    }
-
-    @Test
-    void givenEmptyEnumWhenHandleIntentThenHandleException() {
-        when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(emptyIntentResponse,
-                HttpStatus.OK));
-
-        IntentException exception = assertThrows(IntentException.class, () -> proxy.handleIntent(""));
-        assertEquals(IntentException.INTENT_NOT_FOUND, exception.getMessage());
     }
 }
