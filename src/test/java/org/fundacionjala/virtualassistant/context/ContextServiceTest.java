@@ -3,8 +3,8 @@ package org.fundacionjala.virtualassistant.context;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
@@ -60,8 +60,8 @@ public class ContextServiceTest {
     public void givenUserId_whenFindContextByUserId_thenContextResponsesReturned() throws ContextException {
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
         when(contextRepository.findByUserEntityIdUser(anyLong())).thenReturn(List.of(ContextEntity.builder()
-                        .title(CONTEXT_TITLE)
-                        .userEntity(userEntity)
+                .title(CONTEXT_TITLE)
+                .userEntity(userEntity)
                 .build()));
 
         List<ContextResponse> result = contextService.findContextByUserId(CONTEXT_USER_ID);
@@ -75,7 +75,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned()
-            throws ContextException, ContextParserException, UserParserException {
+            throws ContextException, UserParserException, ContextParserException {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
@@ -88,7 +88,8 @@ public class ContextServiceTest {
     }
 
     @Test
-    public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException, ContextParserException, UserParserException {
+    public void givenUserId_whenSaveContext_thenContextResponseReturned()
+            throws ContextException, UserParserException, ContextParserException {
         ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);

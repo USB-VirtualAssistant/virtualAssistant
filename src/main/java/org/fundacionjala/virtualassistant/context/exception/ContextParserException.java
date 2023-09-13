@@ -1,4 +1,4 @@
-package org.fundacionjala.virtualassistant.context.parser.exception;
+package org.fundacionjala.virtualassistant.context.exception;
 
 import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 

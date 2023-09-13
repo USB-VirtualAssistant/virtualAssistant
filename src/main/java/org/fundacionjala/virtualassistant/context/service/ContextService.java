@@ -5,9 +5,9 @@ import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequ
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextNotFoundException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
@@ -15,7 +15,6 @@ import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class ContextService {
     private UserRepo userRepo;
 
     public List<ContextResponse> findContextByUserId(Long idUser) throws ContextException {
-        if(isUserNull(idUser)){
+        if (isUserNull(idUser)) {
             throw new ContextNotFoundException(ContextRequestException.MESSAGE_INVALID_ID);
         }
 
@@ -40,14 +39,15 @@ public class ContextService {
         return convertListContextToResponse(contextEntities);
     }
 
-    public ContextResponse saveContext(ContextRequest request) throws ContextException, ContextParserException, UserParserException {
+    public ContextResponse saveContext(ContextRequest request)
+            throws ContextException, ContextParserException, UserParserException {
         verifyContextRequest(request);
         ContextEntity contextEntity = ContextParser.parseFrom(request);
         return ContextParser.parseFrom(contextRepository.save(contextEntity));
     }
 
     public Optional<ContextResponse> findById(Long idContext) throws ContextRequestException, ContextParserException {
-        if(contextRepository.findById(idContext).isEmpty()){
+        if (contextRepository.findById(idContext).isEmpty()) {
             throw new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID);
         }
 
@@ -66,7 +66,7 @@ public class ContextService {
             throw new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID);
         }
 
-        ContextEntity contextEntity = ContextParser.parseFrom(idContext,request);
+        ContextEntity contextEntity = ContextParser.parseFrom(idContext, request);
         return ContextResponse.fromEntity(contextRepository.save(contextEntity));
     }
 
@@ -74,7 +74,7 @@ public class ContextService {
         try {
             contextRepository.deleteById(idContext);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR, e);
         }
     }
@@ -88,7 +88,7 @@ public class ContextService {
         return getContextResponses(entityList);
     }
 
-    private boolean isUserNull(Long idUser){
+    private boolean isUserNull(Long idUser) {
         Optional<UserEntity> user = userRepo.findByIdUser(idUser);
         return user.isEmpty();
     }
@@ -98,7 +98,7 @@ public class ContextService {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_REQUEST_NULL);
         }
 
-        if (isUserNull(request.getUserRequest().getIdUser())){
+        if (isUserNull(request.getUserRequest().getIdUser())) {
             throw new ContextRequestException(ContextRequestException.MESSAGE_CONTEXT_ID_USER_DONT_EXIST);
         }
     }

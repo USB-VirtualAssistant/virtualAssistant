@@ -2,21 +2,26 @@ package org.fundacionjala.virtualassistant.context.parser;
 
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
+import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.exception.UserParserException;
+import org.fundacionjala.virtualassistant.util.either.Either;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.*;
+import static java.util.Objects.isNull;
 
 public class ContextParser {
+    private static final Either<Exception, TextRequestResponse> either =  new Either<>();
+
     public static ContextResponse parseFrom(ContextEntity context) throws ContextParserException {
         if (isNull(context)) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_ENTITY);
@@ -31,7 +36,15 @@ public class ContextParser {
     @NotNull
     private static List<TextRequestResponse> parseRequestEntities(ContextEntity context) {
         return context.getRequestEntities().stream()
-                .map(TextRequestParser::parseFrom)
+                .map(either.lift(requestEntity -> {
+                    try {
+                        return Either.right(TextRequestParser.parseFrom(requestEntity));
+                    } catch (TextRequestParserException e) {
+                        return Either.left(e);
+                    }
+                }))
+                .filter(Either::isRight)
+                .map(Either::getRight)
                 .collect(Collectors.toList());
     }
 

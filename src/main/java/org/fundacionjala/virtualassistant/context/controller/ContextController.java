@@ -4,8 +4,8 @@ import lombok.NonNull;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
-import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.springframework.http.HttpStatus;
@@ -51,7 +51,7 @@ public class ContextController {
 
     @PostMapping()
     public ResponseEntity<ContextResponse> saveContextByUser(@Valid @RequestBody ContextRequest request)
-            throws ContextException, ContextParserException, UserParserException {
+            throws ContextException, UserParserException, ContextParserException {
         Optional<ContextResponse> context = Optional.ofNullable(contextService.saveContext(request));
         return context.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.badRequest().build());

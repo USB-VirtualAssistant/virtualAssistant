@@ -4,7 +4,9 @@ import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.textrequest.controller.RequestEntityController;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
+import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
+import org.fundacionjala.virtualassistant.util.either.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,29 @@ public class TextRequestControllerTest {
     private static final Long USER_ID_2 = 1L;
     private RequestEntity requestA;
     private RequestEntity requestB;
+    List<RequestEntity> requests;
+    private List<TextRequestResponse> requestResponses;
 
     @BeforeEach
     void setUp() {
         textRequestController = mock(RequestEntityController.class);
         requestA = new RequestEntity();
         requestB = new RequestEntity();
+
+        Either<Exception, TextRequestResponse> either = new Either<>();
+        requests = new ArrayList<>();
+        requestResponses =
+                requests.stream()
+                        .map(either.lift(requestEntity -> {
+                            try {
+                                return Either.right(TextRequestParser.parseFrom(requestEntity));
+                            } catch (TextRequestParserException e) {
+                                return Either.left(e);
+                            }
+                        }))
+                        .filter(Either::isRight)
+                        .map(Either::getRight)
+                        .collect(Collectors.toList());
     }
 
     @Test
@@ -53,10 +72,6 @@ public class TextRequestControllerTest {
                 .idUser(USER_ID_2)
                 .build());
 
-        List<TextRequestResponse> requestResponses =
-                requests.stream()
-                        .map(TextRequestParser::parseFrom)
-                        .collect(Collectors.toList());
 
         when(textRequestController.getTextRequests(USER_ID_1, CONTEXT_ID_1))
                 .thenReturn(ResponseEntity.ok(requestResponses));
@@ -66,7 +81,6 @@ public class TextRequestControllerTest {
 
     @Test
     void getTextRequestsByIdWithAnotherValuesOfId() {
-        List<RequestEntity> requests = new ArrayList<>();
         requests.add(RequestEntity.builder()
                 .idRequest(2L)
                 .contextEntity(ContextEntity.builder().idContext(CONTEXT_ID_1).build())
@@ -85,11 +99,6 @@ public class TextRequestControllerTest {
                 )
                 .idUser(USER_ID_2)
                 .build());
-
-        List<TextRequestResponse> requestResponses =
-                requests.stream()
-                        .map(TextRequestParser::parseFrom)
-                        .collect(Collectors.toList());
 
         when(textRequestController.getTextRequests(USER_ID_2, CONTEXT_ID_2))
                 .thenReturn(ResponseEntity.ok(requestResponses));
