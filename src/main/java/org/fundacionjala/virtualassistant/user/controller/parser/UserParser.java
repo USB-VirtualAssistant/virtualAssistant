@@ -25,9 +25,7 @@ public class UserParser {
     private static final ProcessorEither<Exception, ContextResponse> either = new Either<>();
 
     public static UserResponse parseFrom(UserEntity userEntity) throws UserParserException {
-        if (isNull(userEntity)) {
-            throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
-        }
+        verifyUserEntity(userEntity);
         return UserResponse.builder()
                 .idUser(userEntity.getIdUser())
                 .idGoogle(userEntity.getIdGoogle())
@@ -36,9 +34,7 @@ public class UserParser {
 
     public static UserContextResponse parseFromWithContext(UserEntity userEntity)
             throws ContextParserException, UserParserException {
-        if (isNull(userEntity)) {
-            throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
-        }
+        verifyUserEntity(userEntity);
         if (isNull(userEntity.getContextEntities())) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_ENTITY);
         }
@@ -80,5 +76,11 @@ public class UserParser {
                 .contextEntities(new ArrayList<>())
                 .spotifyToken(userRequest.getSpotifyToken())
                 .build();
+    }
+
+    private static void verifyUserEntity(UserEntity userEntity) throws UserParserException {
+        if (isNull(userEntity)) {
+            throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
+        }
     }
 }

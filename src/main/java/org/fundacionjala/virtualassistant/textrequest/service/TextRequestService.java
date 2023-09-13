@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
@@ -35,7 +36,7 @@ public class TextRequestService {
     private TextResponseService responseService;
 
     public TextRequestResponse save(@Valid TextRequest textRequest)
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException {
+            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException, TextResponseParserException {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
@@ -57,7 +58,7 @@ public class TextRequestService {
                 .map(either.lift(requestEntity -> {
                     try {
                         return Either.right(TextRequestParser.parseFrom(requestEntity));
-                    } catch (TextRequestParserException e) {
+                    } catch (TextRequestParserException | TextResponseParserException e) {
                         return Either.left(e);
                     }
                 }))

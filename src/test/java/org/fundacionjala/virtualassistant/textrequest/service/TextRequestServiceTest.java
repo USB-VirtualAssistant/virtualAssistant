@@ -8,6 +8,7 @@ import org.fundacionjala.virtualassistant.clients.openai.component.RequestCompon
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
@@ -54,7 +55,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequest()
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException {
+            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException, TextResponseParserException {
         long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().build();
         RequestEntity requestEntity = RequestEntity.builder()
@@ -83,7 +84,8 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequestWithCorrectValues()
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException {
+            throws TextRequestException, ContextParserException, TextRequestParserException,
+            ContextException, TextResponseParserException {
         final long idUser = 12343L;
         final String text = "How many months does a year have?";
         final String textResponse = "How many months does a year have?";

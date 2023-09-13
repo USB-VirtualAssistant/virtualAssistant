@@ -1,5 +1,6 @@
 package org.fundacionjala.virtualassistant.textResponse.controller;
 
+import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
@@ -27,7 +28,7 @@ public class ResponseControllerTest {
     private TextResponseService service;
 
     @Test
-    public void statusShouldBeCreated() {
+    public void statusShouldBeCreated() throws TextResponseParserException {
         String text = "Test Text Response";
         long idRequest = 123L;
 
