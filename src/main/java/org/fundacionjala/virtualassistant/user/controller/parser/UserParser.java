@@ -5,6 +5,7 @@ import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
+import org.fundacionjala.virtualassistant.context.parser.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
@@ -16,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
