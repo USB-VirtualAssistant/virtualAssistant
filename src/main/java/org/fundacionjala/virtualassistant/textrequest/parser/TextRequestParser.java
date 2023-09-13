@@ -1,10 +1,9 @@
 package org.fundacionjala.virtualassistant.textrequest.parser;
 
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
@@ -15,7 +14,7 @@ import static java.util.Objects.isNull;
 
 public class TextRequestParser {
     public static RequestEntity parseFrom(TextRequest textRequest)
-            throws ContextParserException, TextRequestParserException {
+            throws ParserException {
         verifyTextRequest(textRequest);
         return RequestEntity.builder()
                 .idUser(textRequest.getIdUser())
@@ -27,7 +26,7 @@ public class TextRequestParser {
     }
 
     public static TextRequestResponse parseFrom(RequestEntity requestEntity)
-            throws TextRequestParserException, TextResponseParserException {
+            throws ParserException {
         verifyRequestEntity(requestEntity);
         return TextRequestResponse.builder()
                 .idRequest(requestEntity.getIdRequest())
@@ -40,7 +39,7 @@ public class TextRequestParser {
     }
 
     public static TextRequestResponse parseFrom(RequestEntity requestEntity, TextResponse textResponse)
-            throws TextRequestParserException, ContextException {
+            throws ParserException, ContextException {
         verifyRequestEntity(requestEntity);
         if (isNull(requestEntity.getContextEntity())) {
             throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);

@@ -4,10 +4,9 @@ import lombok.NonNull;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.exception.ContextRequestException;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
-import org.fundacionjala.virtualassistant.user.exception.UserParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +42,7 @@ public class ContextController {
 
     @GetMapping("/{idContext}")
     public ResponseEntity<ContextResponse> findById(@PathVariable Long idContext)
-            throws ContextRequestException, ContextParserException {
+            throws ContextRequestException, ParserException {
         Optional<ContextResponse> contextResponse = contextService.findById(idContext);
         return contextResponse.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -51,7 +50,7 @@ public class ContextController {
 
     @PostMapping()
     public ResponseEntity<ContextResponse> saveContextByUser(@Valid @RequestBody ContextRequest request)
-            throws ContextException, UserParserException, ContextParserException {
+            throws ContextException, ParserException {
         Optional<ContextResponse> context = Optional.ofNullable(contextService.saveContext(request));
         return context.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
@@ -60,7 +59,7 @@ public class ContextController {
     @PutMapping("/{idContext}")
     public ResponseEntity<ContextResponse> putContext(@NonNull @PathVariable("idContext") Long idContext,
                                                       @Valid @RequestBody ContextRequest request)
-            throws ContextException, UserParserException, ContextParserException {
+            throws ContextException, ParserException {
         Optional<ContextResponse> context = Optional.ofNullable(contextService.editContext(idContext, request));
         return context.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(()-> ResponseEntity.badRequest().build());

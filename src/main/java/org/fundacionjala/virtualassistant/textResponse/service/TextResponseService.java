@@ -3,7 +3,7 @@ package org.fundacionjala.virtualassistant.textResponse.service;
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textResponse.parser.ResponseParser;
 import org.fundacionjala.virtualassistant.textResponse.repository.ResponseEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
@@ -27,7 +27,7 @@ public class TextResponseService {
                 .map(either.lift(responseEntity -> {
                     try {
                         return Either.right(ResponseParser.parseFrom(responseEntity));
-                    } catch (TextResponseParserException e) {
+                    } catch (ParserException e) {
                         return Either.left(e);
                     }
                 }))
@@ -36,7 +36,7 @@ public class TextResponseService {
                 .collect(Collectors.toList());
     }
 
-    public TextResponse save(long idRequest, String text) throws TextResponseParserException {
+    public TextResponse save(long idRequest, String text) throws ParserException {
         ResponseEntity responseEntity = ResponseEntity.builder()
                 .requestEntity(RequestEntity.builder()
                         .idRequest(idRequest).build())
@@ -47,7 +47,7 @@ public class TextResponseService {
         return ResponseParser.parseFrom(responseEntitySaved);
     }
 
-    public TextResponse save(ParameterResponse parameterResponse) throws TextResponseParserException {
+    public TextResponse save(ParameterResponse parameterResponse) throws ParserException {
         ResponseEntity responseEntity = ResponseParser.parseFrom(parameterResponse);
         ResponseEntity responseEntitySaved = repository.save(responseEntity);
         return ResponseParser.parseFrom(responseEntitySaved);

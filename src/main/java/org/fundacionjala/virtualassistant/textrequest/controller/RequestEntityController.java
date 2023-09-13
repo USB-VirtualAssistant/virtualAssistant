@@ -1,12 +1,10 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.service.TextRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +30,7 @@ public class RequestEntityController {
 
     @PostMapping
     public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest)
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException, TextResponseParserException {
+            throws TextRequestException, ParserException, ContextException {
         TextRequestResponse textRequestResponse = requestEntityService.save(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }

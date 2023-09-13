@@ -1,14 +1,12 @@
 package org.fundacionjala.virtualassistant.user.service;
 
 import lombok.AllArgsConstructor;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
-import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.springframework.stereotype.Service;
@@ -34,7 +32,7 @@ public class UserService {
                 .map(either.lift(userEntity -> {
                     try {
                         return Either.right(UserParser.parseFrom(userEntity));
-                    } catch (UserParserException e) {
+                    } catch (ParserException e) {
                         return Either.left(e);
                     }
                 }))
@@ -48,7 +46,7 @@ public class UserService {
                 .map(eitherContextResponse.lift(userEntity -> {
                     try {
                         return Either.right(UserParser.parseFromWithContext(userEntity));
-                    } catch (ContextParserException | UserParserException e) {
+                    } catch (ParserException e) {
                         return Either.left(e);
                     }
                 }))
@@ -57,7 +55,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserResponse> findById(@NotNull Long id) throws UserRequestException, UserParserException {
+    public Optional<UserResponse> findById(@NotNull Long id) throws ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
             return Optional.empty();
@@ -67,7 +65,7 @@ public class UserService {
     }
 
     public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id)
-            throws UserParserException, ContextParserException {
+            throws ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
         if (optionalUserEntity.isEmpty()) {
             return Optional.empty();
@@ -76,7 +74,7 @@ public class UserService {
         return Optional.of(userContextResponse);
     }
 
-    public UserResponse save(@NotNull UserRequest userRequest) throws UserParserException {
+    public UserResponse save(@NotNull UserRequest userRequest) throws ParserException {
         UserEntity userEntity = userRepo.save(UserParser.parseFrom(userRequest));
         return UserParser.parseFrom(userEntity);
     }
@@ -86,7 +84,7 @@ public class UserService {
     }
 
     public UserResponse updateSpotifyToken(@PathVariable Long id, @NotNull UserRequest userRequest)
-            throws UserRequestException, UserParserException {
+            throws UserRequestException, ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
             throw new UserRequestException(NOT_FOUND_USER + id);

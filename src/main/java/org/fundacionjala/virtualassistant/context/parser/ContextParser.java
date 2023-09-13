@@ -2,15 +2,12 @@ package org.fundacionjala.virtualassistant.context.parser;
 
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
-import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +20,7 @@ import static java.util.Objects.isNull;
 public class ContextParser {
     private static final Either<Exception, TextRequestResponse> either =  new Either<>();
 
-    public static ContextResponse parseFrom(ContextEntity context) throws ContextParserException {
+    public static ContextResponse parseFrom(ContextEntity context) throws ParserException {
         if (isNull(context)) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_ENTITY);
         }
@@ -40,7 +37,7 @@ public class ContextParser {
                 .map(either.lift(requestEntity -> {
                     try {
                         return Either.right(TextRequestParser.parseFrom(requestEntity));
-                    } catch (TextRequestParserException | TextResponseParserException e) {
+                    } catch (ParserException e) {
                         return Either.left(e);
                     }
                 }))
@@ -50,7 +47,7 @@ public class ContextParser {
     }
 
     public static ContextEntity parseFrom(ContextRequest contextRequest)
-            throws ContextParserException, UserParserException {
+            throws ParserException {
         verifyContextRequest(contextRequest);
         return ContextEntity.builder()
                 .title(contextRequest.getTitle())
@@ -69,7 +66,7 @@ public class ContextParser {
     }
 
     public static ContextEntity parseFrom(Long idContext, ContextRequest contextRequest)
-            throws UserParserException, ContextParserException {
+            throws ParserException {
         verifyContextRequest(contextRequest);
         return ContextEntity.builder()
                 .title(contextRequest.getTitle())
@@ -78,7 +75,7 @@ public class ContextParser {
                 .build();
     }
 
-    private static void verifyContextRequest(ContextRequest contextRequest) throws ContextParserException {
+    private static void verifyContextRequest(ContextRequest contextRequest) throws ParserException {
         if (isNull(contextRequest)) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_REQUEST);
         }
