@@ -36,7 +36,7 @@ class ProxySpotifyTest {
     private static final String MUSIC_PLAYER = "GET_PLAYER";
     private static final String MUSIC_PREVIOUS = "PREVIOUS";
     private static final String MUSIC_TRACKS = "GET_TRACKS";
-    private static final String MUSIC_PLAY = "PLAY";
+    private static final String MUSIC_PLAY = "music_request";
     private static final String ENTITY = "entity";
     private static final String VALUE = "value";
 
