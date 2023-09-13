@@ -3,13 +3,12 @@ package org.fundacionjala.virtualassistant.context;
 import org.fundacionjala.virtualassistant.context.controller.Request.ContextRequest;
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
-import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +74,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned()
-            throws ContextException, UserParserException, ContextParserException {
+            throws ContextException, ParserException {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
@@ -89,7 +88,7 @@ public class ContextServiceTest {
 
     @Test
     public void givenUserId_whenSaveContext_thenContextResponseReturned()
-            throws ContextException, UserParserException, ContextParserException {
+            throws ContextException, ParserException {
         ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);

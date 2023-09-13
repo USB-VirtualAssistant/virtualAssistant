@@ -2,10 +2,9 @@ package org.fundacionjala.virtualassistant.request.controller;
 
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.RequestEntityController;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +43,7 @@ public class TextRequestControllerTest {
                         .map(either.lift(requestEntity -> {
                             try {
                                 return Either.right(TextRequestParser.parseFrom(requestEntity));
-                            } catch (TextRequestParserException | TextResponseParserException e) {
+                            } catch (ParserException e) {
                                 return Either.left(e);
                             }
                         }))

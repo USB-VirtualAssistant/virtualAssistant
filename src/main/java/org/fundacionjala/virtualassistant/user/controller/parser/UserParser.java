@@ -1,11 +1,11 @@
 package org.fundacionjala.virtualassistant.user.controller.parser;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
@@ -24,7 +24,7 @@ public class UserParser {
 
     private static final ProcessorEither<Exception, ContextResponse> either = new Either<>();
 
-    public static UserResponse parseFrom(UserEntity userEntity) throws UserParserException {
+    public static UserResponse parseFrom(UserEntity userEntity) throws ParserException {
         verifyUserEntity(userEntity);
         return UserResponse.builder()
                 .idUser(userEntity.getIdUser())
@@ -33,7 +33,7 @@ public class UserParser {
     }
 
     public static UserContextResponse parseFromWithContext(UserEntity userEntity)
-            throws ContextParserException, UserParserException {
+            throws ParserException {
         verifyUserEntity(userEntity);
         if (isNull(userEntity.getContextEntities())) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_ENTITY);
@@ -56,7 +56,7 @@ public class UserParser {
                         either.lift(contextEntity -> {
                             try {
                                 return Either.right(ContextParser.parseFrom(contextEntity));
-                            } catch (ContextParserException e) {
+                            } catch (ParserException e) {
                                 return Either.left(e);
                             }
                         })
@@ -66,7 +66,7 @@ public class UserParser {
                 .collect(Collectors.toList());
     }
 
-    public static UserEntity parseFrom(UserRequest userRequest) throws UserParserException {
+    public static UserEntity parseFrom(UserRequest userRequest) throws ParserException {
         if (isNull(userRequest)) {
             throw new UserParserException(UserParserException.MESSAGE_USER_REQUEST);
         }
@@ -78,7 +78,7 @@ public class UserParser {
                 .build();
     }
 
-    private static void verifyUserEntity(UserEntity userEntity) throws UserParserException {
+    private static void verifyUserEntity(UserEntity userEntity) throws ParserException {
         if (isNull(userEntity)) {
             throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
         }

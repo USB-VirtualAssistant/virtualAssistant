@@ -2,21 +2,19 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 
 import javax.validation.Valid;
 
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.springframework.stereotype.Service;
@@ -36,7 +34,7 @@ public class TextRequestService {
     private TextResponseService responseService;
 
     public TextRequestResponse save(@Valid TextRequest textRequest)
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException, TextResponseParserException {
+            throws TextRequestException, ParserException, ContextException {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
@@ -58,7 +56,7 @@ public class TextRequestService {
                 .map(either.lift(requestEntity -> {
                     try {
                         return Either.right(TextRequestParser.parseFrom(requestEntity));
-                    } catch (TextRequestParserException | TextResponseParserException e) {
+                    } catch (ParserException e) {
                         return Either.left(e);
                     }
                 }))

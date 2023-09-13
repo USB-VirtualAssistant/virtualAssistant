@@ -2,20 +2,18 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
-import org.fundacionjala.virtualassistant.textResponse.exception.TextResponseParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
 import org.fundacionjala.virtualassistant.textResponse.service.TextResponseService;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
-import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestParserException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +25,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -55,7 +52,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequest()
-            throws TextRequestException, ContextParserException, TextRequestParserException, ContextException, TextResponseParserException {
+            throws TextRequestException, ParserException, ContextException {
         long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().build();
         RequestEntity requestEntity = RequestEntity.builder()
@@ -84,8 +81,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequestWithCorrectValues()
-            throws TextRequestException, ContextParserException, TextRequestParserException,
-            ContextException, TextResponseParserException {
+            throws TextRequestException, ParserException, ContextException {
         final long idUser = 12343L;
         final String text = "How many months does a year have?";
         final String textResponse = "How many months does a year have?";

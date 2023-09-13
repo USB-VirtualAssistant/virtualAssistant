@@ -1,13 +1,11 @@
 package org.fundacionjala.virtualassistant.user.service;
 
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
-import org.fundacionjala.virtualassistant.context.exception.ContextParserException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
-import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,8 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext()
-            throws UserParserException, ContextParserException {
+    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .build();
@@ -98,7 +95,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() throws UserParserException {
+    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() throws ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE)
@@ -121,7 +118,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException, UserParserException {
+    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException, ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE + "-updated")
