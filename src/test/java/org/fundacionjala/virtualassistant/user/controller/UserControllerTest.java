@@ -7,10 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.parser.exception.ParserException;
@@ -141,7 +138,7 @@ public class UserControllerTest {
 
         assertNotNull(resultUserEntity2);
         assertEquals(OK, resultUserEntity2.getStatusCode());
-        assertEquals(ID_USER, resultUserEntity2.getBody().getIdUser());
+        assertEquals(ID_USER, Objects.requireNonNull(resultUserEntity2.getBody()).getIdUser());
         assertEquals(ID_GOOGLE, resultUserEntity2.getBody().getIdGoogle());
     }
 
@@ -157,6 +154,6 @@ public class UserControllerTest {
 
         ResponseEntity<List<UserContextResponse>> resultList = userController.findAllWithContext();
         assertNotNull(resultList);
-        assertEquals(1, resultList.getBody().size());
+        assertEquals(1, Objects.requireNonNull(resultList.getBody()).size());
     }
 }
