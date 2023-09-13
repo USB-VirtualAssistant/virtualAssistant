@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.taskhandler;
 
+import com.theokanning.openai.service.OpenAiService;
+import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
 import org.fundacionjala.virtualassistant.clients.openai.service.ChatService;
 import org.fundacionjala.virtualassistant.player.spotify.service.MusicService;
 import org.fundacionjala.virtualassistant.taskhandler.exception.IntentException;
@@ -20,6 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +42,7 @@ class ProxySpotifyTest {
     private static final String MUSIC_PLAY = "PLAY";
     private static final String ENTITY = "entity";
     private static final String VALUE = "value";
+    private ChatService chatService;
 
     private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE),
             new IntentEntity(ENTITY, VALUE));
@@ -47,7 +51,7 @@ class ProxySpotifyTest {
     void setUp() {
         rasaClient = mock(RasaClient.class);
         MusicService musicService = mock(MusicService.class);
-        ChatService chatService = mock(ChatService.class);
+        chatService = mock(ChatService.class);
         TaskActionManagerFactory taskActionManagerFactory = new TaskActionManagerFactoryImpl(musicService, chatService);
         IntentFactory intentFactory = new IntentFactoryImpl();
 
@@ -103,6 +107,7 @@ class ProxySpotifyTest {
         IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PLAYER));
         when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
                 HttpStatus.OK));
+        when(chatService.chat(anyString())).thenReturn(RESULT);
 
         String handledIntent = proxy.handleIntent(MUSIC_PLAYER);
         assertNotNull(handledIntent);
@@ -158,6 +163,7 @@ class ProxySpotifyTest {
         IntentResponse intentResponse = new IntentResponse(entities, new Intent(0, MUSIC_PLAY));
         when(rasaClient.processUserIntentsByMicroService(any())).thenReturn(new ResponseEntity<>(intentResponse,
                 HttpStatus.OK));
+        when(chatService.chat(anyString())).thenReturn(RESULT);
 
         String handledIntent = proxy.handleIntent(MUSIC_PLAY);
         assertNotNull(handledIntent);

@@ -8,24 +8,30 @@ import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
+import org.fundacionjala.virtualassistant.user.repository.UserRepo;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class ContextServiceTest {
 
     private static final String CONTEXT_TITLE = "New Title";
@@ -36,6 +42,8 @@ public class ContextServiceTest {
 
     @Mock
     private ContextRepository contextRepository;
+    @Mock
+    private UserRepo userRepo;
 
     @Mock
     private ProcessorEither<Exception, ContextResponse> processorEither;
@@ -45,28 +53,17 @@ public class ContextServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         request = new ContextRequest(CONTEXT_TITLE, new UserRequest(CONTEXT_USER_ID, "string", ""));
         userEntity = new UserEntity(1L, "string", new ArrayList<>(), "");
     }
 
     @Test
     public void givenUserId_whenFindContextByUserId_thenContextResponsesReturned() throws ContextException {
-        ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
-        when(contextRepository.save(any(ContextEntity.class)))
-                .thenReturn(savedEntity);
-
-        when(contextRepository.findByUserEntityIdUser(CONTEXT_USER_ID))
-                .thenReturn(Collections.singletonList(savedEntity));
-
-        when(processorEither.lift(any()))
-                .thenReturn(context -> {
-                    try {
-                        return Either.right(ContextResponse.fromEntity((ContextEntity) context));
-                    } catch (ContextException exception) {
-                        return Either.left(exception);
-                    }
-                });
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
+        when(contextRepository.findByUserEntityIdUser(anyLong())).thenReturn(List.of(ContextEntity.builder()
+                        .title(CONTEXT_TITLE)
+                        .userEntity(userEntity)
+                .build()));
 
         List<ContextResponse> result = contextService.findContextByUserId(CONTEXT_USER_ID);
         int expectedResult = 1;
@@ -81,6 +78,7 @@ public class ContextServiceTest {
     public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
 
         ContextResponse result = contextService.saveContext(request);
 
@@ -94,6 +92,7 @@ public class ContextServiceTest {
         ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
 
         ContextResponse contextResponse = contextService.saveContext(request);
 
