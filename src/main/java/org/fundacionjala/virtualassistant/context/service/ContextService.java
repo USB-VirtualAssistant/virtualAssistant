@@ -12,7 +12,6 @@ import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
 import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
-import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +25,6 @@ import static org.fundacionjala.virtualassistant.user.controller.parser.UserPars
 public class ContextService {
 
     private ContextRepository contextRepository;
-    private ProcessorEither<Exception, ContextResponse> processorEither;
     private UserRepo userRepo;
 
     public List<ContextResponse> findContextByUserId(Long idUser) throws ContextException {
@@ -35,7 +33,7 @@ public class ContextService {
         }
 
         List<ContextEntity> contextEntities = contextRepository.findByUserEntityIdUser(idUser);
-        return convertListContextToResponse(contextEntities);
+        return getContextResponses(contextEntities);
     }
 
     public ContextResponse saveContext(ContextRequest request)
@@ -61,12 +59,13 @@ public class ContextService {
     public ContextResponse editContext(Long idContext, ContextRequest request)
             throws ContextException, ParserException {
         verifyContextRequest(request);
-        if (contextRepository.findById(idContext).isEmpty()) {
-            throw new ContextRequestException(ContextRequestException.MESSAGE_INVALID_ID);
+        Optional<ContextEntity> optionalContext = contextRepository.findById(idContext);
+        if (optionalContext.isEmpty()) {
+            throw new ContextRequestException(ContextRequestException.MESSAGE_CONTEXT_ID_USER_DONT_EXIST);
         }
-
-        ContextEntity contextEntity = ContextParser.parseFrom(idContext, request);
-        return ContextResponse.fromEntity(contextRepository.save(contextEntity));
+        ContextEntity contextEntity = optionalContext.get();
+        contextEntity.setTitle(request.getTitle());
+        return ContextParser.parseFrom(contextRepository.save(contextEntity));
     }
 
     public boolean deleteContext(Long idContext) throws ContextException {
@@ -76,15 +75,6 @@ public class ContextService {
         } catch (Exception e) {
             throw new ContextRequestException(ContextException.MESSAGE_DELETE_ERROR, e);
         }
-    }
-
-    private List<ContextResponse> convertListContextToResponse(List<ContextEntity> entityList)
-            throws ContextException {
-        if (isNull(processorEither)) {
-            throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
-        }
-
-        return getContextResponses(entityList);
     }
 
     private boolean isUserNull(Long idUser) {

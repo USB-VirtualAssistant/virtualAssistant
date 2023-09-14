@@ -8,6 +8,7 @@ import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
+import org.fundacionjala.virtualassistant.user.exception.UserParserException;
 import org.fundacionjala.virtualassistant.util.either.Either;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,9 @@ public class ContextParser {
     public static ContextResponse parseFrom(ContextEntity context) throws ParserException {
         if (isNull(context)) {
             throw new ContextParserException(ContextParserException.MESSAGE_CONTEXT_ENTITY);
+        }
+        if (isNull(context.getUserEntity())) {
+            throw new UserParserException(UserParserException.MESSAGE_USER_ENTITY);
         }
         return ContextResponse.builder()
                 .idContext(context.getIdContext())
