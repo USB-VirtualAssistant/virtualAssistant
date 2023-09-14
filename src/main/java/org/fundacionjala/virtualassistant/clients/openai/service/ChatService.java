@@ -22,6 +22,7 @@ public class ChatService {
     private final String INVALID_TOKEN_ERROR_TYPE = "invalid_token";
     private final String INVALID_TOKEN_ERROR_TITLE = "Invalid token";
     private final String ERROR_REQUEST_MESSAGE = "The response could not be generated";
+    private final int ERROR_REQUEST_STATUS_CODE = 401;
 
 
     @Autowired
@@ -61,7 +62,7 @@ public class ChatService {
                 INVALID_TOKEN_ERROR_LINK,
                 INVALID_TOKEN_ERROR_TYPE,
                 INVALID_TOKEN_ERROR_TITLE);
-        throw new ChatServiceOpenAiHttpException(errorDetails, e);
+        throw new ChatServiceOpenAiHttpException(new OpenAiError(errorDetails), e, ERROR_REQUEST_STATUS_CODE);
     }
 
     private String removePatternFromStart(String input, String toRemovePattern) {
