@@ -11,9 +11,7 @@ import com.theokanning.openai.OpenAiHttpException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(OpenAiHttpException.class)
-    public ResponseEntity<String> handleOpenAiHttpException(OpenAiHttpException ex) {
-        String errorMessage = ex.getMessage();
-        return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> handleOpenAiHttpException(OpenAiHttpException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
-
 }
