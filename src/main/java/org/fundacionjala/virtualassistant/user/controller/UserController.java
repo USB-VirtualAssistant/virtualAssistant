@@ -15,7 +15,6 @@ import org.fundacionjala.virtualassistant.user.controller.response.UserContextRe
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import org.springframework.web.bind.annotation.RequestBody;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -41,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/spotify-token")
-    public ResponseEntity<String> getSpotifyToken(@NotNull @PathVariable Long id) throws UserRequestException {
+    public ResponseEntity<String> getSpotifyToken(@PathVariable Long id) throws UserRequestException {
         String spotifyToken = userService.getSpotifyToken(id);
         return new ResponseEntity<>(spotifyToken, OK);
     }
