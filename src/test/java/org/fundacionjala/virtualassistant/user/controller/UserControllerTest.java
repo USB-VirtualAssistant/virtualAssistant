@@ -156,4 +156,15 @@ public class UserControllerTest {
         assertNotNull(resultList);
         assertEquals(1, Objects.requireNonNull(resultList.getBody()).size());
     }
+
+    @Test
+    public void shouldGetSpotifyToken() throws UserRequestException {
+        when(userService.getSpotifyToken(ID_USER)).thenReturn(SPOTIFY_TOKEN);
+
+        ResponseEntity<String> result = userController.getSpotifyToken(ID_USER);
+
+        assertNotNull(result);
+        assertEquals(OK, result.getStatusCode());
+        assertEquals(SPOTIFY_TOKEN, result.getBody());
+    }
 }
