@@ -94,4 +94,9 @@ public class UserService {
         UserEntity userSaved = userRepo.save(userEntity);
         return UserParser.parseFrom(userSaved);
     }
+
+    public String getSpotifyToken(@NotNull @PathVariable Long id) throws UserRequestException {
+        UserResponse userEntity = findById(id).orElseThrow(() -> new UserRequestException(NOT_FOUND_USER));
+        return userEntity.getSpotifyToken();
+    }
 }
