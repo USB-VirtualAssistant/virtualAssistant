@@ -3,13 +3,13 @@ package org.fundacionjala.virtualassistant.clients.openai.service;
 import com.theokanning.openai.OpenAiError;
 import com.theokanning.openai.OpenAiHttpException;
 import com.theokanning.openai.service.OpenAiService;
-
 import org.fundacionjala.virtualassistant.clients.openai.client.OpenAiClient;
+import org.fundacionjala.virtualassistant.clients.openai.exeption.ChatServiceOpenAiHttpException;
+
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -22,6 +22,7 @@ public class ChatService {
     private final String INVALID_TOKEN_ERROR_TYPE = "invalid_token";
     private final String INVALID_TOKEN_ERROR_TITLE = "Invalid token";
     private final String ERROR_REQUEST_MESSAGE = "The response could not be generated";
+
 
     @Autowired
     public ChatService(OpenAiClient openAiClient) {
@@ -37,25 +38,21 @@ public class ChatService {
     @NotEmpty
     @Pattern(regexp = ".*[a-zA-Z].*")
     public String chat(String request) {
-        String answer = generateChatAnswer(this.openAiService, request);
+        String answer = generateResponse(this.openAiService, request);
         return removePatternFromStart(answer, openAiClient.buildCompletionRequest(request).getPrompt());
     }
 
-    private String generateChatAnswer(OpenAiService service, String request) {
+    private String generateResponse(OpenAiService service, String request) throws OpenAiHttpException {
         try {
-            return generateResponse(service, request);
-        } catch (OpenAiHttpException e) {
-            handleOpenAiHttpException(e);
+            return service.createCompletion(openAiClient.buildCompletionRequest(request))
+                    .getChoices()
+                    .stream()
+                    .map(choice -> choice.getText())
+                    .collect(Collectors.joining());
+        } catch (OpenAiHttpException ex) {
+            handleOpenAiHttpException(ex);
         }
         return ERROR_REQUEST_MESSAGE;
-    }
-
-    private String generateResponse(OpenAiService service, String request) throws OpenAiHttpException {
-        return service.createCompletion(openAiClient.buildCompletionRequest(request))
-                .getChoices()
-                .stream()
-                .map(choice -> choice.getText())
-                .collect(Collectors.joining());
     }
 
     private void handleOpenAiHttpException(OpenAiHttpException e) {
@@ -64,15 +61,7 @@ public class ChatService {
                 INVALID_TOKEN_ERROR_LINK,
                 INVALID_TOKEN_ERROR_TYPE,
                 INVALID_TOKEN_ERROR_TITLE);
-
-        throw new OpenAiHttpExceptionWithStatus(errorDetails, e);
-    }
-
-    @ResponseStatus(value = org.springframework.http.HttpStatus.UNAUTHORIZED)
-    private static class OpenAiHttpExceptionWithStatus extends RuntimeException {
-        public OpenAiHttpExceptionWithStatus(OpenAiError.OpenAiErrorDetails errorDetails, Throwable cause) {
-            super(errorDetails.getMessage(), cause);
-        }
+        throw new ChatServiceOpenAiHttpException(errorDetails, e);
     }
 
     private String removePatternFromStart(String input, String toRemovePattern) {
