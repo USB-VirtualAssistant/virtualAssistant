@@ -105,4 +105,31 @@ public class ContextServiceTest {
     public void givenNullContextRequest_whenSaveContext_thenContextExceptionThrown() {
         assertThrows(ContextException.class, () -> contextService.saveContext(null));
     }
+
+    @Test
+    void shouldThrowParserExceptionForAContextEntityNull() {
+        ContextRequest contextRequest = ContextRequest.builder()
+                .title(CONTEXT_TITLE)
+                .userRequest(UserRequest.builder()
+                        .idUser(CONTEXT_USER_ID)
+                        .build())
+                .build();
+        when(contextRepository.save(any(ContextEntity.class))).thenReturn(null);
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
+        assertThrows(ParserException.class, () -> contextService.saveContext(contextRequest));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForFindAContextById() {
+        when(contextRepository.findById(anyLong())).thenReturn(Optional.of(ContextEntity.builder().build()));
+        assertThrows(ParserException.class, () -> contextService.findById(CONTEXT_USER_ID));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForUpdateAContext() {
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
+        when(contextRepository.findById(anyLong())).thenReturn(Optional.of(ContextEntity.builder().build()));
+        when(contextRepository.save(any(ContextEntity.class))).thenReturn(null);
+        assertThrows(ParserException.class, () -> contextService.editContext(CONTEXT_USER_ID, request));
+    }
 }
