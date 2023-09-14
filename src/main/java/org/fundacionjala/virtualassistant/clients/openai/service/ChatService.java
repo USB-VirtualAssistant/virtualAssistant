@@ -9,7 +9,6 @@ import org.fundacionjala.virtualassistant.clients.openai.exeption.ChatServiceOpe
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
