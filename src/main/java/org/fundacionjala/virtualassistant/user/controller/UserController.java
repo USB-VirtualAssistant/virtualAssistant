@@ -15,11 +15,11 @@ import org.fundacionjala.virtualassistant.user.controller.response.UserContextRe
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
 import org.springframework.web.bind.annotation.RequestBody;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -38,6 +38,12 @@ public class UserController {
             throws UserRequestException, ParserException {
         UserResponse userResponse = userService.updateSpotifyToken(id, userRequest);
         return new ResponseEntity<>(userResponse, OK);
+    }
+
+    @GetMapping("/{id}/spotify-token")
+    public ResponseEntity<String> getSpotifyToken(@NotNull @PathVariable Long id) throws UserRequestException {
+        String spotifyToken = userService.getSpotifyToken(id);
+        return new ResponseEntity<>(spotifyToken, OK);
     }
 
     @GetMapping("/{id}")
