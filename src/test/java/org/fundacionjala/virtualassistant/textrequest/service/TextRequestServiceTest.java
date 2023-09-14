@@ -1,7 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
