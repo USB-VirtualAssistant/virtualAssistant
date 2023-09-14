@@ -34,7 +34,7 @@ public class TextRequestService {
     private TextResponseService responseService;
 
     public TextRequestResponse save(@Valid TextRequest textRequest)
-            throws TextRequestException, ParserException, ContextException {
+            throws TextRequestException, ParserException {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }

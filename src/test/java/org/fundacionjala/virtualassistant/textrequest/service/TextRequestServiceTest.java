@@ -52,7 +52,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequest()
-            throws TextRequestException, ParserException, ContextException {
+            throws TextRequestException, ParserException {
         long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().build();
         RequestEntity requestEntity = RequestEntity.builder()
@@ -81,7 +81,7 @@ public class TextRequestServiceTest {
 
     @Test
     public void shouldCreateATextRequestWithCorrectValues()
-            throws TextRequestException, ParserException, ContextException {
+            throws TextRequestException, ParserException {
         final long idUser = 12343L;
         final String text = "How many months does a year have?";
         final String textResponse = "How many months does a year have?";
@@ -159,4 +159,9 @@ public class TextRequestServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void shouldThrowParserExceptionForSaveATextRequest() {
+        TextRequest textRequest = TextRequest.builder().build();
+        assertThrows(ParserException.class, () -> textRequestService.save(textRequest));
+    }
 }

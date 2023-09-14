@@ -30,7 +30,7 @@ public class RequestEntityController {
 
     @PostMapping
     public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest)
-            throws TextRequestException, ParserException, ContextException {
+            throws TextRequestException, ParserException {
         TextRequestResponse textRequestResponse = requestEntityService.save(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }

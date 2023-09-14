@@ -39,10 +39,10 @@ public class TextRequestParser {
     }
 
     public static TextRequestResponse parseFrom(RequestEntity requestEntity, TextResponse textResponse)
-            throws ParserException, ContextException {
+            throws ParserException {
         verifyRequestEntity(requestEntity);
         if (isNull(requestEntity.getContextEntity())) {
-            throw new ContextException(ContextException.MESSAGE_CONTEXT_NULL);
+            throw new TextRequestParserException(ContextException.MESSAGE_CONTEXT_NULL);
         }
         return TextRequestResponse.builder()
                 .idRequest(requestEntity.getIdRequest())
