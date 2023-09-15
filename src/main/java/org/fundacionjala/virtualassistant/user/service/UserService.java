@@ -68,7 +68,7 @@ public class UserService {
             throws ParserException, UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+            throw new UserRequestException(String.format(NOT_FOUND_USER, id));
         }
         UserContextResponse userContextResponse = UserParser.parseFromWithContext(optionalUserEntity.get());
         return Optional.of(userContextResponse);
