@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserRepo userRepo;
-    private static final String NOT_FOUND_USER = "Not found user: ";
+    private static final String NOT_FOUND_USER = "Not found user: %s";
     private static final Either<Exception, UserResponse> either = new Either<>();
     private static final Either<Exception, UserContextResponse> eitherContextResponse = new Either<>();
 
@@ -58,7 +58,7 @@ public class UserService {
     public Optional<UserResponse> findById(@NotNull Long id) throws ParserException, UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+            throw new UserRequestException(String.format(NOT_FOUND_USER, id));
         }
         var userResponse = UserParser.parseFrom(optionalUserEntity.get());
         return Optional.of(userResponse);
@@ -87,7 +87,7 @@ public class UserService {
             throws UserRequestException, ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+            throw new UserRequestException(String.format(NOT_FOUND_USER, id));
         }
         UserEntity userEntity = optionalUserEntity.get();
         userEntity.setSpotifyToken(userRequest.getSpotifyToken());
