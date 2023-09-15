@@ -98,7 +98,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundUserById() throws ParserException {
+    public void shouldFoundUserById() throws ParserException, UserRequestException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -128,7 +128,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundContextUserById() throws ParserException {
+    public void shouldFoundContextUserById() throws ParserException, UserRequestException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
