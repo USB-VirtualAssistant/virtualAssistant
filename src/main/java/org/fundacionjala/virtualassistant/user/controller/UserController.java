@@ -58,13 +58,13 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(), OK);
     }
 
-    @GetMapping("/context/{id}")
+    @GetMapping("/{id}/context")
     public ResponseEntity<UserContextResponse> findByIdWithContext(@PathVariable Long id)
             throws ParserException, UserRequestException {
         return new ResponseEntity<>(userService.findByIdWithContext(id).get(), OK);
     }
 
-    @GetMapping("/context/list")
+    @GetMapping("/list/context")
     public ResponseEntity<List<UserContextResponse>> findAllWithContext() {
         return new ResponseEntity<>(userService.findAllWithContext(), OK);
     }
