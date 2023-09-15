@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserRepo userRepo;
-    private static final String NOT_FOUND_USER = "Not found user";
+    private static final String NOT_FOUND_USER = "Not found user: ";
     private static final Either<Exception, UserResponse> either = new Either<>();
     private static final Either<Exception, UserContextResponse> eitherContextResponse = new Either<>();
 
@@ -55,20 +55,20 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserResponse> findById(@NotNull Long id) throws ParserException {
+    public Optional<UserResponse> findById(@NotNull Long id) throws ParserException, UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            return Optional.empty();
+            throw new UserRequestException(NOT_FOUND_USER + id);
         }
         var userResponse = UserParser.parseFrom(optionalUserEntity.get());
         return Optional.of(userResponse);
     }
 
     public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id)
-            throws ParserException {
+            throws ParserException, UserRequestException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
         if (optionalUserEntity.isEmpty()) {
-            return Optional.empty();
+            throw new UserRequestException(NOT_FOUND_USER + id);
         }
         UserContextResponse userContextResponse = UserParser.parseFromWithContext(optionalUserEntity.get());
         return Optional.of(userContextResponse);

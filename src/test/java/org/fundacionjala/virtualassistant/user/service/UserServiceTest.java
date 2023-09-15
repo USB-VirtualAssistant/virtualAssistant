@@ -67,7 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws ParserException {
+    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws ParserException, UserRequestException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .build();
