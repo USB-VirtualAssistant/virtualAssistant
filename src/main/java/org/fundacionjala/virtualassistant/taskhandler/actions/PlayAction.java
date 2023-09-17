@@ -15,7 +15,7 @@ public class PlayAction implements TaskAction {
 
     @Override
     public String handleAction(EntityArgs intentEntities, String text) {
-        return musicService.playSongByArtistAndTrack(intentEntities.getPrimaryArg().getEntity(),
-                intentEntities.getSecondaryArg().getEntity()).getBody();
+        return musicService.playSongByArtistAndTrack(intentEntities.getPrimaryArg().getValue(),
+                intentEntities.getSecondaryArg().getValue()).getBody();
     }
 }

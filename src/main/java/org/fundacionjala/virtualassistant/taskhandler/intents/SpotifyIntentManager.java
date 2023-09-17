@@ -19,7 +19,7 @@ public class SpotifyIntentManager implements IntentManager {
                 "GET_PLAYER", SpotifyIntent.GET_PLAYER,
                 "PREVIOUS", SpotifyIntent.PREVIOUS,
                 "GET_TRACKS", SpotifyIntent.GET_TRACKS,
-                "PLAY", SpotifyIntent.PLAY
+                "music_request", SpotifyIntent.music_request
         );
     }
 

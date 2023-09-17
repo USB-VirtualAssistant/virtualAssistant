@@ -2,11 +2,13 @@ package org.fundacionjala.virtualassistant.user.service;
 
 import lombok.AllArgsConstructor;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.parser.UserParser;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
+import org.fundacionjala.virtualassistant.util.either.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.fundacionjala.virtualassistant.user.exception.UserRequestException;
@@ -22,36 +24,57 @@ import java.util.stream.Collectors;
 public class UserService {
     private UserRepo userRepo;
     private static final String NOT_FOUND_USER = "Not found user";
+    private static final Either<Exception, UserResponse> either = new Either<>();
+    private static final Either<Exception, UserContextResponse> eitherContextResponse = new Either<>();
 
     public List<UserResponse> findAll() {
         return userRepo.findAll().stream()
-                .map(UserParser::parseFrom)
+                .map(either.lift(userEntity -> {
+                    try {
+                        return Either.right(UserParser.parseFrom(userEntity));
+                    } catch (ParserException e) {
+                        return Either.left(e);
+                    }
+                }))
+                .filter(Either::isRight)
+                .map(Either::getRight)
                 .collect(Collectors.toList());
     }
 
     public List<UserContextResponse> findAllWithContext() {
         return userRepo.findAllEager().stream()
-                .map(UserParser::parseFromWithContext)
+                .map(eitherContextResponse.lift(userEntity -> {
+                    try {
+                        return Either.right(UserParser.parseFromWithContext(userEntity));
+                    } catch (ParserException e) {
+                        return Either.left(e);
+                    }
+                }))
+                .filter(Either::isRight)
+                .map(Either::getRight)
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserResponse> findById(@NotNull Long id) throws UserRequestException {
+    public Optional<UserResponse> findById(@NotNull Long id) throws ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
-        if (!optionalUserEntity.isPresent()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+        if (optionalUserEntity.isEmpty()) {
+            return Optional.empty();
         }
-        return optionalUserEntity.map(UserParser::parseFrom);
+        var userResponse = UserParser.parseFrom(optionalUserEntity.get());
+        return Optional.of(userResponse);
     }
 
-    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id) throws UserRequestException {
+    public Optional<UserContextResponse> findByIdWithContext(@NotNull Long id)
+            throws ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findByIdUser(id);
-        if (!optionalUserEntity.isPresent()) {
-            throw new UserRequestException(NOT_FOUND_USER + id);
+        if (optionalUserEntity.isEmpty()) {
+            return Optional.empty();
         }
-        return optionalUserEntity.map(UserParser::parseFromWithContext);
+        UserContextResponse userContextResponse = UserParser.parseFromWithContext(optionalUserEntity.get());
+        return Optional.of(userContextResponse);
     }
 
-    public UserResponse save(@NotNull UserRequest userRequest) {
+    public UserResponse save(@NotNull UserRequest userRequest) throws ParserException {
         UserEntity userEntity = userRepo.save(UserParser.parseFrom(userRequest));
         return UserParser.parseFrom(userEntity);
     }
@@ -61,7 +84,7 @@ public class UserService {
     }
 
     public UserResponse updateSpotifyToken(@PathVariable Long id, @NotNull UserRequest userRequest)
-            throws UserRequestException {
+            throws UserRequestException, ParserException {
         Optional<UserEntity> optionalUserEntity = userRepo.findById(id);
         if (optionalUserEntity.isEmpty()) {
             throw new UserRequestException(NOT_FOUND_USER + id);

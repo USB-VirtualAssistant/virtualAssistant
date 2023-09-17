@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.user.service;
 
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
@@ -66,7 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws UserRequestException {
+    void shouldReturnAUserWithContextsWhenIsCalledFindByIdWithContext() throws ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .build();
@@ -94,7 +95,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() {
+    void shouldSavedAnUserAndReturnTheUserStoredWithAnId() throws ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE)
@@ -117,7 +118,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException {
+    void shouldUpdateAnUserAndReturnDataUpdated() throws UserRequestException, ParserException {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE + "-updated")
@@ -141,7 +142,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateAnUserAndDoesNotExistThrowUserRequestException() throws UserRequestException {
+    void shouldUpdateAnUserAndDoesNotExistThrowUserRequestException() {
         UserEntity userEntity = UserEntity.builder()
                 .idUser(ID_USER_ENTITY)
                 .idGoogle(ID_USER_GOOGLE + "-updated")
@@ -156,5 +157,49 @@ class UserServiceTest {
                 .build();
 
         assertThrows(UserRequestException.class, () -> userService.updateSpotifyToken(ID_USER_ENTITY, userRequest));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForAnUserRequestAsNull() {
+        UserEntity userEntity = UserEntity.builder()
+                .idUser(ID_USER_ENTITY)
+                .idGoogle(ID_USER_GOOGLE)
+                .spotifyToken(SPOTIFY_TOKEN)
+                .build();
+        when(userRepo.save(any(UserEntity.class))).thenReturn(userEntity);
+
+        assertThrows(ParserException.class, () -> userService.save(null));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForAnUserEntityAsNull() {
+        when(userRepo.save(any(UserEntity.class))).thenReturn(null);
+
+        UserRequest userRequest = UserRequest.builder()
+                .idUser(ID_USER_ENTITY)
+                .idGoogle(ID_USER_GOOGLE + "-updated")
+                .spotifyToken(SPOTIFY_TOKEN)
+                .build();
+
+        assertThrows(ParserException.class, () -> userService.save(userRequest));
+    }
+
+    @Test
+    void shouldThrowAnParserExceptionForAnUserUpdated() {
+        UserEntity userEntity = UserEntity.builder()
+                .idUser(ID_USER_ENTITY)
+                .idGoogle(ID_USER_GOOGLE + "-updated")
+                .spotifyToken(SPOTIFY_TOKEN)
+                .build();
+        when(userRepo.findById(anyLong())).thenReturn(Optional.of(userEntity));
+        when(userRepo.save(any(UserEntity.class))).thenReturn(null);
+
+        UserRequest userRequest = UserRequest.builder()
+                .idUser(ID_USER_ENTITY)
+                .idGoogle(ID_USER_GOOGLE + "-updated")
+                .spotifyToken(SPOTIFY_TOKEN)
+                .build();
+
+        assertThrows(ParserException.class, () -> userService.updateSpotifyToken(ID_USER_ENTITY, userRequest));
     }
 }

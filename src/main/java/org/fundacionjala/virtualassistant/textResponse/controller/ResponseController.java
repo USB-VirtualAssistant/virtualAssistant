@@ -2,6 +2,7 @@ package org.fundacionjala.virtualassistant.textResponse.controller;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,8 @@ public class ResponseController {
     }
 
     @PostMapping
-    public ResponseEntity<TextResponse> createTextResponse(@Valid @RequestBody ParameterResponse response) {
+    public ResponseEntity<TextResponse> createTextResponse(@Valid @RequestBody ParameterResponse response)
+            throws ParserException {
         TextResponse textResponse = responseService.save(response);
         return new ResponseEntity<>(textResponse, CREATED);
     }

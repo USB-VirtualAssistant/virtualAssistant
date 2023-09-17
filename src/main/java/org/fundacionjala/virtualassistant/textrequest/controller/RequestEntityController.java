@@ -1,5 +1,7 @@
 package org.fundacionjala.virtualassistant.textrequest.controller;
 
+import org.fundacionjala.virtualassistant.context.exception.ContextException;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.textrequest.controller.request.TextRequest;
 import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRequestResponse;
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
@@ -27,14 +29,15 @@ public class RequestEntityController {
     TextRequestService requestEntityService;
 
     @PostMapping
-    public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest) throws TextRequestException {
-        TextRequestResponse textRequestResponse = requestEntityService.createTextRequest(textRequest);
+    public ResponseEntity<TextRequestResponse> createTextRequest(@Valid @RequestBody TextRequest textRequest)
+            throws TextRequestException, ParserException {
+        TextRequestResponse textRequestResponse = requestEntityService.save(textRequest);
         return new ResponseEntity<>(textRequestResponse, CREATED);
     }
 
     @GetMapping("/{userId}/context/{contextId}")
     public ResponseEntity<List<TextRequestResponse>> getTextRequests(@NotNull @PathVariable Long userId,
-                                               @NotNull @PathVariable Long contextId) {
+                                                                     @NotNull @PathVariable Long contextId) {
         List<TextRequestResponse> textRequests = requestEntityService.getTextRequestByUserAndContext(userId, contextId);
         return new ResponseEntity<>(textRequests, OK);
     }

@@ -7,12 +7,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.controller.response.UserContextResponse;
 import org.fundacionjala.virtualassistant.user.controller.response.UserResponse;
@@ -51,7 +49,6 @@ public class UserControllerTest {
                 .contextResponses(contextResponses)
                 .idUser(ID_USER)
                 .idGoogle(ID_GOOGLE)
-                .spotifyToken(SPOTIFY_TOKEN)
                 .build();
 
         userRequest = UserRequest.builder()
@@ -63,12 +60,11 @@ public class UserControllerTest {
         userResponse = UserResponse.builder()
                 .idUser(ID_USER)
                 .idGoogle(ID_GOOGLE)
-                .spotifyToken(SPOTIFY_TOKEN)
                 .build();
     }
 
     @Test
-    public void shouldSaveAnUser() {
+    public void shouldSaveAnUser() throws ParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
 
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
@@ -78,7 +74,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldUpdateSpoityToken() throws UserRequestException {
+    public void shouldUpdateSpoityToken() throws ParserException, UserRequestException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -92,7 +88,6 @@ public class UserControllerTest {
         UserResponse updatedUserTokenResponse = UserResponse.builder()
                 .idUser(ID_USER)
                 .idGoogle(ID_GOOGLE)
-                .spotifyToken("tokenUpdated")
                 .build();
 
         when(userService.updateSpotifyToken(1L, updatedUserToken)).thenReturn(updatedUserTokenResponse);
@@ -100,17 +95,14 @@ public class UserControllerTest {
         ResponseEntity<UserResponse> resultUserEntity2 = userController.updateSpotifyToken(ID_USER, updatedUserToken);
         assertNotNull(resultUserEntity2);
         assertEquals(OK, resultUserEntity2.getStatusCode());
-
-        String expectedToken = resultUserEntity2.getBody().getSpotifyToken();
-        assertEquals(expectedToken, "tokenUpdated");
     }
 
     @Test
-    public void shouldFoundUserById() throws UserRequestException {
+    public void shouldFoundUserById() throws ParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
-        
+
         when(userService.findById(ID_USER)).thenReturn(Optional.of(userResponse));
         ResponseEntity<UserResponse> resultUserEntity2 = userController.findById(ID_USER);
 
@@ -118,11 +110,10 @@ public class UserControllerTest {
         assertEquals(OK, resultUserEntity2.getStatusCode());
         assertEquals(ID_USER, resultUserEntity2.getBody().getIdUser());
         assertEquals(ID_GOOGLE, resultUserEntity2.getBody().getIdGoogle());
-        assertEquals(SPOTIFY_TOKEN, resultUserEntity2.getBody().getSpotifyToken());
     }
 
     @Test
-    public void listGetHaveSizeOne() {
+    public void listGetHaveSizeOne() throws ParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -137,23 +128,22 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldFoundContextUserById() throws UserRequestException {
+    public void shouldFoundContextUserById() throws ParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
-        
+
         when(userService.findByIdWithContext(ID_USER)).thenReturn(Optional.of(userContextResponse));
         ResponseEntity<UserContextResponse> resultUserEntity2 = userController.findByIdWithContext(ID_USER);
 
         assertNotNull(resultUserEntity2);
         assertEquals(OK, resultUserEntity2.getStatusCode());
-        assertEquals(ID_USER, resultUserEntity2.getBody().getIdUser());
+        assertEquals(ID_USER, Objects.requireNonNull(resultUserEntity2.getBody()).getIdUser());
         assertEquals(ID_GOOGLE, resultUserEntity2.getBody().getIdGoogle());
-        assertEquals(SPOTIFY_TOKEN, resultUserEntity2.getBody().getSpotifyToken());
     }
 
     @Test
-    public void listGetWithContextHaveSizeOne() {
+    public void listGetWithContextHaveSizeOne() throws ParserException {
         when(userService.save(userRequest)).thenReturn(userResponse);
         ResponseEntity<UserResponse> resultUserEntity = userController.createUser(userRequest);
         assertNotNull(resultUserEntity);
@@ -164,6 +154,6 @@ public class UserControllerTest {
 
         ResponseEntity<List<UserContextResponse>> resultList = userController.findAllWithContext();
         assertNotNull(resultList);
-        assertEquals(1, resultList.getBody().size());
+        assertEquals(1, Objects.requireNonNull(resultList.getBody()).size());
     }
 }

@@ -7,20 +7,18 @@ import org.fundacionjala.virtualassistant.context.models.ContextEntity;
 import org.fundacionjala.virtualassistant.context.repository.ContextRepository;
 import org.fundacionjala.virtualassistant.context.service.ContextService;
 import org.fundacionjala.virtualassistant.models.UserEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.user.controller.request.UserRequest;
 import org.fundacionjala.virtualassistant.user.repository.UserRepo;
-import org.fundacionjala.virtualassistant.util.either.Either;
 import org.fundacionjala.virtualassistant.util.either.ProcessorEither;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,8 +59,8 @@ public class ContextServiceTest {
     public void givenUserId_whenFindContextByUserId_thenContextResponsesReturned() throws ContextException {
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
         when(contextRepository.findByUserEntityIdUser(anyLong())).thenReturn(List.of(ContextEntity.builder()
-                        .title(CONTEXT_TITLE)
-                        .userEntity(userEntity)
+                .title(CONTEXT_TITLE)
+                .userEntity(userEntity)
                 .build()));
 
         List<ContextResponse> result = contextService.findContextByUserId(CONTEXT_USER_ID);
@@ -75,7 +73,8 @@ public class ContextServiceTest {
     }
 
     @Test
-    public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned() throws ContextException {
+    public void givenValidContextRequest_whenSaveContext_thenContextResponseReturned()
+            throws ContextException, ParserException {
         when(contextRepository.save(any(ContextEntity.class)))
                 .thenReturn(new ContextEntity(2L, request.getTitle(), userEntity, new ArrayList<>()));
         when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
@@ -88,7 +87,8 @@ public class ContextServiceTest {
     }
 
     @Test
-    public void givenUserId_whenSaveContext_thenContextResponseReturned() throws ContextException {
+    public void givenUserId_whenSaveContext_thenContextResponseReturned()
+            throws ContextException, ParserException {
         ContextEntity savedEntity = new ContextEntity(12L, request.getTitle(), userEntity, new ArrayList<>());
 
         when(contextRepository.save(any(ContextEntity.class))).thenReturn(savedEntity);
@@ -104,5 +104,32 @@ public class ContextServiceTest {
     @Test
     public void givenNullContextRequest_whenSaveContext_thenContextExceptionThrown() {
         assertThrows(ContextException.class, () -> contextService.saveContext(null));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForAContextEntityNull() {
+        ContextRequest contextRequest = ContextRequest.builder()
+                .title(CONTEXT_TITLE)
+                .userRequest(UserRequest.builder()
+                        .idUser(CONTEXT_USER_ID)
+                        .build())
+                .build();
+        when(contextRepository.save(any(ContextEntity.class))).thenReturn(null);
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
+        assertThrows(ParserException.class, () -> contextService.saveContext(contextRequest));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForFindAContextById() {
+        when(contextRepository.findById(anyLong())).thenReturn(Optional.of(ContextEntity.builder().build()));
+        assertThrows(ParserException.class, () -> contextService.findById(CONTEXT_USER_ID));
+    }
+
+    @Test
+    void shouldThrowParserExceptionForUpdateAContext() {
+        when(userRepo.findByIdUser(anyLong())).thenReturn(Optional.of(userEntity));
+        when(contextRepository.findById(anyLong())).thenReturn(Optional.of(ContextEntity.builder().build()));
+        when(contextRepository.save(any(ContextEntity.class))).thenReturn(null);
+        assertThrows(ParserException.class, () -> contextService.editContext(CONTEXT_USER_ID, request));
     }
 }

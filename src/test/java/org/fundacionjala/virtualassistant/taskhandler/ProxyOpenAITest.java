@@ -31,7 +31,6 @@ class ProxyOpenAITest {
     private static final String RESULT = "result";
     private static final String ENTITY = "entity";
     private static final String VALUE = "value";
-    private static final String EMPTY = "";
     private static final int ZERO = 0;
     private List<IntentEntity> entities = List.of(new IntentEntity(ENTITY, VALUE));
     private IntentResponse intentResponse = new IntentResponse(entities, new Intent(ZERO, CHAT));

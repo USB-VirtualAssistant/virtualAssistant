@@ -2,10 +2,10 @@ package org.fundacionjala.virtualassistant.textrequest.service;
 
 import org.fundacionjala.virtualassistant.context.controller.Response.ContextResponse;
 import org.fundacionjala.virtualassistant.context.models.ContextEntity;
-import org.fundacionjala.virtualassistant.context.parser.ContextParser;
 import org.fundacionjala.virtualassistant.clients.openai.component.RequestComponent;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 import org.fundacionjala.virtualassistant.models.ResponseEntity;
+import org.fundacionjala.virtualassistant.parser.exception.ParserException;
 import org.fundacionjala.virtualassistant.repository.RequestEntityRepository;
 import org.fundacionjala.virtualassistant.textResponse.response.ParameterResponse;
 import org.fundacionjala.virtualassistant.textResponse.response.TextResponse;
@@ -24,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -51,7 +50,8 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void shouldCreateATextRequest() throws TextRequestException {
+    public void shouldCreateATextRequest()
+            throws TextRequestException, ParserException {
         long idUser = 12343L;
         TextRequest textRequest = TextRequest.builder().build();
         RequestEntity requestEntity = RequestEntity.builder()
@@ -72,14 +72,15 @@ public class TextRequestServiceTest {
             when(responseService.save(any(ParameterResponse.class)))
                     .thenReturn(TextResponse.builder().build());
 
-            TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
+            TextRequestResponse actualTextRequestResponse = textRequestService.save(textRequest);
             verify(requestEntityRepository).save(requestEntity);
             assertNotNull(actualTextRequestResponse);
         }
     }
 
     @Test
-    public void shouldCreateATextRequestWithCorrectValues() throws TextRequestException {
+    public void shouldCreateATextRequestWithCorrectValues()
+            throws TextRequestException, ParserException {
         final long idUser = 12343L;
         final String text = "How many months does a year have?";
         final String textResponse = "How many months does a year have?";
@@ -117,7 +118,7 @@ public class TextRequestServiceTest {
             when(responseService.save(any(ParameterResponse.class)))
                     .thenReturn(TextResponse.builder().build());
 
-            TextRequestResponse actualTextRequestResponse = textRequestService.createTextRequest(textRequest);
+            TextRequestResponse actualTextRequestResponse = textRequestService.save(textRequest);
 
             verify(requestEntityRepository).save(requestEntity);
             assertNotNull(actualTextRequestResponse);
@@ -137,7 +138,7 @@ public class TextRequestServiceTest {
 
         requestEntityRepository.save(requestEntity);
 
-        assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(null));
+        assertThrows(TextRequestException.class, () -> textRequestService.save(null));
     }
 
     @Test
@@ -149,7 +150,7 @@ public class TextRequestServiceTest {
 
         requestEntityRepository.save(requestEntity);
 
-        Exception exceptionExpected = assertThrows(TextRequestException.class, () -> textRequestService.createTextRequest(null));
+        Exception exceptionExpected = assertThrows(TextRequestException.class, () -> textRequestService.save(null));
 
         String expected = "User id should not be null";
         String actual = exceptionExpected.getMessage();
@@ -158,34 +159,8 @@ public class TextRequestServiceTest {
     }
 
     @Test
-    public void givenRequestEntity_whenSaveTextRequestService_thenSaveTextRequest() {
-        String text = "Test Text";
-        long idRequest = 123L;
-        long idAudio = 456L;
-        long idUser = 789L;
-
-        RequestEntity requestEntity = RequestEntity.builder()
-                .idRequest(idRequest)
-                .text(text)
-                .idAudioMongo(String.valueOf(idAudio))
-                .contextEntity(ContextEntity.builder().idContext(12L)
-                        .build())
-                .idUser(idUser)
-                .build();
-
-        try (MockedStatic<ContextParser> mockedStatic = mockStatic(ContextParser.class)) {
-            mockedStatic.when(() -> ContextParser.parseFrom(any(ContextEntity.class)))
-                    .thenReturn(ContextResponse.builder().build());
-
-            when(requestEntityRepository.save(any(RequestEntity.class))).thenReturn(requestEntity);
-
-            TextRequest result = textRequestService.save(idRequest, text, idAudio, idUser);
-
-            assertNotNull(result);
-            assertSame(result.getText(), requestEntity.getText());
-            assertSame(result.getIdUser(), requestEntity.getIdUser());
-            assertSame(result.getIdAudioMongo(), requestEntity.getIdAudioMongo());
-        }
-
+    void shouldThrowParserExceptionForSaveATextRequest() {
+        TextRequest textRequest = TextRequest.builder().build();
+        assertThrows(ParserException.class, () -> textRequestService.save(textRequest));
     }
 }
