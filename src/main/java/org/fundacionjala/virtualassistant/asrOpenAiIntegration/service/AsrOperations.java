@@ -15,7 +15,6 @@ public class AsrOperations {
     private RecordingService recordingService;
     private RedisService redisService;
 
-
     public void uploadTemporalAudio(String id) throws RecordingException {
         RecordingResponse response = recordingService.getRecording(id);
         AudioResponse audioResponse = response.getAudioResponse();

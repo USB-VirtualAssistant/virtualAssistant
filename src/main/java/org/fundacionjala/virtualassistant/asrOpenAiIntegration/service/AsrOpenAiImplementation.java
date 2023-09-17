@@ -11,8 +11,8 @@ import java.io.IOException;
 
 @Service
 public class AsrOpenAiImplementation {
-    WhisperClient whisperClient;
-    TaskHandler taskHandler;
+    private WhisperClient whisperClient;
+    private TaskHandler taskHandler;
 
     @Autowired
     public AsrOpenAiImplementation(WhisperClient whisperClient, TaskHandler taskHandler) {
@@ -24,6 +24,7 @@ public class AsrOpenAiImplementation {
         String request = cleanText(whisperClient.convertToText(multipartFile));
         return taskHandler.handleIntent(request);
     }
+
     private String cleanText(String text) {
         return text.replaceAll("\"", "");
     }

@@ -18,9 +18,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/asrOpenAi")
 public class AsrController {
-    AsrOperations asrOperations;
-    RedisService redisService;
-    AsrOpenAiImplementation asrOpenAiImplementation;
+    private AsrOperations asrOperations;
+    private RedisService redisService;
+    private AsrOpenAiImplementation asrOpenAiImplementation;
     private static final String FILE_NAME = "audio.wav";
 
     @Autowired
