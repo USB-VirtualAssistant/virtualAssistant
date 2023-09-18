@@ -3,6 +3,9 @@ DROP VIEW db_schema.view_request_with_response;
 ALTER TABLE db_schema.response
 ALTER COLUMN text TYPE VARCHAR(5000);
 
+ALTER TABLE db_schema.request
+ALTER COLUMN text TYPE VARCHAR(5000);
+
 CREATE VIEW db_schema.view_request_with_response AS
 SELECT req.id_request,
 	req.text as text_request,
