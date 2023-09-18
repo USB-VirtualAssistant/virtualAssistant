@@ -23,6 +23,5 @@ public class TextRequest {
     ZonedDateTime date;
     @Valid
     ContextResponse context;
-    @NotNull
     String idAudioMongo;
 }
