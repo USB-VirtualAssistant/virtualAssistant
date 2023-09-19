@@ -31,8 +31,6 @@ public class SpotifyClient implements MusicClient {
     private static final String ACCESS_TOKEN = "access_token";
     private static final String FAILED_REQUEST_API = "Failed to make request to Music API";
     private static final String ACCESS_TOKEN_JSON = "Failed to process Access token in response JSON";
-    private static final String USER_ID = "1";
-    private static final String GET_TOKEN_URI = String.format("http://localhost:8081/user/%s/spotify-token", USER_ID);
     private static final String EMPTY = "";
 
 
@@ -44,6 +42,9 @@ public class SpotifyClient implements MusicClient {
 
     @Value("${spotify.redirect.uri}")
     private String redirectUri;
+
+    @Value("${spotify.token.uri}")
+    private String tokenUri;
 
     private String accessToken;
 
@@ -87,7 +88,7 @@ public class SpotifyClient implements MusicClient {
 
     private String obtainAccessToken() {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet(GET_TOKEN_URI);
+            HttpGet httpGet = new HttpGet(tokenUri);
             return checkAccessToken(httpGet, httpClient);
         } catch (IOException e) {
             e.printStackTrace();
