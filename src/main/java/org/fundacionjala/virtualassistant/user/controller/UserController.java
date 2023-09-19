@@ -20,6 +20,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -36,7 +38,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateSpotifyToken(@PathVariable Long id, @RequestBody UserRequest userRequest)
+    public ResponseEntity<UserResponse> updateSpotifyToken(@NotNull @PathVariable Long id, @RequestBody UserRequest userRequest)
             throws UserRequestException, ParserException {
         UserResponse userResponse = userService.updateSpotifyToken(id, userRequest);
         return new ResponseEntity<>(userResponse, OK);
@@ -49,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id) throws ParserException, UserRequestException {
+    public ResponseEntity<UserResponse> findById(@NotNull @PathVariable Long id) throws ParserException, UserRequestException {
         return new ResponseEntity<>(userService.findById(id).get(), OK);
     }
 
@@ -59,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/context")
-    public ResponseEntity<UserContextResponse> findByIdWithContext(@PathVariable Long id)
+    public ResponseEntity<UserContextResponse> findByIdWithContext(@NotNull @PathVariable Long id)
             throws ParserException, UserRequestException {
         return new ResponseEntity<>(userService.findByIdWithContext(id).get(), OK);
     }
