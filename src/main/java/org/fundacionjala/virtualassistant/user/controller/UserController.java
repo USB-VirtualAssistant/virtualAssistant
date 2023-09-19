@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/spotify-token")
-    public ResponseEntity<String> getSpotifyToken(@PathVariable Long id) throws UserRequestException {
+    public ResponseEntity<String> getSpotifyToken(@PathVariable Long id) throws UserRequestException, ParserException {
         String spotifyToken = userService.getSpotifyToken(id);
         return new ResponseEntity<>(spotifyToken, OK);
     }

@@ -158,7 +158,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldGetSpotifyToken() throws UserRequestException {
+    public void shouldGetSpotifyToken() throws UserRequestException, ParserException {
         when(userService.getSpotifyToken(ID_USER)).thenReturn(SPOTIFY_TOKEN);
 
         ResponseEntity<String> result = userController.getSpotifyToken(ID_USER);
