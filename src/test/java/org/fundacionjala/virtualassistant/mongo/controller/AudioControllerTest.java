@@ -1,13 +1,8 @@
 package org.fundacionjala.virtualassistant.mongo.controller;
 
-import org.fundacionjala.virtualassistant.asrOpenAiIntegration.service.AsrOpenAiImplementation;
-import org.fundacionjala.virtualassistant.mongo.controller.request.RecordingRequest;
-import org.fundacionjala.virtualassistant.mongo.controller.response.RecordingResponse;
-import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
-import org.fundacionjala.virtualassistant.redis.service.AudioService;
+import org.fundacionjala.virtualassistant.mongo.services.AudioProcessingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,11 +21,7 @@ class AudioControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private RecordingService recordingService;
-    @MockBean
-    private AsrOpenAiImplementation asrOpenAiImplementation;
-    @MockBean
-    private AudioService audioService;
+    private AudioProcessingService audioProcessingService;
     private MockMultipartFile audioFile;
     private static final Long ID_USER = 12L;
     private static final Long ID_CHAT = 12L;
@@ -43,10 +34,6 @@ class AudioControllerTest {
 
     @Test
     void shouldSaveTheRecordingRequestAndProcessIt() throws Exception {
-        when(recordingService.saveRecording(any(RecordingRequest.class)))
-                .thenReturn(RecordingResponse.builder()
-                        .idRecording("id_mongo")
-                        .build());
         mockMvc.perform(multipart("/audio")
                         .file(audioFile)
                         .param("idUser", Long.toString(ID_USER))
