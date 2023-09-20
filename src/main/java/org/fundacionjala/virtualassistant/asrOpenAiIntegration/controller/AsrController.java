@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @RestController
@@ -21,6 +22,7 @@ public class AsrController {
     private AsrOperations asrOperations;
     private RedisService redisService;
     private AsrOpenAiImplementation asrOpenAiImplementation;
+
     private static final String FILE_NAME = "audio.wav";
 
     @Autowired
@@ -32,7 +34,7 @@ public class AsrController {
     }
 
     @GetMapping("/{id}")
-    public String uploadAudio(@PathVariable String id) throws RecordingException, IOException, IntentException {
+    public String uploadAudio(@NotNull @PathVariable String id) throws RecordingException, IOException, IntentException {
         asrOperations.uploadTemporalAudio(id);
         byte[] byteArray = redisService.getFromRedis(id);
         MultipartFile multipartFile = new BASE64DecodedMultipartFile(byteArray, FILE_NAME);
