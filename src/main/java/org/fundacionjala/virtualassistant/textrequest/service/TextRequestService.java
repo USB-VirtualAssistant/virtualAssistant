@@ -16,6 +16,7 @@ import org.fundacionjala.virtualassistant.textrequest.controller.response.TextRe
 import org.fundacionjala.virtualassistant.textrequest.exception.TextRequestException;
 import org.fundacionjala.virtualassistant.textrequest.parser.TextRequestParser;
 import org.fundacionjala.virtualassistant.util.either.Either;
+import org.fundacionjala.virtualassistant.util.string.StringSolver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,8 @@ public class TextRequestService {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
-        return save(textRequest, requestComponent.getResponse(textRequest.getText()));
+        String text = StringSolver.deleteTabAndLineBreak(textRequest.getText());
+        return save(textRequest, requestComponent.getResponse(text));
     }
 
     public TextRequestResponse save(@Valid TextRequest textRequest, String response)
