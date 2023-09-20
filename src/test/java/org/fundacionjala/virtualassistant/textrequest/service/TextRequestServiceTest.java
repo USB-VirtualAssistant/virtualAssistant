@@ -53,7 +53,9 @@ public class TextRequestServiceTest {
     public void shouldCreateATextRequest()
             throws TextRequestException, ParserException {
         long idUser = 12343L;
-        TextRequest textRequest = TextRequest.builder().build();
+        TextRequest textRequest = TextRequest.builder()
+                .text("hello world")
+                .build();
         RequestEntity requestEntity = RequestEntity.builder()
                 .idUser(idUser)
                 .contextEntity(ContextEntity.builder().idContext(12L).build())
@@ -160,7 +162,9 @@ public class TextRequestServiceTest {
 
     @Test
     void shouldThrowParserExceptionForSaveATextRequest() {
-        TextRequest textRequest = TextRequest.builder().build();
+        TextRequest textRequest = TextRequest.builder()
+                .text("hello world")
+                .build();
         assertThrows(ParserException.class, () -> textRequestService.save(textRequest));
     }
 }
