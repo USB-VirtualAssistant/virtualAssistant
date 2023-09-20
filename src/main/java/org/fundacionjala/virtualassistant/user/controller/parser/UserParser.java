@@ -29,6 +29,7 @@ public class UserParser {
         return UserResponse.builder()
                 .idUser(userEntity.getIdUser())
                 .idGoogle(userEntity.getIdGoogle())
+                .spotifyToken(userEntity.getSpotifyToken())
                 .build();
     }
 

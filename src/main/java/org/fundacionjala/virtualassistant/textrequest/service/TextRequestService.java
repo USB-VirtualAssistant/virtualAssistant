@@ -1,7 +1,6 @@
 package org.fundacionjala.virtualassistant.textrequest.service;
 
 import lombok.AllArgsConstructor;
-import org.fundacionjala.virtualassistant.context.exception.ContextException;
 import org.fundacionjala.virtualassistant.models.RequestEntity;
 
 import javax.validation.Valid;
@@ -38,11 +37,15 @@ public class TextRequestService {
         if (isNull(textRequest)) {
             throw new TextRequestException(TEXT_REQUEST_USER_ID_NULL);
         }
+        return save(textRequest, requestComponent.getResponse(textRequest.getText()));
+    }
 
+    public TextRequestResponse save(@Valid TextRequest textRequest, String response)
+            throws TextRequestException, ParserException {
         RequestEntity requestEntity = TextRequestParser.parseFrom(textRequest);
         RequestEntity savedRequestEntity = requestEntityRepository.save(requestEntity);
         TextResponse textResponse = responseService.save(ParameterResponse.builder()
-                .text(requestComponent.getResponse(savedRequestEntity.getText()))
+                .text(response)
                 .request(TextRequestResponse.builder()
                         .idRequest(savedRequestEntity.getIdRequest())
                         .build())

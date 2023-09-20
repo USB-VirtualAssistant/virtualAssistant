@@ -3,6 +3,11 @@ package org.fundacionjala.virtualassistant.player.spotify.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.MusicPlayerException;
 import org.fundacionjala.virtualassistant.player.spotify.exceptions.TokenExtractionException;
 import org.fundacionjala.virtualassistant.player.spotify.utils.ApiMusic;
@@ -17,17 +22,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.RedirectView;
+import java.io.IOException;
 
 @Component
 @PropertySource("classpath:spotify.properties")
 public class SpotifyClient implements MusicClient {
-    private final static String SCOPE_USER = "user-library-read";
+    private static final String SCOPE_USER = "user-library-read";
+    private static final String ACCESS_TOKEN = "access_token";
+    private static final String FAILED_REQUEST_API = "Failed to make request to Music API";
+    private static final String ACCESS_TOKEN_JSON = "Failed to process Access token in response JSON";
+    private static final String EMPTY = "";
 
-    private final static String ACCESS_TOKEN = "access_token";
-
-    private final static String FAILED_REQUEST_API = "Failed to make request to Music API";
-
-    private final static String ACCESS_TOKEN_JSON = "Failed to process Access token in response JSON";
 
     @Value("${spotify.client.id}")
     private String clientId;
@@ -37,6 +42,9 @@ public class SpotifyClient implements MusicClient {
 
     @Value("${spotify.redirect.uri}")
     private String redirectUri;
+
+    @Value("${spotify.token.uri}")
+    private String tokenUri;
 
     private String accessToken;
 
@@ -72,7 +80,29 @@ public class SpotifyClient implements MusicClient {
     }
 
     public String getAccessToken() {
-        return accessToken;
+        if (this.accessToken == null) {
+            return obtainAccessToken();
+        }
+        return this.accessToken;
+    }
+
+    private String obtainAccessToken() {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet httpGet = new HttpGet(tokenUri);
+            return checkAccessToken(httpGet, httpClient);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return EMPTY;
+        }
+    }
+
+    private String checkAccessToken(HttpGet httpGet, CloseableHttpClient httpClient) {
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            return EntityUtils.toString(response.getEntity());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return EMPTY;
+        }
     }
 
     public RedirectView redirectToSpotifyAuthorization() {

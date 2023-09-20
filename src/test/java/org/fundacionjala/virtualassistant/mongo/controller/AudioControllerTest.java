@@ -1,8 +1,6 @@
 package org.fundacionjala.virtualassistant.mongo.controller;
 
-import org.fundacionjala.virtualassistant.asrOpenAiIntegration.service.AsrOpenAiImplementation;
-import org.fundacionjala.virtualassistant.mongo.services.RecordingService;
-import org.fundacionjala.virtualassistant.redis.service.AudioService;
+import org.fundacionjala.virtualassistant.mongo.services.AudioProcessingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MimeTypeUtils;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,11 +21,7 @@ class AudioControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private RecordingService recordingService;
-    @MockBean
-    private AsrOpenAiImplementation asrOpenAiImplementation;
-    @MockBean
-    private AudioService audioService;
+    private AudioProcessingService audioProcessingService;
     private MockMultipartFile audioFile;
     private static final Long ID_USER = 12L;
     private static final Long ID_CHAT = 12L;
