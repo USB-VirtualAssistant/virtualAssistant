@@ -186,7 +186,7 @@ public class SpotifyClient implements MusicClient {
                 ApiMusic.PLAY.url(),
                 HttpMethod.PUT
         ).getStatusCode();
-        return response.equals(HttpStatus.OK);
+        return response == HttpStatus.OK || response == HttpStatus.NO_CONTENT || response == HttpStatus.ACCEPTED;
     }
     public boolean playNextTrackOnDevice() {
         HttpStatus response = request.exchange(
@@ -219,7 +219,7 @@ public class SpotifyClient implements MusicClient {
                 ApiMusic.PAUSE.url(),
                 HttpMethod.PUT
         ).getStatusCode();
-        return response.equals(HttpStatus.OK);
+        return response == HttpStatus.OK || response == HttpStatus.NO_CONTENT || response == HttpStatus.ACCEPTED;
     }
 
     public String searchTrackByArtistAndTrack(String artist, String track) {
