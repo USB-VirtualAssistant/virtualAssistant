@@ -36,7 +36,7 @@ class Transcriber:
     @staticmethod
     def transcribe(model, audio_file):
         model = whisper.load_model(model)
-        result = model.transcribe(audio_file)
+        result = model.transcribe(audio_file, language="en", fp16=False, verbose=True)
         FileHandler.delete_audio(audio_file)
         return result["text"].strip()
 
