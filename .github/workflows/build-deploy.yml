@@ -20,6 +20,7 @@ jobs:
       - name: Install fast api
         run: |
           pip install fastapi
+          pip install whisper
       - name: Build with gradle
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
