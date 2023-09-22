@@ -1,4 +1,5 @@
 HELP.md
+.sdk*
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -17,9 +18,6 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
-### Spotify private properties ###
-src/main/resources/spotify.properties
 
 ### IntelliJ IDEA ###
 .idea
