@@ -3,7 +3,8 @@ name: test-and-deploy
 on:
   push:
     branches:
-      - VA-092-modify-tokens-sh*
+      - main
+      - deploy/modified_properties
 
 jobs:
   test-build:
@@ -31,3 +32,24 @@ jobs:
         with:
           name: Build
           path: build/libs
+  digital_ocean:
+    needs: test-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Load build
+        uses: actions/download-artifact@v3
+        with:
+          name: Build
+      - name: ls -la
+        run: |
+          ls -la
+      - name: Copy .jar and docker compose
+        uses: nogsantos/scp-deploy@master
+        with:
+          src: docker-compose.yml *.jar
+          host: ${{ secrets.SSH_HOST }}
+          remote: ${{ secrets.SSH_DIR }}
+          port: ${{ secrets.SSH_PORT }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
