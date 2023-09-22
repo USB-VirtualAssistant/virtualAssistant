@@ -27,6 +27,8 @@ public class WhisperClient implements ASRClient {
     @Value("${asr.whisper.post-endpoint}")
     private String postEndpoint;
 
+    private static final String AUDIO_FILE = "audio_file";
+
     @Override
     public String convertToText(MultipartFile audioFile) throws IOException {
         byte[] audioData = audioFile.getBytes();
@@ -53,7 +55,7 @@ public class WhisperClient implements ASRClient {
                 return filename;
             }
         };
-        body.add("audio_file", new HttpEntity<>(resource));
+        body.add(AUDIO_FILE, new HttpEntity<>(resource));
         return body;
     }
 }
