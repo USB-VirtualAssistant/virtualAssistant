@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - deploy/modified_properties
 
 jobs:
   test-build:
@@ -32,7 +31,7 @@ jobs:
         with:
           name: Build
           path: build/libs
-  digital_ocean:
+  azure_vm:
     needs: test-build
     runs-on: ubuntu-latest
     steps:
@@ -44,10 +43,10 @@ jobs:
       - name: ls -la
         run: |
           ls -la
-      - name: Copy .jar and docker compose
+      - name: Copy .jar, docker compose, and SQLs
         uses: nogsantos/scp-deploy@master
         with:
-          src: docker-compose.yml *.jar
+          src: docker-compose.yml *.jar sql/
           host: ${{ secrets.SSH_HOST }}
           remote: ${{ secrets.SSH_DIR }}
           port: ${{ secrets.SSH_PORT }}
