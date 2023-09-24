@@ -39,9 +39,7 @@ services:
     env_file:
       - ./.env-mongo
   asr_client:
-    build:
-      context: .
-      dockerfile: Dockerfile_Python
+    image: virtualassistant1/virtualassistant-asr_client:latest
     command: sh -c "uvicorn src.main.java.org.fundacionjala.virtualassistant.whisper.service.ASRClient:app --reload --port=8000 --host=0.0.0.0"
     ports:
       - 8000:8000
@@ -62,9 +60,7 @@ services:
     volumes:
       - redis_insight_volume_data:/db
   rasa_client:
-    build:
-      context: .
-      dockerfile: Dockerfile_Rasa
+    image: virtualassistant1/virtualassistant-rasa_client:latest
     command: sh -c "cd /app/rasa_serv && python3 RasaService.py"
     ports:
       - "8082:8082"
