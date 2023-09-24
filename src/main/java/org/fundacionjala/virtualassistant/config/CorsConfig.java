@@ -12,11 +12,13 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Value("${app.frontend.url}")
     private String frontendUrl;
+    @Value("${app.frontend.va.url}")
+    private String frontendServerUrl;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(frontendUrl)
+                .allowedOrigins(frontendUrl, frontendServerUrl)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true)
                 .maxAge(3600);
